@@ -1,17 +1,18 @@
 
 import './App.css';
-import { HashRouter as Router, Routes, Route, Link } from 'react-router-dom';
-import Projects from './Projects';
+import { HashRouter as Router, Routes, Route, NavLink } from 'react-router-dom';
+import React, { useState, useEffect, Suspense } from 'react';
+const Projects = React.lazy(() => import('./Projects'));
 
 
 function Resume() {
   return (
-    <main className="bg-gray-50 min-h-screen font-sans text-gray-900">
+    <main id="content" className="bg-gray-50 dark:bg-gray-900 min-h-screen font-sans text-gray-900 dark:text-gray-100 transition-colors">
       <div className="max-w-3xl mx-auto py-12 px-4">
         {/* Header */}
         <header className="mb-8 border-b pb-6">
-          <h1 className="text-3xl sm:text-4xl font-bold text-gray-800 mb-2">Edwin J. Wood</h1>
-          <h2 className="text-lg sm:text-xl text-gray-600 font-medium mb-2">Business Technology Transformation | Strategic Portfolio Leadership | Enterprise Platform Integration</h2>
+          <h1 className="text-3xl sm:text-4xl font-bold text-gray-800 dark:text-gray-100 mb-2">Edwin J. Wood</h1>
+          <h2 className="text-lg sm:text-xl text-gray-600 dark:text-gray-300 font-medium mb-2">Product-Led Business Technology & Platform Transformation Leader</h2>
           <div className="flex flex-col sm:flex-row sm:items-center text-gray-500 text-sm gap-1">
             <span>Columbia, SC</span>
             <span className="hidden sm:inline mx-2">•</span>
@@ -25,23 +26,41 @@ function Resume() {
 
         {/* Professional Summary */}
         <section className="mb-8">
-          <h3 className="text-xl font-semibold text-gray-700 mb-2">Professional Summary</h3>
-          <p className="text-gray-700 leading-relaxed">
-            Enterprise Business Technology leader driving product-led, automation-first operating model transformation for growth and M&A-driven organizations. Architect of multi-year BT strategy, operating model design (pods / value streams / global sourcing), and portfolio governance linking investment lifecycle (business case → execution → renewal) to measurable value realization. Built metrics-driven culture—velocity, throughput, cost efficiency, SLA adherence—through Jira / Azure DevOps transparency and KPI frameworks. Led platform & vendor rationalization (CRM, customer portals, ServiceNow, cloud modernization) to accelerate scale and reduce redundancy. Recognized for executive alignment, talent strategy development, and converting strategic roadmaps into accountable, data-informed outcomes.
+          <h3 className="text-xl font-semibold text-gray-700 dark:text-gray-200 mb-2">Professional Summary</h3>
+          <p className="text-gray-700 dark:text-gray-300 leading-relaxed text-sm sm:text-base">
+            Business Technology leader transforming operating models (pods / value streams) and portfolio governance to convert strategy into measurable outcomes—cycle time ↓28%, platform redundancy spend ↓$3.2M, release cadence ↑4x. Architected multi-year roadmaps, tooling transparency (Jira / Azure DevOps), KPI frameworks (velocity, throughput, SLA), and vendor rationalization across CRM, portal, ServiceNow, and cloud modernization to fund innovation. Known for executive partnership, talent development, and data-backed decision enablement.
           </p>
         </section>
 
         {/* Core Competencies */}
         <section className="mb-8">
-          <h3 className="text-xl font-semibold text-gray-700 mb-2">Core Competencies</h3>
-          <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-2 list-disc list-inside text-gray-700 text-sm">
-            <li><b>BT Strategy & Operating Model:</b> Product-Led, Automation-First Transformation, Pods / Value Streams, Global Sourcing, Multi-Year Roadmaps</li>
-            <li><b>Portfolio & Investment Governance:</b> Value Themes, Business Case → Renewal, Prioritization, Roadmap to Execution Traceability</li>
-            <li><b>Transparency & Tooling:</b> Jira / Azure DevOps Architecture, KPI Frameworks, Delivery & SLA Dashboards</li>
-            <li><b>Metrics & Performance:</b> Velocity, Throughput, Cost Efficiency, Cycle Time, SLA Compliance</li>
-            <li><b>Platform & Vendor Strategy:</b> Rationalization (CRM, Portal, ServiceNow, Cloud), Contract & Renewal Optimization, Identity & Access Modernization (OAuth2, MFA)</li>
-            <li><b>Talent & Enablement:</b> Capability Development, Skill Taxonomy, Coaching, High-Performance Culture</li>
-          </ul>
+          <h3 className="text-xl font-semibold text-gray-700 dark:text-gray-200 mb-3">Core Competencies</h3>
+          <div className="space-y-4 text-sm text-gray-700 dark:text-gray-300">
+            <div>
+              <p className="font-semibold text-gray-800 dark:text-gray-200 mb-1">Strategy & Operating Model</p>
+              <p>Product-led & automation-first transformation; pods / value streams; global sourcing optimization; multi-year roadmap architecture.</p>
+            </div>
+            <div>
+              <p className="font-semibold text-gray-800 dark:text-gray-200 mb-1">Portfolio & Investment Governance</p>
+              <p>Value theme definition, business case → benefits realization lifecycle, prioritization frameworks, traceability (roadmap → epic → work item).</p>
+            </div>
+            <div>
+              <p className="font-semibold text-gray-800 dark:text-gray-200 mb-1">Transparency, Data & Tooling</p>
+              <p>Jira / Azure DevOps architecture, KPI engineering, exec dashboards (velocity, throughput, SLA), data quality / taxonomy stewardship.</p>
+            </div>
+            <div>
+              <p className="font-semibold text-gray-800 dark:text-gray-200 mb-1">Platform & Vendor Strategy</p>
+              <p>Rationalization (CRM, portal, ServiceNow, cloud), contract & renewal optimization, identity & access modernization (OAuth2, MFA).</p>
+            </div>
+            <div>
+              <p className="font-semibold text-gray-800 dark:text-gray-200 mb-1">Metrics & Performance</p>
+              <p>Cycle time, velocity, cost per feature, SLA adherence; continuous improvement cadences & benchmarking.</p>
+            </div>
+            <div>
+              <p className="font-semibold text-gray-800 dark:text-gray-200 mb-1">Talent & Enablement</p>
+              <p>Capability taxonomy, skill gap analysis, coaching frameworks, succession readiness, high-performance culture design.</p>
+            </div>
+          </div>
         </section>
 
         {/* Professional Experience */}
@@ -54,28 +73,28 @@ function Resume() {
             </div>
             <div className="text-gray-600 text-sm mb-1">Director of Software Development | 2018–2025</div>
             <div className="text-gray-600 text-sm mb-2">Application Development Manager / Technical Lead / Analyst | 2012–2018</div>
-            <ul className="list-disc list-inside text-gray-700 space-y-1">
-              <li>Directed product-led, automation-first BT operating model shift (pods / value streams) aligning multi-year strategy & M&A integration to measurable value themes.</li>
-              <li>Built integrated Jira / Azure DevOps hierarchy for roadmap → epic → story → task traceability; enabled real-time velocity, throughput & SLA dashboards.</li>
-              <li>Established investment governance lifecycle (business case → execution → benefits tracking → renewal) tying spend to value realization & budget reallocation.</li>
-              <li>Led platform & vendor rationalization (CRM, customer portal, ServiceNow, cloud) reducing redundancy and funding higher-value capability expansion.</li>
-              <li>Designed performance & KPI framework (velocity, cycle time, cost per feature, SLA compliance) embedded in executive reporting & prioritization cadence.</li>
-              <li>Developed BT talent strategy—capability taxonomy, skill gap analysis, progression frameworks—improving role clarity & succession readiness.</li>
-              <li>Partnered with executives and finance to sequence investments, reallocate multimillion-dollar budgets, and optimize portfolio value realization.</li>
-              <li>Delivered customer-facing and internal platform transformations (Salesforce to Dynamics, Dynamics on‑prem to cloud, portal modernization) improving scalability & experience.</li>
-              <li>Introduced CI/CD and observability practices accelerating release cycles and proactive incident management.</li>
-              <li>Modernized identity & access (OAuth2, MFA) strengthening security posture and unifying authentication across platforms.</li>
+            <ul className="list-disc list-inside text-gray-700 dark:text-gray-300 space-y-1 text-sm">
+              <li>Shifted organization to product-led, automation-first operating model (pods / value streams) → feature cycle time ↓28% & release cadence ↑4x.</li>
+              <li>Implemented unified Jira / Azure DevOps taxonomy & dashboards → real-time portfolio health; leadership decision latency ↓~35%.</li>
+              <li>Established investment governance (business case → benefits realization → renewal) reallocating ~15% run spend to growth initiatives.</li>
+              <li>Rationalized overlapping platforms (CRM, portal, ServiceNow, cloud) cutting redundancy spend ~$3.2M and funding modernization backlog.</li>
+              <li>Engineered KPI framework (velocity, cost / feature, SLA, cycle time) embedded in quarterly planning & performance reviews.</li>
+              <li>Built capability taxonomy & progression model → reduced role ambiguity and increased internal fill rate for senior roles (succession depth ↑2x).</li>
+              <li>Partnered with Finance & ELT to prioritize multi-year investment themes & sequencing across M&A integration waves.</li>
+              <li>Delivered major platform transformations (Salesforce → Dynamics, on‑prem → cloud, portal modernization) improving scalability & CX.</li>
+              <li>Introduced CI/CD & observability (tracing, structured logging) → deployment lead time ↓70% & MTTR improvement.</li>
+              <li>Modernized identity & access (OAuth2, MFA) strengthening security posture & unifying auth pathways across products.</li>
             </ul>
           </div>
         </section>
 
         {/* Education */}
         <section>
-          <h3 className="text-xl font-semibold text-gray-700 mb-2">Education</h3>
+          <h3 className="text-xl font-semibold text-gray-700 dark:text-gray-200 mb-2">Education</h3>
           <div>
-            <span className="font-bold text-gray-800">University of South Carolina — Columbia</span>
-            <div className="text-gray-600 text-sm">Bachelor of Science in Computer Science (In Progress, Expected May 2026)</div>
-            <div className="text-gray-700 text-sm">Currently completing degree to support long-term leadership and technical growth.</div>
+            <span className="font-bold text-gray-800 dark:text-gray-100">University of South Carolina — Columbia</span>
+            <div className="text-gray-600 dark:text-gray-400 text-sm">B.S. Computer Science (In Progress, Expected May 2026)</div>
+            <div className="text-gray-700 dark:text-gray-300 text-sm">Coursework: Data Structures, Distributed Systems (in progress), Org Leadership. Completing degree to reinforce long-term exec + technical breadth.</div>
           </div>
         </section>
       </div>
@@ -84,19 +103,29 @@ function Resume() {
 }
 
 function App() {
+  const [dark, setDark] = useState(false);
+  useEffect(() => {
+    const root = document.documentElement;
+    if (dark) root.classList.add('dark'); else root.classList.remove('dark');
+  }, [dark]);
+
   return (
     <Router>
-      <nav className="bg-white border-b shadow-sm py-4 mb-8">
-        <div className="max-w-3xl mx-auto flex gap-6 px-4">
-          <Link to="/" className="text-gray-700 font-semibold hover:text-blue-600 transition">Resume</Link>
-          <Link to="/projects" className="text-gray-700 font-semibold hover:text-blue-600 transition">Projects</Link>
+      <a href="#content" className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 bg-brand-600 text-white px-3 py-2 rounded">Skip to content</a>
+      <nav className="bg-white dark:bg-gray-950 border-b border-gray-200 dark:border-gray-800 shadow-sm py-4 mb-8">
+        <div className="max-w-3xl mx-auto flex gap-6 px-4 items-center">
+          <div className="flex gap-4">
+            <NavLink to="/" end className={({isActive}) => `font-semibold transition ${isActive ? 'text-brand-600 dark:text-brand-500' : 'text-gray-700 dark:text-gray-300 hover:text-brand-600'}`} aria-current={({isActive}) => isActive ? 'page' : undefined}>Resume</NavLink>
+            <NavLink to="/projects" className={({isActive}) => `font-semibold transition ${isActive ? 'text-brand-600 dark:text-brand-500' : 'text-gray-700 dark:text-gray-300 hover:text-brand-600'}`} aria-current={({isActive}) => isActive ? 'page' : undefined}>Projects</NavLink>
+          </div>
+          <button onClick={() => setDark(d => !d)} className="ml-auto text-xs px-3 py-1 rounded border border-gray-300 dark:border-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800" aria-pressed={dark} aria-label="Toggle dark mode">{dark ? 'Light' : 'Dark'}</button>
         </div>
       </nav>
       <Routes>
         <Route path="/" element={<Resume />} />
-        <Route path="/projects" element={<Projects />} />
+        <Route path="/projects" element={<Suspense fallback={<div className='px-4'>Loading…</div>}><Projects /></Suspense>} />
       </Routes>
-  <footer className="text-center text-xs text-gray-400 pb-6">Build test footer</footer>
+      <footer className="text-center text-xs text-gray-400 dark:text-gray-500 pb-6">© {new Date().getFullYear()} Edwin J. Wood</footer>
     </Router>
   );
 }

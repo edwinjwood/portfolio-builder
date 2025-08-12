@@ -58,6 +58,38 @@ if (-not $SkipPull) {
 	Assert-Success "Failed to pull latest dev changes."
 }
 
+# Ensure a dev template exists (developer version of index.html that points to /src/main.jsx)
+if (-not (Test-Path './index.dev.html')) {
+		Write-Host 'Creating index.dev.html template (dev entry point)...' -ForegroundColor DarkGray
+		@'
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width,initial-scale=1" />
+		<title>Edwin J. Wood – Business Technology & Platform Transformation Leader</title>
+		<meta name="description" content="Business Technology leader driving product-led operating model, platform modernization, and measurable portfolio value realization." />
+		<link rel="icon" type="image/svg+xml" href="/vite.svg" />
+		<script>
+			try { const d = localStorage.getItem('dark'); if(d==='true'){ document.documentElement.classList.add('dark'); } } catch(e){}
+		</script>
+		<script type="application/ld+json">
+		{ "@context": "https://schema.org", "@type": "Person", "name": "Edwin J. Wood", "jobTitle": "Business Technology & Platform Transformation Leader", "url": "https://edwinjwood.github.io", "email": "mailto:edwinjwood@gmail.com" }
+		</script>
+	</head>
+	<body>
+		<div id="root"></div>
+		<script type="module" src="/src/main.jsx"></script>
+	</body>
+</html>
+'@ | Out-File -FilePath './index.dev.html' -Encoding UTF8 -NoNewline
+}
+
+# Always ensure dev working copy uses dev template prior to build
+if (Test-Path './index.dev.html') {
+		Copy-Item -Path ./index.dev.html -Destination ./index.html -Force
+}
+
 Write-Host "Building production bundle..." -ForegroundColor Cyan
 npm run build
 Assert-Success "Build failed. Aborting deployment."
@@ -141,6 +173,12 @@ if ($mainHash -and $mainHash -ne $devHashBefore) {
 	}
 } else {
 	Write-Host "Dev already up to date with main." -ForegroundColor DarkGray
+}
+
+# Restore dev index (overwrites production version pulled from main) for local development convenience
+if (Test-Path './index.dev.html') {
+	Copy-Item -Path ./index.dev.html -Destination ./index.html -Force
+	Write-Host 'Restored development index.html (points to /src/main.jsx).' -ForegroundColor DarkGray
 }
 
 Write-Host "Site should update shortly at: https://edwinjwood.github.io" -ForegroundColor Green

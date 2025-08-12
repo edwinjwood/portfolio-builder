@@ -3,12 +3,29 @@
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width,initial-scale=1" />
-		<title>Edwin J. Wood – Resume & Projects</title>
-		<meta name="description" content="Edwin J. Wood – Technology leadership, platform integration, and strategic delivery." />
+		<title>Edwin J. Wood – Business Technology & Platform Transformation Leader</title>
+		<meta name="description" content="Business Technology leader driving product-led operating model, platform modernization, and measurable portfolio value realization." />
+		<meta property="og:title" content="Edwin J. Wood – Business Technology & Platform Transformation" />
+		<meta property="og:description" content="Product-led BT strategy, platform rationalization, KPI frameworks, and 0-to-1 product delivery." />
+		<meta property="og:type" content="website" />
+		<meta property="og:url" content="https://edwinjwood.github.io" />
+		<meta name="twitter:card" content="summary" />
+		<meta name="twitter:title" content="Edwin J. Wood – Business Technology & Platform Transformation" />
+		<meta name="twitter:description" content="Product-led BT strategy, platform rationalization, KPI frameworks, and 0-to-1 product delivery." />
+		<link rel="canonical" href="https://edwinjwood.github.io" />
 		<link rel="icon" type="image/svg+xml" href="/vite.svg" />
-		<!-- Development entry; Vite will inject optimized assets on build -->
-		<script type="module" crossorigin src="/assets/index-B4QbkxQs.js"></script>
-		<link rel="stylesheet" crossorigin href="/assets/index-cYiKjuXY.css">
+		<!-- Development entry; Vite will inject optimized assets on build -->
+
+		<script>
+		// Persist dark mode preference early to avoid FOUC
+		try { const d = localStorage.getItem('dark'); if(d==='true'){ document.documentElement.classList.add('dark'); } } catch(e){}
+		</script>
+		<script type="application/ld+json">
+{ "@context": "https://schema.org", "@type": "Person", "name": "Edwin J. Wood", "jobTitle": "Business Technology & Platform Transformation Leader", "url": "https://edwinjwood.github.io", "email": "mailto:edwinjwood@gmail.com", "address": { "@type": "PostalAddress", "addressLocality": "Columbia", "addressRegion": "SC", "addressCountry": "US" }, "sameAs": ["https://www.linkedin.com/in/edwin-j-wood"] }
+		</script>
+
+	<!-- Dev entry point -->
+	<script type="module" src="/src/main.jsx"></script>
 	</head>
 	<body>
 		<div id="root"></div>
