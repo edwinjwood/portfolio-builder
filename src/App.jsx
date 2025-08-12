@@ -1,6 +1,10 @@
-import './App.css';
 
-function App() {
+import './App.css';
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import Projects from './Projects';
+
+
+function Resume() {
   return (
     <main className="bg-gray-50 min-h-screen font-sans text-gray-900">
       <div className="max-w-3xl mx-auto py-12 px-4">
@@ -23,7 +27,9 @@ function App() {
         <section className="mb-8">
           <h3 className="text-xl font-semibold text-gray-700 mb-2">Professional Summary</h3>
           <p className="text-gray-700 leading-relaxed">
-            Enterprise technology leader with 13+ years’ experience transforming the way the business interacts with software by aligning technology strategy with organizational process and goals, streamlining enterprise platforms, and delivering solutions that improve efficiency, scalability, and customer experience. Proven track record in unifying platforms post-merger, defining KPIs and performance frameworks, and driving multi-year roadmaps that align with growth, M&A integration, and product-led transformation. Adept at operating model design, investment lifecycle management, and building high-performing teams across distributed environments. Skilled in connecting strategy to measurable outcomes through delivery transparency, vendor optimization, and enterprise-wide change enablement.
+            Enterprise technology leader with 13+ years’ experience transforming how businesses interact with software by aligning technology strategy with organizational goals, streamlining enterprise platforms, and delivering solutions that drive efficiency, scalability, and exceptional customer experiences. Proven track record in unifying platforms post-merger, defining KPIs and performance frameworks, and leading multi-year roadmaps aligned with growth, M&A integration, and product-led transformation. Skilled in operating model design, investment lifecycle management, and building high-performing distributed teams. Adept at translating strategy into measurable outcomes through delivery transparency, vendor optimization, and enterprise-wide change enablement.
+
+
           </p>
         </section>
 
@@ -75,6 +81,23 @@ function App() {
         </section>
       </div>
     </main>
+  );
+}
+
+function App() {
+  return (
+    <Router>
+      <nav className="bg-white border-b shadow-sm py-4 mb-8">
+        <div className="max-w-3xl mx-auto flex gap-6 px-4">
+          <Link to="/" className="text-gray-700 font-semibold hover:text-blue-600 transition">Resume</Link>
+          <Link to="/projects" className="text-gray-700 font-semibold hover:text-blue-600 transition">Projects</Link>
+        </div>
+      </nav>
+      <Routes>
+        <Route path="/" element={<Resume />} />
+        <Route path="/projects" element={<Projects />} />
+      </Routes>
+    </Router>
   );
 }
 
