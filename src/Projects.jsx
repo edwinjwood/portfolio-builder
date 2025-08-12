@@ -32,9 +32,19 @@ const projects = [
     tech: ["Azure Power Apps (Functions, Service Bus)", "C#", ".NET", "KingswaySoft", "Azure AD"],
   },
   {
+    title: "Azure DevOps Adoption & Engineering Workflow Modernization",
+    description: "Led the enterprise-wide adoption of Azure DevOps to improve visibility into IT initiatives, align engineering output with business goals, and standardize development workflows. Migrated source code repositories, enabling traceability from user stories to code commits. Designed and implemented CI/CD pipelines with automated testing to accelerate delivery and improve quality.",
+    tech: ["Azure DevOps", "Git/GitHub", "CI/CD Pipelines", "Automated Testing Frameworks"],
+  },
+  {
     title: "Liferay to ServiceNow Customer Portal Migration",
     description: "Oversaw vendor and internal team delivery of a redesigned customer portal within ServiceNow, enabling full in-house control over design and functionality. Migrated all capabilities from the legacy Liferay platform.",
     tech: ["Java", "JavaScript", "MuleSoft", "ServiceNow Integrations"],
+  },
+  {
+    title: "HubSpot to ServiceNow Integration via MuleSoft",
+    description: "Led the development of a bi-directional integration between HubSpot and ServiceNow to synchronize marketing, sales, and service data. Enabled automated lead and case handoffs, reduced manual entry, and improved visibility across teams. Designed workflows and error-handling processes to ensure data accuracy and platform stability.",
+    tech: ["REST APIs", "JSON", "OAuth2", "ServiceNow Integrations"],
   },
 ];
 
