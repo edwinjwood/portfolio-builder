@@ -1,4 +1,4 @@
-<#!
+<#
 Deploy script for Vite + React (GitHub Pages user site)
 
 Workflow:
@@ -11,7 +11,7 @@ Notes:
  - Root index.html on main becomes the production (built) version referencing hashed assets.
  - Your dev branch keeps the source index.html so local development stays fast.
  - Uses HashRouter so 404.html is mostly a safeguard.
-!>
+#>
 
 param(
 	[switch] $SkipPull,
