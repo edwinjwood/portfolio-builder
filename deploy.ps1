@@ -1,4 +1,4 @@
-<#!
+<#
 Deploy script for Vite + React (GitHub Pages user site)
 
 Workflow:
@@ -11,10 +11,11 @@ Notes:
  - Root index.html on main becomes the production (built) version referencing hashed assets.
  - Your dev branch keeps the source index.html so local development stays fast.
  - Uses HashRouter so 404.html is mostly a safeguard.
-!>
+#>
 
 param(
-	[switch] $SkipPull
+	[switch] $SkipPull,
+	[switch] $AutoCommit
 )
 
 function Assert-Success($Message) {
@@ -29,11 +30,21 @@ if ($currentBranch -ne 'dev') {
 	exit 1
 }
 
-# Ensure clean working tree
+# Handle uncommitted changes on dev
 $status = git status --porcelain
 if ($status) {
-	Write-Host "Uncommitted changes detected on 'dev'. Commit or stash before deploying." -ForegroundColor Red
-	exit 1
+	if (-not $AutoCommit) {
+		Write-Host "Uncommitted changes detected on 'dev'. Use -AutoCommit to auto-stage or commit manually." -ForegroundColor Red
+		exit 1
+	} else {
+		Write-Host "Auto-commit enabled. Staging changes..." -ForegroundColor Cyan
+		git add .
+		$defaultMsg = "chore: dev updates"
+		$commitMsg = Read-Host "Enter commit message (default: '$defaultMsg')"
+		if (-not $commitMsg) { $commitMsg = $defaultMsg }
+		git commit -m $commitMsg
+		Assert-Success "Auto-commit failed."
+	}
 }
 
 if (-not $SkipPull) {
