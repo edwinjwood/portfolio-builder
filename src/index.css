@@ -10,3 +10,7 @@
 	a { color: #000 !important; text-decoration: none; }
 	ul { margin-top: 0.25rem; }
 }
+
+/* Global background to prevent white footer / gaps in dark mode */
+html, body { background-color: #f9fafb; color: #111827; }
+.dark html, .dark body { background-color: #111827; color: #f3f4f6; }

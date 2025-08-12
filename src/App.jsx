@@ -28,7 +28,7 @@ function Resume() {
         <section className="mb-8">
           <h3 className="text-xl font-semibold text-gray-700 dark:text-gray-200 mb-2">Professional Summary</h3>
           <p className="text-gray-700 dark:text-gray-300 leading-relaxed text-sm sm:text-base">
-            Business Technology leader transforming operating models (pods / value streams) and portfolio governance to convert strategy into measurable outcomes—cycle time ↓28%, platform redundancy spend ↓$3.2M, release cadence ↑4x. Architected multi-year roadmaps, tooling transparency (Jira / Azure DevOps), KPI frameworks (velocity, throughput, SLA), and vendor rationalization across CRM, portal, ServiceNow, and cloud modernization to fund innovation. Known for executive partnership, talent development, and data-backed decision enablement.
+            Business Technology leader focused on shaping operating models and portfolio governance that translate strategy into consistent delivery and value. Experienced in multi-year roadmap definition, tooling transparency (Jira / Azure DevOps), platform modernization, and application / vendor portfolio simplification to reduce redundancy and unlock capacity. Recognized for executive partnership, talent development, and creating clarity around priorities, sequencing, and measurable progress.
           </p>
         </section>
 
@@ -64,28 +64,28 @@ function Resume() {
         </section>
 
         {/* Professional Experience */}
-        <section className="mb-8">
-          <h3 className="text-xl font-semibold text-gray-700 mb-2">Professional Experience</h3>
-          <div className="mb-4">
-            <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center">
-              <span className="font-bold text-gray-800">Segra (formerly Spirit Communications & Lumos) — Columbia, SC</span>
-              <span className="text-gray-500 text-sm">2012–2025</span>
+        <section className="mb-10">
+          <h3 className="text-xl font-semibold text-gray-700 dark:text-gray-200 mb-4">Professional Experience</h3>
+          <div className="mb-2">
+            <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-1">
+              <span className="font-bold text-gray-800 dark:text-gray-100 tracking-tight">Segra (formerly Spirit Communications & Lumos) — Columbia, SC</span>
+              <span className="text-gray-500 dark:text-gray-400 text-xs sm:text-sm">2012–2025</span>
             </div>
-            <div className="text-gray-600 text-sm mb-1">Director of Software Development | 2018–2025</div>
-            <div className="text-gray-600 text-sm mb-2">Application Development Manager / Technical Lead / Analyst | 2012–2018</div>
-            <ul className="list-disc list-inside text-gray-700 dark:text-gray-300 space-y-1 text-sm">
-              <li>Shifted organization to product-led, automation-first operating model (pods / value streams) → feature cycle time ↓28% & release cadence ↑4x.</li>
-              <li>Implemented unified Jira / Azure DevOps taxonomy & dashboards → real-time portfolio health; leadership decision latency ↓~35%.</li>
-              <li>Established investment governance (business case → benefits realization → renewal) reallocating ~15% run spend to growth initiatives.</li>
-              <li>Rationalized overlapping platforms (CRM, portal, ServiceNow, cloud) cutting redundancy spend ~$3.2M and funding modernization backlog.</li>
-              <li>Engineered KPI framework (velocity, cost / feature, SLA, cycle time) embedded in quarterly planning & performance reviews.</li>
-              <li>Built capability taxonomy & progression model → reduced role ambiguity and increased internal fill rate for senior roles (succession depth ↑2x).</li>
-              <li>Partnered with Finance & ELT to prioritize multi-year investment themes & sequencing across M&A integration waves.</li>
-              <li>Delivered major platform transformations (Salesforce → Dynamics, on‑prem → cloud, portal modernization) improving scalability & CX.</li>
-              <li>Introduced CI/CD & observability (tracing, structured logging) → deployment lead time ↓70% & MTTR improvement.</li>
-              <li>Modernized identity & access (OAuth2, MFA) strengthening security posture & unifying auth pathways across products.</li>
-            </ul>
+            <div className="text-gray-600 dark:text-gray-300 text-xs sm:text-sm">Director of Software Development | 2018–2025</div>
+            <div className="text-gray-600 dark:text-gray-400 text-xs sm:text-sm mb-3">Application Development Manager / Technical Lead / Analyst | 2012–2018</div>
           </div>
+          <ul className="list-disc pl-5 marker:text-gray-400 dark:marker:text-gray-500 space-y-1.5 text-[13px] sm:text-sm leading-relaxed text-gray-800 dark:text-gray-200">
+            <li><span className="font-medium">Operating Model:</span> Shifted teams to a product-led structure (pods / value streams) improving focus, accountability, and delivery cadence.</li>
+            <li><span className="font-medium">Delivery Transparency:</span> Established unified Jira / Azure DevOps taxonomy and dashboards to provide clear portfolio and execution visibility.</li>
+            <li><span className="font-medium">Investment Governance:</span> Introduced lifecycle from business case through benefits review to guide prioritization and reallocation.</li>
+            <li><span className="font-medium">Platform Rationalization:</span> Consolidated overlapping platforms (CRM, portal, ServiceNow, cloud) to reduce redundancy and fund modernization.</li>
+            <li><span className="font-medium">KPI & Performance:</span> Embedded practical measurement (throughput, cycle time, service levels) into planning and review cadences.</li>
+            <li><span className="font-medium">Talent Architecture:</span> Built capability taxonomy and progression model enhancing role clarity and internal advancement.</li>
+            <li><span className="font-medium">Strategic Alignment:</span> Partnered with executives and finance to sequence multi-year initiatives and integration work.</li>
+            <li><span className="font-medium">Platform Transformations:</span> Led CRM consolidation, cloud migration, and portal modernization to improve scalability and customer experience.</li>
+            <li><span className="font-medium">Engineering Enablement:</span> Advanced CI/CD and observability practices accelerating safe, reliable releases.</li>
+            <li><span className="font-medium">Identity Modernization:</span> Implemented OAuth2 and MFA to strengthen security and simplify access across platforms.</li>
+          </ul>
         </section>
 
         {/* Education */}
@@ -114,20 +114,31 @@ function App() {
   return (
     <Router>
       <a href="#content" className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 bg-brand-600 text-white px-3 py-2 rounded">Skip to content</a>
-      <nav className="bg-white dark:bg-gray-950 border-b border-gray-200 dark:border-gray-800 shadow-sm py-4 mb-8">
+  <nav className="bg-white/90 dark:bg-gray-900/70 backdrop-blur border-b border-gray-200 dark:border-gray-800 shadow-sm py-4 mb-8 transition-colors">
         <div className="max-w-3xl mx-auto flex gap-6 px-4 items-center">
           <div className="flex gap-4">
             <NavLink to="/" end className={({isActive}) => `font-semibold transition ${isActive ? 'text-brand-600 dark:text-brand-500' : 'text-gray-700 dark:text-gray-300 hover:text-brand-600'}`} aria-current={({isActive}) => isActive ? 'page' : undefined}>Resume</NavLink>
             <NavLink to="/projects" className={({isActive}) => `font-semibold transition ${isActive ? 'text-brand-600 dark:text-brand-500' : 'text-gray-700 dark:text-gray-300 hover:text-brand-600'}`} aria-current={({isActive}) => isActive ? 'page' : undefined}>Projects</NavLink>
           </div>
-          <button onClick={() => setDark(d => { const nv = !d; try { localStorage.setItem('dark', nv.toString()); } catch(e){} return nv; })} className="ml-auto text-xs px-3 py-1 rounded border border-gray-300 dark:border-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800" aria-pressed={dark} aria-label="Toggle dark mode">{dark ? 'Light' : 'Dark'}</button>
+          <div className="ml-auto flex gap-2 items-center">
+            <button onClick={() => setDark(d => { const nv = !d; try { localStorage.setItem('dark', nv.toString()); } catch(e){} return nv; })} className="text-xs px-3 py-1 rounded border border-gray-300 dark:border-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800" aria-pressed={dark} aria-label="Toggle dark mode">{dark ? 'Light' : 'Dark'}</button>
+            <button
+              onClick={() => window.print()}
+              className="text-xs px-3 py-1 rounded font-medium border border-brand-600 text-brand-600 bg-white/60 backdrop-blur
+                         hover:bg-brand-600 hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2 focus-visible:ring-offset-white
+                         dark:border-brand-400 dark:text-brand-300 dark:bg-gray-800/70 dark:hover:bg-brand-500 dark:hover:text-gray-900 dark:focus-visible:ring-offset-gray-900 transition"
+              aria-label="Export PDF (Print)"
+            >
+              Export PDF
+            </button>
+          </div>
         </div>
       </nav>
       <Routes>
         <Route path="/" element={<Resume />} />
         <Route path="/projects" element={<Suspense fallback={<div className='px-4'>Loading…</div>}><Projects /></Suspense>} />
       </Routes>
-      <footer className="text-center text-xs text-gray-400 dark:text-gray-500 pb-6">© {new Date().getFullYear()} Edwin J. Wood</footer>
+  <footer className="text-center text-xs text-gray-500 dark:text-gray-400 pb-6 mt-8 opacity-90">© {new Date().getFullYear()} Edwin J. Wood</footer>
     </Router>
   );
 }
