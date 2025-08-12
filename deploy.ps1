@@ -67,16 +67,34 @@ if (-not (Test-Path 'dist/index.html')) {
 	exit 1
 }
 
-# Switch to main and merge dev
+# Switch to main and integrate dev changes if needed
 git checkout main
 Assert-Success "Failed to checkout main."
 if (-not $SkipPull) {
+	git fetch origin
 	git pull --rebase origin main
 	Assert-Success "Failed to pull latest main."
 }
 
-git merge --no-ff dev
-Assert-Success "Merge failed. Resolve conflicts then re-run." 
+# Determine if dev is already fully merged
+$mergeBase = git merge-base main dev
+$devHead = git rev-parse dev
+if ($mergeBase -eq $devHead) {
+	Write-Host "main already contains dev (no merge needed)." -ForegroundColor DarkGray
+} else {
+	# Try fast-forward first
+	git merge --ff-only dev 2>$null
+	if ($LASTEXITCODE -ne 0) {
+		$mergeMsg = "Merge dev -> main (deploy $(Get-Date -Format 'yyyy-MM-dd HH:mm'))"
+		git merge --no-ff dev -m $mergeMsg
+		if ($LASTEXITCODE -ne 0) {
+			Write-Host "Merge reported conflicts. Resolve them, stage changes (git add .), then run: git commit --no-edit and re-run script (it will skip merge)." -ForegroundColor Red
+			exit 1
+		}
+	} else {
+		Write-Host "Fast-forwarded main to dev." -ForegroundColor Green
+	}
+}
 
 # Copy built artifacts (index.html + assets + vite.svg). Overwrite existing.
 Write-Host "Copying build artifacts to main..." -ForegroundColor Cyan
