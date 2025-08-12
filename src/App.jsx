@@ -97,6 +97,7 @@ function App() {
         <Route path="/" element={<Resume />} />
         <Route path="/projects" element={<Projects />} />
       </Routes>
+  <footer className="text-center text-xs text-gray-400 pb-6">Build test footer</footer>
     </Router>
   );
 }
