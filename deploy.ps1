@@ -22,46 +22,18 @@ function Assert-Success($Message) {
 	if ($LASTEXITCODE -ne 0) { Write-Error $Message; exit 1 }
 }
 
-$currentBranch = git branch --show-current
-Assert-Success "Failed to determine current git branch."
+ $currentBranch = git branch --show-current
+ Assert-Success "Failed to determine current git branch."
 
-if ($currentBranch -ne 'dev') {
-	Write-Host "You are on branch '$currentBranch'. Please run this script from the 'dev' branch." -ForegroundColor Yellow
-	exit 1
-}
+ if ($currentBranch -ne 'dev') {
+ 	Write-Host "You are on branch '$currentBranch'. Please run this script from the 'dev' branch." -ForegroundColor Yellow
+ 	exit 1
+ }
 
-# Handle uncommitted changes on dev (interactive by default)
-$status = git status --porcelain
-if ($status) {
-	if ($AutoCommit) {
-		Write-Host "AutoCommit flag detected. Staging all changes..." -ForegroundColor Cyan
-		git add .
-	} else {
-		Write-Host "Uncommitted changes found:" -ForegroundColor Yellow
-		$status | ForEach-Object { Write-Host "  $_" }
-		$answer = Read-Host "Commit these changes now? (Y/n)"
-		if ($answer -match '^(n|no)$') {
-			Write-Host "Aborting deploy so you can review changes." -ForegroundColor Red
-			exit 1
-		}
-		git add .
-	}
-	$defaultMsg = "chore: dev updates"
-	$commitMsg = Read-Host "Enter commit message (default: '$defaultMsg')"
-	if (-not $commitMsg) { $commitMsg = $defaultMsg }
-	git commit -m $commitMsg
-	Assert-Success "Commit failed."
-}
-
-if (-not $SkipPull) {
-	git pull --rebase origin dev
-	Assert-Success "Failed to pull latest dev changes."
-}
-
-# Ensure a dev template exists (developer version of index.html that points to /src/main.jsx)
-if (-not (Test-Path './index.dev.html')) {
-		Write-Host 'Creating index.dev.html template (dev entry point)...' -ForegroundColor DarkGray
-		@'
+ # Ensure a dev template exists (developer version of index.html that points to /src/main.jsx) BEFORE we evaluate git status so any change is visible
+ if (-not (Test-Path './index.dev.html')) {
+ 	Write-Host 'Creating index.dev.html template (dev entry point)...' -ForegroundColor DarkGray
+ 	@'
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -83,12 +55,44 @@ if (-not (Test-Path './index.dev.html')) {
 	</body>
 </html>
 '@ | Out-File -FilePath './index.dev.html' -Encoding UTF8 -NoNewline
-}
+ }
 
-# Always ensure dev working copy uses dev template prior to build
-if (Test-Path './index.dev.html') {
-		Copy-Item -Path ./index.dev.html -Destination ./index.html -Force
-}
+ # Copy dev template into working index.html if the current index.html appears to be a built artifact (heuristic: contains '/assets/index')
+ if (Test-Path './index.dev.html') {
+ 	$needsDev = (Select-String -Path './index.html' -Pattern '/assets/index' -SimpleMatch -Quiet) 2>$null
+ 	if ($needsDev) {
+ 		Write-Host 'Switching working index.html to dev template for build context...' -ForegroundColor DarkGray
+ 		Copy-Item -Path ./index.dev.html -Destination ./index.html -Force
+ 	}
+ }
+
+ # Handle uncommitted changes on dev (interactive by default)
+ $status = git status --porcelain
+ if ($status) {
+ 	if ($AutoCommit) {
+ 		Write-Host "AutoCommit flag detected. Staging all changes..." -ForegroundColor Cyan
+ 		git add .
+ 	} else {
+ 		Write-Host "Uncommitted changes found:" -ForegroundColor Yellow
+ 		$status | ForEach-Object { Write-Host "  $_" }
+ 		$answer = Read-Host "Commit these changes now? (Y/n)"
+ 		if ($answer -match '^(n|no)$') {
+ 			Write-Host "Aborting deploy so you can review changes." -ForegroundColor Red
+ 			exit 1
+ 		}
+ 		git add .
+ 	}
+ 	$defaultMsg = "chore: dev updates"
+ 	$commitMsg = Read-Host "Enter commit message (default: '$defaultMsg')"
+ 	if (-not $commitMsg) { $commitMsg = $defaultMsg }
+ 	git commit -m $commitMsg
+ 	Assert-Success "Commit failed."
+ }
+
+ if (-not $SkipPull) {
+ 	git pull --rebase origin dev
+ 	Assert-Success "Failed to pull latest dev changes."
+ }
 
 Write-Host "Building production bundle..." -ForegroundColor Cyan
 npm run build
