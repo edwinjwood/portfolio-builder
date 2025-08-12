@@ -27,20 +27,20 @@ function Resume() {
         <section className="mb-8">
           <h3 className="text-xl font-semibold text-gray-700 mb-2">Professional Summary</h3>
           <p className="text-gray-700 leading-relaxed">
-            Enterprise technology leader with 13+ years’ experience transforming how businesses interact with software by aligning technology strategy with organizational goals, streamlining enterprise platforms, and delivering solutions that drive efficiency, scalability, and exceptional customer experiences. Proven track record in unifying platforms post-merger, defining KPIs and performance frameworks, and leading multi-year roadmaps aligned with growth, M&A integration, and product-led transformation. Skilled in operating model design, investment lifecycle management, and building high-performing distributed teams. Adept at translating strategy into measurable outcomes through delivery transparency, vendor optimization, and enterprise-wide change enablement.
-
-
+            Enterprise Business Technology leader driving product-led, automation-first operating model transformation for growth and M&A-driven organizations. Architect of multi-year BT strategy, operating model design (pods / value streams / global sourcing), and portfolio governance linking investment lifecycle (business case → execution → renewal) to measurable value realization. Built metrics-driven culture—velocity, throughput, cost efficiency, SLA adherence—through Jira / Azure DevOps transparency and KPI frameworks. Led platform & vendor rationalization (CRM, customer portals, ServiceNow, cloud modernization) to accelerate scale and reduce redundancy. Recognized for executive alignment, talent strategy development, and converting strategic roadmaps into accountable, data-informed outcomes.
           </p>
         </section>
 
         {/* Core Competencies */}
         <section className="mb-8">
           <h3 className="text-xl font-semibold text-gray-700 mb-2">Core Competencies</h3>
-          <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-2 list-disc list-inside text-gray-700">
-            <li><b>Strategic Leadership & Transformation:</b> Enterprise Business Technology Planning, Operating Model Design, Portfolio & Roadmap Execution, M&A Integration, Stakeholder Alignment, Change Enablement</li>
-            <li><b>Performance & Delivery Management:</b> KPI Frameworks, Delivery Transparency, Agile at Scale, Cross-Functional Prioritization, Global & Distributed Team Leadership</li>
-            <li><b>Platform & Vendor Strategy:</b> CRM Modernization, SaaS Platform Consolidation, Investment Lifecycle Oversight, Vendor Negotiation & Optimization, Business Process Automation</li>
-            <li><b>Technical Enablers:</b> Cloud Migration Strategy (AWS, Azure), Identity & Access Management (OAuth2, MFA), API Integration, Observability & Reliability Frameworks</li>
+          <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-2 list-disc list-inside text-gray-700 text-sm">
+            <li><b>BT Strategy & Operating Model:</b> Product-Led, Automation-First Transformation, Pods / Value Streams, Global Sourcing, Multi-Year Roadmaps</li>
+            <li><b>Portfolio & Investment Governance:</b> Value Themes, Business Case → Renewal, Prioritization, Roadmap to Execution Traceability</li>
+            <li><b>Transparency & Tooling:</b> Jira / Azure DevOps Architecture, KPI Frameworks, Delivery & SLA Dashboards</li>
+            <li><b>Metrics & Performance:</b> Velocity, Throughput, Cost Efficiency, Cycle Time, SLA Compliance</li>
+            <li><b>Platform & Vendor Strategy:</b> Rationalization (CRM, Portal, ServiceNow, Cloud), Contract & Renewal Optimization, Identity & Access Modernization (OAuth2, MFA)</li>
+            <li><b>Talent & Enablement:</b> Capability Development, Skill Taxonomy, Coaching, High-Performance Culture</li>
           </ul>
         </section>
 
@@ -55,17 +55,16 @@ function Resume() {
             <div className="text-gray-600 text-sm mb-1">Director of Software Development | 2018–2025</div>
             <div className="text-gray-600 text-sm mb-2">Application Development Manager / Technical Lead / Analyst | 2012–2018</div>
             <ul className="list-disc list-inside text-gray-700 space-y-1">
-              <li>Directed multi-year portfolio execution for enterprise platforms, including CRM consolidation, customer portal launch, and sales tool integration—aligning roadmaps to business growth objectives and M&A outcomes.</li>
-              <li>Designed and implemented a performance measurement framework using Azure DevOps to track delivery velocity, throughput, and quality—creating transparency for executive stakeholders and enabling data-driven prioritization.</li>
-              <li>Led post-merger operating model adjustments, unifying toolsets and workflows across previously separate organizations to improve scalability, consistency, and speed to market.</li>
-              <li>Partnered with executives to prioritize investments, reallocate multimillion-dollar budgets, and sequence initiatives for maximum business impact.</li>
-              <li>Managed and developed high-performing engineering teams, ranging from small agile squads to large, multi-disciplinary groups across global locations.</li>
-              <li>Owned the investment lifecycle for major platform initiatives from business case development through vendor selection, contract negotiation, and performance tracking.</li>
-              <li>Guided migration and consolidation of multiple systems (Salesforce to Microsoft Dynamics, Dynamics on-prem to cloud, internal tools to ServiceNow) to reduce cost, eliminate redundancy, and streamline user experience.</li>
-              <li>Oversaw vendor relationships for SaaS platforms, ensuring alignment with capability needs, cost efficiency, and contractual compliance.</li>
-              <li>Directed the migration of legacy .NET and Java-based applications to cloud-native architectures (AWS and Azure) to improve scalability, reliability, and deployment speed.</li>
-              <li>Introduced CI/CD pipelines and observability frameworks, reducing release cycles and enabling proactive monitoring of production systems.</li>
-              <li>Led identity modernization for customer-facing systems, implementing OAuth2, role-based access, and MFA to improve security and streamline authentication across platforms.</li>
+              <li>Directed product-led, automation-first BT operating model shift (pods / value streams) aligning multi-year strategy & M&A integration to measurable value themes.</li>
+              <li>Built integrated Jira / Azure DevOps hierarchy for roadmap → epic → story → task traceability; enabled real-time velocity, throughput & SLA dashboards.</li>
+              <li>Established investment governance lifecycle (business case → execution → benefits tracking → renewal) tying spend to value realization & budget reallocation.</li>
+              <li>Led platform & vendor rationalization (CRM, customer portal, ServiceNow, cloud) reducing redundancy and funding higher-value capability expansion.</li>
+              <li>Designed performance & KPI framework (velocity, cycle time, cost per feature, SLA compliance) embedded in executive reporting & prioritization cadence.</li>
+              <li>Developed BT talent strategy—capability taxonomy, skill gap analysis, progression frameworks—improving role clarity & succession readiness.</li>
+              <li>Partnered with executives and finance to sequence investments, reallocate multimillion-dollar budgets, and optimize portfolio value realization.</li>
+              <li>Delivered customer-facing and internal platform transformations (Salesforce to Dynamics, Dynamics on‑prem to cloud, portal modernization) improving scalability & experience.</li>
+              <li>Introduced CI/CD and observability practices accelerating release cycles and proactive incident management.</li>
+              <li>Modernized identity & access (OAuth2, MFA) strengthening security posture and unifying authentication across platforms.</li>
             </ul>
           </div>
         </section>
