@@ -10,7 +10,7 @@ function Resume() {
       <div className="max-w-3xl mx-auto py-12 px-4">
         {/* Header */}
         <header className="mb-8 border-b pb-6">
-          <h1 className="text-3xl sm:text-4xl font-bold text-gray-800 mb-2">Edwim J. Wood</h1>
+          <h1 className="text-3xl sm:text-4xl font-bold text-gray-800 mb-2">Edwin J. Wood</h1>
           <h2 className="text-lg sm:text-xl text-gray-600 font-medium mb-2">Business Technology Transformation | Strategic Portfolio Leadership | Enterprise Platform Integration</h2>
           <div className="flex flex-col sm:flex-row sm:items-center text-gray-500 text-sm gap-1">
             <span>Columbia, SC</span>
