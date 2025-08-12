@@ -1,27 +1,91 @@
-# Windows PowerShell script for Vite + React GitHub Pages deployment with dev branch
-# Usage: Run from project root after merging dev into main
+<#!
+Deploy script for Vite + React (GitHub Pages user site)
 
-# 1. Ensure on main branch
-git checkout main
+Workflow:
+ 1. Work on 'dev' branch using source index.html (points to /src/main.jsx).
+ 2. When ready to deploy run:  ./deploy.ps1  (from project root while on dev)
+ 3. Script builds, merges dev -> main, replaces index.html with built version + assets, creates 404.html, pushes, and returns to dev.
 
-# 2. Merge dev branch into main
-git merge dev
+Notes:
+ - dist/ is ignored; only copied artifacts (index.html, assets/, vite.svg, 404.html) are committed.
+ - Root index.html on main becomes the production (built) version referencing hashed assets.
+ - Your dev branch keeps the source index.html so local development stays fast.
+ - Uses HashRouter so 404.html is mostly a safeguard.
+!>
 
-# 3. Build the project
+param(
+	[switch] $SkipPull
+)
+
+function Assert-Success($Message) {
+	if ($LASTEXITCODE -ne 0) { Write-Error $Message; exit 1 }
+}
+
+$currentBranch = git branch --show-current
+Assert-Success "Failed to determine current git branch."
+
+if ($currentBranch -ne 'dev') {
+	Write-Host "You are on branch '$currentBranch'. Please run this script from the 'dev' branch." -ForegroundColor Yellow
+	exit 1
+}
+
+# Ensure clean working tree
+$status = git status --porcelain
+if ($status) {
+	Write-Host "Uncommitted changes detected on 'dev'. Commit or stash before deploying." -ForegroundColor Red
+	exit 1
+}
+
+if (-not $SkipPull) {
+	git pull --rebase origin dev
+	Assert-Success "Failed to pull latest dev changes."
+}
+
+Write-Host "Building production bundle..." -ForegroundColor Cyan
 npm run build
+Assert-Success "Build failed. Aborting deployment."
 
-# 4. Copy build output to root (overwrite index.html, assets, etc.)
-Copy-Item -Path .\dist\* -Destination .\ -Recurse -Force
+if (-not (Test-Path 'dist/index.html')) {
+	Write-Error "dist/index.html not found after build. Aborting."
+	exit 1
+}
 
-# 5. Remove the dist folder
-git rm -r --cached dist
-Remove-Item -Recurse -Force .\dist
+# Switch to main and merge dev
+git checkout main
+Assert-Success "Failed to checkout main."
+if (-not $SkipPull) {
+	git pull --rebase origin main
+	Assert-Success "Failed to pull latest main."
+}
 
-# 6. Add and commit changes
-git add .
-git commit -m "Deploy production build to GitHub Pages"
+git merge --no-ff dev
+Assert-Success "Merge failed. Resolve conflicts then re-run." 
 
-# 7. Push to GitHub
-git push origin main
+# Copy built artifacts (index.html + assets + vite.svg). Overwrite existing.
+Write-Host "Copying build artifacts to main..." -ForegroundColor Cyan
+Copy-Item -Path .\dist\index.html -Destination .\ -Force
+Copy-Item -Path .\dist\vite.svg -Destination .\ -Force -ErrorAction SilentlyContinue
+if (Test-Path .\dist\assets) { Copy-Item -Path .\dist\assets -Destination .\ -Recurse -Force }
 
-Write-Host "Deployment complete. Your site is live on GitHub Pages."
+# Create / update 404.html for SPA fallback (HashRouter safety)
+Copy-Item -Path .\dist\index.html -Destination .\404.html -Force
+
+# Stage only what we need
+git add index.html 404.html assets vite.svg
+
+$changes = git diff --cached --name-only
+if (-not $changes) {
+	Write-Host "No deploy-related changes to commit." -ForegroundColor Yellow
+} else {
+	$timestamp = Get-Date -Format 'yyyy-MM-dd HH:mm'
+	git commit -m "Deploy: $timestamp"
+	Assert-Success "Commit failed."
+	git push origin main
+	Assert-Success "Push failed."
+	Write-Host "Deployment pushed to main." -ForegroundColor Green
+}
+
+# Return to dev
+git checkout dev | Out-Null
+Write-Host "Switched back to dev branch." -ForegroundColor Cyan
+Write-Host "Site should update shortly at: https://edwinjwood.github.io" -ForegroundColor Green
