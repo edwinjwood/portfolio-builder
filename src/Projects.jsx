@@ -1,73 +1,207 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 
-// Ordered to emphasize strategic platform, operating model, and 0-to-1 product delivery impact
+// Refactored with impact-first descriptions, normalized taxonomy, weights, and impact field
+// New taxonomy: Operating Model, Product, Automation, Integration, Migration & Modernization, M&A Integration, Analytics
 const projects = [
   {
     title: "Engineering Transparency & Delivery Platform (Azure DevOps / Jira Alignment)",
-    category: "Operating Model",
+    categories: ["Operating Model", "Analytics"],
+    impact: "Unified taxonomy & visibility", // short impact hook
+    weight: 100,
     description:
-      "Designed and scaled operating model and unified taxonomy (portfolio to work item) enabling traceability and informed decision-making.",
+      "Established unified engineering taxonomy and delivery visibility across Azure DevOps & Jira—improved traceability from portfolio themes to work items and informed investment decisions.",
     tech: ["Azure DevOps", "Jira", "KPI Dashboards", "CI/CD", "Automation"],
   },
   {
-    title: "Workflow Engine & Deal Economics in Microsoft Dynamics",
-    category: "Process Automation",
+    title: "Lead to Logo Revenue Process Orchestration",
+    categories: ["Operating Model", "Automation"],
+    impact: "Standardized lifecycle & conversion insight",
+    weight: 95,
     description:
-      "Designed and implemented a workflow engine to digitize deal approval processes previously managed via spreadsheets. Embedded deal economics as approval guardrails, reducing errors and improving decision speed.",
+      "Standardized end‑to‑end Lead → Opportunity → Order lifecycle in Dynamics—embedded staged business logic, clarified marketing→sales handoffs, and surfaced pipeline conversion insights via dashboards.",
+    tech: ["Microsoft Dynamics", "Power BI", "Business Rules", "Workflows", "C#", ".NET", "REST APIs"],
+  },
+  {
+    title: "Sales Platform Integration (Post-M&A) into ServiceNow SOM",
+    categories: ["M&A Integration", "Operating Model", "Integration"],
+    impact: "Unified post‑M&A sales tooling",
+    weight: 92,
+    description:
+      "Unified three disparate sales systems post‑M&A into single SOM platform—migrated logic, data models, and processes to standardize quoting, order capture, and lifecycle governance.",
+    tech: ["ServiceNow SOM", "Microsoft Dynamics", "Data Migration", "Process Mapping", "Integration", "MuleSoft", "Governance"],
+  },
+  {
+    title: "Workflow Engine & Deal Economics in Microsoft Dynamics",
+    categories: ["Automation", "Operating Model"],
+    impact: "Digitized approvals & guardrails",
+    weight: 88,
+    description:
+      "Digitized manual deal approvals—central workflow engine with embedded economics guardrails reduced policy drift and approval cycle time.",
     tech: ["C#", ".NET", "Microsoft Dynamics SDK"],
   },
   {
-    title: "Customer Portal (Segra360) – 0-to-1 Launch",
-    category: "Product",
+    title: "Contract Creation & Document Warehouse Integration",
+    categories: ["Automation", "Integration"],
+    impact: "Accelerated contract generation",
+    weight: 86,
     description:
-      "Directed the end-to-end development of a Java-based customer portal product. Integrated internal billing, ticketing, order, service status, and usage systems; delivered secure auth + MFA; transformed customer self-service engagement.",
+      "Enabled faster, error‑reduced contract generation via template‑driven platform—automated assembly, SharePoint storage, and Dynamics linkage for lifecycle access.",
+    tech: ["Microsoft Dynamics", "SharePoint", "REST APIs", "Word Templates", "C#", ".NET"],
+  },
+  {
+    title: "E-Signature Integration within Dynamics Workflow",
+    categories: ["Automation", "Integration"],
+    impact: "Accelerated execution cycle",
+    weight: 84,
+    description:
+      "Accelerated contract execution by embedding e‑signature orchestration—automated envelope assembly, routing, status tracking, and archival with bidirectional system links.",
+    tech: ["Microsoft Dynamics", "e-Signature APIs", "REST APIs", "Templates", "C#", ".NET", "Webhooks"],
+  },
+  {
+    title: "Customer Portal (Segra360) – 0-to-1 Launch",
+    categories: ["Product", "Integration"],
+    impact: "Launched unified self‑service",
+    weight: 83,
+    description:
+      "Launched customer self‑service portal consolidating billing, ticketing, orders, service status, and usage—secured with MFA/OIDC and improved engagement efficiency.",
     tech: ["Liferay", "Java", "MySQL", "OAuth2", "OIDC", "MFA", "SAML", "MuleSoft", "Linux", "Apache"],
   },
   {
     title: "Liferay to ServiceNow Customer Portal Migration",
-    category: "Migration",
+    categories: ["Migration & Modernization", "Product", "Integration"],
+    impact: "Replatformed for in‑house agility",
+    weight: 82,
     description:
-      "Owned delivery of redesigned portal on ServiceNow platform—migrated all capabilities off legacy Liferay while enabling full in-house control of UX and iterative enhancement velocity.",
+      "Replatformed legacy portal to ServiceNow—eliminated external vendor dependency and enabled iterative in‑house UX & capability evolution.",
     tech: ["Java", "JavaScript", "MuleSoft", "ServiceNow Integrations"],
   },
   {
     title: "Microsoft Dynamics On-Premises to Cloud Migration",
-    category: "Cloud Modernization",
+    categories: ["Migration & Modernization", "Operating Model"],
+    impact: "Modernized & scaled CRM platform",
+    weight: 81,
     description:
-      "Led transition of on‑prem Dynamics footprint to cloud for cost, scalability, and security gains—modernized legacy code, executed secure data migration, integrated Azure services, and adopted Power Apps across business units.",
+      "Modernized Dynamics footprint—migrated to Azure for scalability/security, refactored legacy code, integrated serverless services, and enabled Power Apps adoption.",
     tech: ["Azure", "Power Apps", "Functions", "Service Bus", "C#", ".NET", "KingswaySoft", "Azure AD"],
   },
   {
     title: "Salesforce to Microsoft Dynamics Migration",
-    category: "M&A Integration",
+    categories: ["M&A Integration", "Migration & Modernization", "Operating Model", "Integration"],
+    impact: "Consolidated CRM post‑acquisition",
+    weight: 80,
     description:
-      "Directed M&A‑driven CRM consolidation—translated processes, migrated active pipeline data, unified operating cadence, and executed structured change management across commercial teams.",
+      "Consolidated CRM platforms post‑M&A—translated divergent processes, migrated active pipeline data, and unified commercial operating cadence with structured change management.",
     tech: ["Tibco Scribe", "C#", ".NET", "Microsoft Dynamics SDK"],
   },
   {
     title: "SegraMaps – Data Visualization Platform (0-to-1)",
-    category: "Product",
+    categories: ["Product", "Analytics", "Integration"],
+    impact: "Accelerated pre‑sales qualification",
+    weight: 78,
     description:
-      "Created ESRI-based application visualizing network infrastructure to accelerate pre-sales qualification; integrated with pricing and quoting workflows—shortened sales cycle and improved targeting decisions.",
+      "Delivered geospatial network visualization platform—accelerated pre‑sales qualification and improved pricing & targeting decisions via integrated workflows.",
     tech: ["ESRI", "JavaScript", "C#", ".NET", "KMZ", "Microsoft Dynamics SDK"],
   },
   {
-    title: "Business Proposal Application (0-to-1)",
-    category: "Product",
+    title: "Location Validation & Address Standardization Platform",
+    categories: ["Integration", "Automation"],
+    impact: "Improved address quality & dedupe",
+    weight: 77,
     description:
-      "Delivered C#/.NET proposal generation platform producing branded, board-ready artifacts; streamlined marketing + sales collaboration and reduced manual assembly effort.",
+      "Improved address quality and deduplication—location validation service integrating Dynamics, ESRI, and later MuleSoft/ServiceNow to support non‑USPS site models.",
+    tech: ["Microsoft Dynamics", "ESRI", "ServiceNow", "MuleSoft", "API Gateway", "C#", ".NET", "REST APIs"],
+  },
+  {
+    title: "Business Proposal Application (0-to-1)",
+    categories: ["Product", "Automation"],
+    impact: "Streamlined proposal generation",
+    weight: 75,
+    description:
+      "Streamlined proposal generation—automated branded document assembly reducing manual marketing–sales coordination effort.",
     tech: ["C#", ".NET", "JavaScript", "HTML", "CSS"],
   },
   {
     title: "HubSpot to ServiceNow Integration via MuleSoft",
-    category: "Integration",
+    categories: ["Integration", "Automation"],
+    impact: "Improved lifecycle continuity",
+    weight: 74,
     description:
-      "Built bi-directional HubSpot ↔ ServiceNow integration synchronizing marketing, sales, and service lifecycles; automated lead/case handoffs, improved data fidelity, and reduced manual entry via resilient workflow & error handling design.",
+      "Improved lifecycle continuity—bi‑directional sync of marketing, sales, and service objects with resilient error handling and reduced manual data entry.",
     tech: ["REST APIs", "JSON", "OAuth2", "MuleSoft", "ServiceNow Integrations"],
   },
 ];
 
 export default function Projects() {
+  // Category derivation with defined ordering and counts
+  const CATEGORY_ORDER = [
+    "Operating Model",
+    "M&A Integration",
+    "Product",
+    "Automation",
+    "Integration",
+    "Migration & Modernization",
+    "Analytics",
+  ];
+  const [activeCategory, setActiveCategory] = useState("All");
+
+  const counts = React.useMemo(() => {
+    const map = {};
+    projects.forEach((p) => {
+      p.categories.forEach((c) => (map[c] = (map[c] || 0) + 1));
+    });
+    return map;
+  }, []);
+
+  const categories = React.useMemo(
+    () => ["All", ...CATEGORY_ORDER.filter((c) => counts[c])],
+    [counts]
+  );
+
+  // URL hash sync supporting HashRouter (#/path?cat=Category) and legacy (#cat=Category)
+  useEffect(() => {
+    const hash = window.location.hash; // e.g., #/projects?cat=Automation or #cat=Automation
+    if (!hash) return;
+    if (hash.startsWith('#cat=')) {
+      const raw = decodeURIComponent(hash.substring(5));
+      if (raw && raw !== 'All') setActiveCategory(raw);
+      return;
+    }
+    // HashRouter style: #/projects?cat=Automation
+    const qIndex = hash.indexOf('?');
+    if (qIndex !== -1) {
+      const query = hash.substring(qIndex + 1); // cat=Automation
+      const params = new URLSearchParams(query);
+      const cat = params.get('cat');
+      if (cat && cat !== 'All') setActiveCategory(decodeURIComponent(cat));
+    }
+  }, []);
+
+  useEffect(() => {
+    const current = window.location.hash; // preserve route segment if present
+    const qIndex = current.indexOf('?');
+    const routePart = current.startsWith('#/') ? (qIndex === -1 ? current : current.substring(0, qIndex)) : '';
+    if (activeCategory === 'All') {
+      // Remove cat param while preserving route
+      if (routePart) {
+        window.history.replaceState(null, '', window.location.pathname + window.location.search + routePart);
+      } else if (current.startsWith('#cat=')) {
+        window.history.replaceState(null, '', window.location.pathname + window.location.search + '#');
+      }
+    } else {
+      const catFrag = `cat=${encodeURIComponent(activeCategory)}`;
+      if (routePart) {
+        window.history.replaceState(null, '', window.location.pathname + window.location.search + `${routePart}?${catFrag}`);
+      } else {
+        window.location.hash = catFrag; // legacy fallback
+      }
+    }
+  }, [activeCategory]);
+
+  const filtered = React.useMemo(() => {
+    const base = activeCategory === "All" ? projects : projects.filter((p) => p.categories.includes(activeCategory));
+    return [...base].sort((a, b) => b.weight - a.weight);
+  }, [activeCategory]);
+
   return (
     <main className="bg-gray-50 dark:bg-gray-900 min-h-screen font-sans text-gray-900 dark:text-gray-100 transition-colors">
       <div className="max-w-3xl mx-auto py-12 px-4">
@@ -75,14 +209,47 @@ export default function Projects() {
         <p className="mb-8 text-gray-700 dark:text-gray-300 text-sm sm:text-base leading-relaxed">
           In addition to the projects below, I have led and contributed to other enterprise initiatives including platform consolidation, integration patterns, modernization, and cross-functional process improvement. These selected efforts reflect breadth across operating model, product delivery, migration, and integration domains.
         </p>
+        {/* Category Filter */}
+        <div className="mb-8">
+          <div className="flex flex-wrap gap-2">
+    {categories.map((cat) => {
+              const active = cat === activeCategory;
+              return (
+                <button
+                  key={cat}
+                  type="button"
+                  onClick={() => setActiveCategory(cat)}
+                  aria-pressed={active}
+                  className={
+                    `text-xs tracking-wide px-3 py-1 rounded-full border transition-colors focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-brand-500 ` +
+                    (active
+                      ? "bg-brand-600 text-white border-brand-600 dark:border-brand-500 shadow"
+                      : "bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700")
+                  }
+                >
+      {cat}{cat !== "All" && counts[cat] ? ` (${counts[cat]})` : cat === "All" ? ` (${projects.length})` : ""}
+                </button>
+              );
+            })}
+          </div>
+        </div>
         <div className="grid gap-6">
-          {projects.map((project, idx) => (
+          {filtered.map((project, idx) => (
             <div key={idx} className="bg-white dark:bg-gray-800 rounded-lg shadow p-6 border border-gray-100 dark:border-gray-700">
               <div className="flex flex-wrap items-center gap-2 mb-2">
                 <h2 className="text-lg font-semibold text-gray-700 dark:text-gray-100">{project.title}</h2>
-                {project.category && <span className="text-[10px] uppercase tracking-wide bg-brand-600 text-white px-2 py-0.5 rounded">{project.category}</span>}
+                <div className="flex flex-wrap gap-1">
+                  {project.categories.map((cat) => (
+                    <span key={cat} className="text-[10px] uppercase tracking-wide bg-brand-600 text-white px-2 py-0.5 rounded">
+                      {cat}
+                    </span>
+                  ))}
+                </div>
               </div>
-              <p className="text-gray-600 dark:text-gray-300 mb-2 text-sm">{project.description}</p>
+              {project.impact && (
+                <p className="text-[11px] font-medium text-brand-600 dark:text-brand-400 mb-1 tracking-wide">{project.impact}</p>
+              )}
+              <p className="text-gray-600 dark:text-gray-300 mb-2 text-sm leading-relaxed">{project.description}</p>
               {/* Impact line removed to simplify presentation */}
               <div className="flex flex-wrap gap-2 mb-1">
                 {project.tech.map((t) => (
