@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 
-// Refactored with impact-first descriptions, normalized taxonomy, weights, and impact field
-// New taxonomy: Operating Model, Product, Automation, Integration, Migration & Modernization, M&A Integration, Analytics
+// Refactored with impact-first descriptions, normalized taxonomy, weights, impact field
+// Normalized taxonomy (conceptual + thematic): Operating Model, Modernization, Product, Automation, Integration, Analytics, M&A Integration, Leadership, Strategy
 const projects = [
   {
     title: "Engineering Transparency & Delivery Platform (Azure DevOps / Jira Alignment)",
     categories: ["Operating Model", "Analytics"],
-    impact: "Unified taxonomy & visibility", // short impact hook
+    impact: "Taxonomy alignment & delivery visibility",
     weight: 100,
     description:
       "Established unified engineering taxonomy and delivery visibility across Azure DevOps & Jira—improved traceability from portfolio themes to work items and informed investment decisions.",
@@ -15,16 +15,16 @@ const projects = [
   {
     title: "Lead to Logo Revenue Process Orchestration",
     categories: ["Operating Model", "Automation"],
-    impact: "Standardized lifecycle & conversion insight",
+    impact: "Lifecycle standardization & conversion insight",
     weight: 95,
     description:
-      "Standardized end‑to‑end Lead → Opportunity → Order lifecycle in Dynamics—embedded staged business logic, clarified marketing→sales handoffs, and surfaced pipeline conversion insights via dashboards.",
+      "Standardized end‑to‑end Lead → Opportunity → Quote lifecycle in Dynamics—embedded staged business logic, clarified marketing→sales handoffs, and surfaced pipeline conversion insights via dashboards.",
     tech: ["Microsoft Dynamics", "Power BI", "Business Rules", "Workflows", "C#", ".NET", "REST APIs"],
   },
   {
     title: "Sales Platform Integration (Post-M&A) into ServiceNow SOM",
     categories: ["M&A Integration", "Operating Model", "Integration"],
-    impact: "Unified post‑M&A sales tooling",
+    impact: "Post‑M&A sales platform unification",
     weight: 92,
     description:
       "Unified three disparate sales systems post‑M&A into single SOM platform—migrated logic, data models, and processes to standardize quoting, order capture, and lifecycle governance.",
@@ -33,7 +33,7 @@ const projects = [
   {
     title: "Workflow Engine & Deal Economics in Microsoft Dynamics",
     categories: ["Automation", "Operating Model"],
-    impact: "Digitized approvals & guardrails",
+    impact: "Approval digitization & economic guardrails",
     weight: 88,
     description:
       "Digitized manual deal approvals—central workflow engine with embedded economics guardrails reduced policy drift and approval cycle time.",
@@ -42,34 +42,34 @@ const projects = [
   {
     title: "Contract Creation & Document Warehouse Integration",
     categories: ["Automation", "Integration"],
-    impact: "Accelerated contract generation",
+  impact: "Contract generation speed & accuracy",
     weight: 86,
     description:
-      "Enabled faster, error‑reduced contract generation via template‑driven platform—automated assembly, SharePoint storage, and Dynamics linkage for lifecycle access.",
+      "Delivered template‑driven contract platform enabling faster, error‑reduced generation—automated assembly, SharePoint storage, and Dynamics linkage for lifecycle access.",
     tech: ["Microsoft Dynamics", "SharePoint", "REST APIs", "Word Templates", "C#", ".NET"],
   },
   {
     title: "E-Signature Integration within Dynamics Workflow",
     categories: ["Automation", "Integration"],
-    impact: "Accelerated execution cycle",
+  impact: "Faster contract execution & tracking",
     weight: 84,
     description:
-      "Accelerated contract execution by embedding e‑signature orchestration—automated envelope assembly, routing, status tracking, and archival with bidirectional system links.",
+      "Embedded e‑signature orchestration—automated envelope assembly, routing, status tracking, and archival with bidirectional system links accelerating contract execution.",
     tech: ["Microsoft Dynamics", "e-Signature APIs", "REST APIs", "Templates", "C#", ".NET", "Webhooks"],
   },
   {
     title: "Customer Portal (Segra360) – 0-to-1 Launch",
     categories: ["Product", "Integration"],
-    impact: "Launched unified self‑service",
+    impact: "Unified customer self‑service",
     weight: 83,
     description:
-      "Launched customer self‑service portal consolidating billing, ticketing, orders, service status, and usage—secured with MFA/OIDC and improved engagement efficiency.",
+  "Launched self-service portal consolidating billing, ticketing, orders, service status, and usage—secured with MFA/OIDC to improve engagement efficiency.",
     tech: ["Liferay", "Java", "MySQL", "OAuth2", "OIDC", "MFA", "SAML", "MuleSoft", "Linux", "Apache"],
   },
   {
     title: "Liferay to ServiceNow Customer Portal Migration",
-    categories: ["Migration & Modernization", "Product", "Integration"],
-    impact: "Replatformed for in‑house agility",
+  categories: ["Migration & Modernization", "Product", "Integration"],
+    impact: "Portal replatform & in‑house agility",
     weight: 82,
     description:
       "Replatformed legacy portal to ServiceNow—eliminated external vendor dependency and enabled iterative in‑house UX & capability evolution.",
@@ -77,8 +77,8 @@ const projects = [
   },
   {
     title: "Microsoft Dynamics On-Premises to Cloud Migration",
-    categories: ["Migration & Modernization", "Operating Model"],
-    impact: "Modernized & scaled CRM platform",
+  categories: ["Migration & Modernization", "Operating Model"],
+    impact: "Modernized scalable CRM platform",
     weight: 81,
     description:
       "Modernized Dynamics footprint—migrated to Azure for scalability/security, refactored legacy code, integrated serverless services, and enabled Power Apps adoption.",
@@ -86,8 +86,8 @@ const projects = [
   },
   {
     title: "Salesforce to Microsoft Dynamics Migration",
-    categories: ["M&A Integration", "Migration & Modernization", "Operating Model", "Integration"],
-    impact: "Consolidated CRM post‑acquisition",
+  categories: ["M&A Integration", "Migration & Modernization", "Operating Model", "Integration"],
+    impact: "Post‑M&A CRM consolidation",
     weight: 80,
     description:
       "Consolidated CRM platforms post‑M&A—translated divergent processes, migrated active pipeline data, and unified commercial operating cadence with structured change management.",
@@ -96,7 +96,7 @@ const projects = [
   {
     title: "SegraMaps – Data Visualization Platform (0-to-1)",
     categories: ["Product", "Analytics", "Integration"],
-    impact: "Accelerated pre‑sales qualification",
+    impact: "Faster pre‑sales qualification",
     weight: 78,
     description:
       "Delivered geospatial network visualization platform—accelerated pre‑sales qualification and improved pricing & targeting decisions via integrated workflows.",
@@ -105,16 +105,16 @@ const projects = [
   {
     title: "Location Validation & Address Standardization Platform",
     categories: ["Integration", "Automation"],
-    impact: "Improved address quality & dedupe",
+    impact: "Address quality & deduplication",
     weight: 77,
     description:
-      "Improved address quality and deduplication—location validation service integrating Dynamics, ESRI, and later MuleSoft/ServiceNow to support non‑USPS site models.",
+  "Delivered location validation service integrating Dynamics, ESRI, and later MuleSoft/ServiceNow—improved address quality, eliminated duplicates, and enabled non-USPS site models.",
     tech: ["Microsoft Dynamics", "ESRI", "ServiceNow", "MuleSoft", "API Gateway", "C#", ".NET", "REST APIs"],
   },
   {
     title: "Business Proposal Application (0-to-1)",
     categories: ["Product", "Automation"],
-    impact: "Streamlined proposal generation",
+  impact: "Proposal generation speed & consistency",
     weight: 75,
     description:
       "Streamlined proposal generation—automated branded document assembly reducing manual marketing–sales coordination effort.",
@@ -123,11 +123,20 @@ const projects = [
   {
     title: "HubSpot to ServiceNow Integration via MuleSoft",
     categories: ["Integration", "Automation"],
-    impact: "Improved lifecycle continuity",
+    impact: "Lifecycle continuity & reduced manual entry",
     weight: 74,
     description:
-      "Improved lifecycle continuity—bi‑directional sync of marketing, sales, and service objects with resilient error handling and reduced manual data entry.",
+      "Delivered integration of marketing and sales objects with resilient error handling—improved lifecycle continuity and reduced manual data entry.",
     tech: ["REST APIs", "JSON", "OAuth2", "MuleSoft", "ServiceNow Integrations"],
+  },
+  {
+    title: "Additional Strategic Initiatives",
+    categories: ["Leadership", "Strategy"],
+    impact: "Broader transformation leadership",
+  weight: 76, // Positioned above lowest-weight individual project so page ends on a specific deliverable
+    description:
+      "Led platform rationalization, vendor portfolio optimization, KPI framework design, and enterprise operating model shifts aligning technology delivery with business priorities. Managed multi-year roadmaps, multimillion-dollar budgets, and cross-functional alignment across technology domains.",
+    tech: [],
   },
 ];
 
@@ -141,6 +150,8 @@ export default function Projects() {
     "Integration",
     "Migration & Modernization",
     "Analytics",
+    "Leadership",
+    "Strategy",
   ];
   const [activeCategory, setActiveCategory] = useState("All");
 
@@ -252,7 +263,7 @@ export default function Projects() {
               <p className="text-gray-600 dark:text-gray-300 mb-2 text-sm leading-relaxed">{project.description}</p>
               {/* Impact line removed to simplify presentation */}
               <div className="flex flex-wrap gap-2 mb-1">
-                {project.tech.map((t) => (
+                {project.tech.length > 0 && project.tech.map((t) => (
                   <span key={t} className="bg-blue-600/10 dark:bg-blue-400/10 text-blue-700 dark:text-blue-300 border border-blue-600/20 dark:border-blue-400/20 text-[10px] px-2 py-1 rounded">{t}</span>
                 ))}
               </div>
