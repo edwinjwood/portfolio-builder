@@ -120,7 +120,27 @@ if (-not $changes) {
 	Write-Host "Deployment pushed to main." -ForegroundColor Green
 }
 
-# Return to dev
+# Return to dev and sync it with main (fast-forward) so branches stay aligned
 git checkout dev | Out-Null
 Write-Host "Switched back to dev branch." -ForegroundColor Cyan
+
+# Fetch latest refs to ensure we can fast-forward accurately
+git fetch origin 2>$null
+
+# Attempt fast-forward dev to main if main has new commit(s)
+$mainHash = git rev-parse origin/main 2>$null
+$localMainHash = git rev-parse main 2>$null
+$devHashBefore = git rev-parse dev 2>$null
+if ($mainHash -and $mainHash -ne $devHashBefore) {
+	git merge --ff-only main 2>$null
+	if ($LASTEXITCODE -eq 0) {
+		Write-Host "Dev fast-forwarded to main (commit $mainHash)." -ForegroundColor Green
+		git push origin dev 2>$null | Out-Null
+	} else {
+		Write-Host "Could not fast-forward dev to main automatically (divergence). Consider: git rebase main." -ForegroundColor Yellow
+	}
+} else {
+	Write-Host "Dev already up to date with main." -ForegroundColor DarkGray
+}
+
 Write-Host "Site should update shortly at: https://edwinjwood.github.io" -ForegroundColor Green
