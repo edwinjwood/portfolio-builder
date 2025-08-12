@@ -1,50 +1,60 @@
 import React from "react";
 
+// Ordered to emphasize strategic platform, operating model, and 0-to-1 product delivery impact
 const projects = [
   {
+    title: "Engineering Transparency & Delivery Platform (Azure DevOps / Jira Alignment)",
+    description:
+      "Designed and scaled an Azure DevOps (with complementary Jira alignment) operating model providing end-to-end traceability from multi-quarter roadmaps to task-level execution. Enabled unified taxonomy (portfolio → product → epic → work item) powering real-time velocity, throughput, and SLA dashboards for executive decisioning.",
+    tech: ["Azure DevOps", "Jira", "KPI Dashboards", "CI/CD", "Automation"],
+  },
+  {
+    title: "Workflow Engine & Deal Economics in Microsoft Dynamics",
+    description:
+      "Designed and implemented a workflow engine to digitize deal approval processes previously managed via spreadsheets. Embedded deal economics as approval guardrails, reducing errors and improving decision speed.",
+    tech: ["C#", ".NET", "Microsoft Dynamics SDK"],
+  },
+  {
     title: "Customer Portal Implementation (Segra360) – 0-to-1 Product Launch",
-    description: "Directed the end-to-end development of a Java-based customer portal, transforming how clients access account information. Designed as a standalone product with integrations to internal billing, ticketing, orders, service status, and usage metrics systems. Delivered secure authentication and multi-factor capabilities.",
+    description:
+      "Directed the end-to-end development of a Java-based customer portal product. Integrated internal billing, ticketing, order, service status, and usage systems; delivered secure auth + MFA; transformed customer self-service engagement.",
     tech: ["Liferay", "Java", "MySQL", "OAuth2", "OIDC", "MFA", "SAML", "MuleSoft", "Linux", "Apache"],
   },
   {
-    title: "SegraMaps – 0-to-1 Data Visualization Platform",
-    description: "Led creation of an ESRI-based web application that visualized network infrastructure data, enabling sales teams to make faster, better-informed decisions. Integrated with pre-sales tools to streamline actions and accelerate the sales cycle.",
+    title: "Liferay to ServiceNow Customer Portal Migration",
+    description:
+      "Owned delivery of redesigned portal on ServiceNow platform—migrated all capabilities off legacy Liferay while enabling full in-house control of UX and iterative enhancement velocity.",
+    tech: ["Java", "JavaScript", "MuleSoft", "ServiceNow Integrations"],
+  },
+  {
+    title: "Microsoft Dynamics On-Premises to Cloud Migration",
+    description:
+      "Led transition of on‑prem Dynamics footprint to cloud for cost, scalability, and security gains—modernized legacy code, executed secure data migration, integrated Azure services, and adopted Power Apps across business units.",
+    tech: ["Azure", "Power Apps", "Functions", "Service Bus", "C#", ".NET", "KingswaySoft", "Azure AD"],
+  },
+  {
+    title: "Salesforce to Microsoft Dynamics Migration",
+    description:
+      "Directed M&A‑driven CRM consolidation—translated processes, migrated active pipeline data, unified operating cadence, and executed structured change management across commercial teams.",
+    tech: ["Tibco Scribe", "C#", ".NET", "Microsoft Dynamics SDK"],
+  },
+  {
+    title: "SegraMaps – Data Visualization Platform - 0-to-1 Product Launch",
+    description:
+      "Created ESRI-based application visualizing network infrastructure to accelerate pre-sales qualification; integrated with pricing and quoting workflows—shortened sales cycle and improved targeting decisions.",
     tech: ["ESRI", "JavaScript", "C#", ".NET", "KMZ", "Microsoft Dynamics SDK"],
   },
   {
     title: "Business Proposal Application – 0-to-1 Product Launch",
-    description: "Oversaw full lifecycle of a C#/.NET application allowing sales teams to create branded, board-ready proposals. Collaborated closely with marketing and sales to deliver a polished, user-friendly interface.",
+    description:
+      "Delivered C#/.NET proposal generation platform producing branded, board-ready artifacts; streamlined marketing + sales collaboration and reduced manual assembly effort.",
     tech: ["C#", ".NET", "JavaScript", "HTML", "CSS"],
   },
   {
-    title: "Salesforce to Microsoft Dynamics Migration",
-    description: "Led migration project driven by M&A activity, translating company processes into Dynamics and managing the complete data migration of active deals. Directed change management across affected teams.",
-    tech: ["Tibco Scribe", "C#", ".NET", "Microsoft Dynamics SDK"],
-  },
-  {
-    title: "Workflow Engine & Deal Economics in Microsoft Dynamics",
-    description: "Designed and implemented a workflow engine to digitize deal approval processes previously managed via spreadsheets. Integrated deal economics as approval metrics, reducing errors and improving decision speed.",
-    tech: ["C#", ".NET", "Microsoft Dynamics SDK"],
-  },
-  {
-    title: "Microsoft Dynamics On-Premises to Cloud Migration",
-    description: "Managed the full transition to cloud for cost reduction, scalability, security, and efficiency. Included modernization of legacy code, secure data migration, Azure integration, and adoption of Power Apps. Led change management across multiple departments.",
-    tech: ["Azure Power Apps (Functions, Service Bus)", "C#", ".NET", "KingswaySoft", "Azure AD"],
-  },
-  {
-    title: "Azure DevOps Adoption & Engineering Workflow Modernization",
-    description: "Led the enterprise-wide adoption of Azure DevOps to improve visibility into IT initiatives, align engineering output with business goals, and standardize development workflows. Migrated source code repositories, enabling traceability from user stories to code commits. Designed and implemented CI/CD pipelines with automated testing to accelerate delivery and improve quality.",
-    tech: ["Azure DevOps", "Git/GitHub", "CI/CD Pipelines", "Automated Testing Frameworks"],
-  },
-  {
-    title: "Liferay to ServiceNow Customer Portal Migration",
-    description: "Oversaw vendor and internal team delivery of a redesigned customer portal within ServiceNow, enabling full in-house control over design and functionality. Migrated all capabilities from the legacy Liferay platform.",
-    tech: ["Java", "JavaScript", "MuleSoft", "ServiceNow Integrations"],
-  },
-  {
     title: "HubSpot to ServiceNow Integration via MuleSoft",
-    description: "Led the development of a bi-directional integration between HubSpot and ServiceNow to synchronize marketing, sales, and service data. Enabled automated lead and case handoffs, reduced manual entry, and improved visibility across teams. Designed workflows and error-handling processes to ensure data accuracy and platform stability.",
-    tech: ["REST APIs", "JSON", "OAuth2", "ServiceNow Integrations"],
+    description:
+      "Built bi-directional HubSpot ↔ ServiceNow integration synchronizing marketing, sales, and service lifecycles; automated lead/case handoffs, improved data fidelity, and reduced manual entry via resilient workflow & error handling design.",
+    tech: ["REST APIs", "JSON", "OAuth2", "MuleSoft", "ServiceNow Integrations"],
   },
 ];
 
