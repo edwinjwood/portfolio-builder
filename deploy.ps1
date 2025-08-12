@@ -15,7 +15,7 @@ Notes:
 
 param(
 	[switch] $SkipPull,
-	[switch] $AutoCommit
+	[switch] $AutoCommit  # still supported but now optional; default interactive prompt will handle commits
 )
 
 function Assert-Success($Message) {
@@ -30,21 +30,27 @@ if ($currentBranch -ne 'dev') {
 	exit 1
 }
 
-# Handle uncommitted changes on dev
+# Handle uncommitted changes on dev (interactive by default)
 $status = git status --porcelain
 if ($status) {
-	if (-not $AutoCommit) {
-		Write-Host "Uncommitted changes detected on 'dev'. Use -AutoCommit to auto-stage or commit manually." -ForegroundColor Red
-		exit 1
-	} else {
-		Write-Host "Auto-commit enabled. Staging changes..." -ForegroundColor Cyan
+	if ($AutoCommit) {
+		Write-Host "AutoCommit flag detected. Staging all changes..." -ForegroundColor Cyan
 		git add .
-		$defaultMsg = "chore: dev updates"
-		$commitMsg = Read-Host "Enter commit message (default: '$defaultMsg')"
-		if (-not $commitMsg) { $commitMsg = $defaultMsg }
-		git commit -m $commitMsg
-		Assert-Success "Auto-commit failed."
+	} else {
+		Write-Host "Uncommitted changes found:" -ForegroundColor Yellow
+		$status | ForEach-Object { Write-Host "  $_" }
+		$answer = Read-Host "Commit these changes now? (Y/n)"
+		if ($answer -match '^(n|no)$') {
+			Write-Host "Aborting deploy so you can review changes." -ForegroundColor Red
+			exit 1
+		}
+		git add .
 	}
+	$defaultMsg = "chore: dev updates"
+	$commitMsg = Read-Host "Enter commit message (default: '$defaultMsg')"
+	if (-not $commitMsg) { $commitMsg = $defaultMsg }
+	git commit -m $commitMsg
+	Assert-Success "Commit failed."
 }
 
 if (-not $SkipPull) {
