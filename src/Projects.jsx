@@ -138,6 +138,24 @@ const projects = [
       "Led platform rationalization, vendor portfolio optimization, KPI framework design, and enterprise operating model shifts aligning technology delivery with business priorities. Managed multi-year roadmaps, multimillion-dollar budgets, and cross-functional alignment across technology domains.",
     tech: [],
   },
+  {
+    title: "Interactive Resume / Portfolio Site (This Site)",
+    categories: ["Product", "Automation"],
+    impact: "Fast-loading & shareable executive profile",
+    weight: 73,
+    description:
+      "Built lightweight React/Vite portfolio with dark mode, hash-based deep linking for filtered project views, print-optimized layout, structured metadata for SEO/social cards, and streamlined GitHub Pages CI/CD deployment—improving discoverability and recruiter shareability.",
+    tech: ["React", "Vite", "Tailwind CSS", "HashRouter", "GitHub Pages", "CI/CD", "SEO", "Accessibility"],
+  },
+  {
+    title: "LAYR Concept / Holding Pattern Site",
+    categories: ["Product", "Strategy", "Operating Model"],
+    impact: "Brand narrative scaffold & platform runway",
+    weight: 72,
+    description:
+      "Maintained lightweight static 'holding pattern' site (HTML/CSS/vanilla JS) to iterate branding, messaging, and positioning rapidly while future platform scope (engineering transparency, delivery alignment, telemetry) and integration contracts (Azure DevOps / Jira) mature—establishing narrative + taxonomy runway for eventual data & metrics layers.",
+    tech: ["HTML5", "CSS3", "JavaScript", "Semantic Markup", "Responsive Design"],
+  },
 ];
 
 export default function Projects() {
