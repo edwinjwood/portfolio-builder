@@ -94,7 +94,7 @@ function Resume() {
           <div>
             <span className="font-bold text-gray-800 dark:text-gray-100">University of South Carolina — Columbia</span>
             <div className="text-gray-600 dark:text-gray-400 text-sm">B.S. Computer Science (In Progress, Expected May 2026)</div>
-            <div className="text-gray-700 dark:text-gray-300 text-sm">Coursework: Data Structures, Distributed Systems (in progress), Org Leadership. Completing degree to reinforce long-term exec + technical breadth.</div>
+            <div className="text-gray-700 dark:text-gray-300 text-sm">Coursework: Data Structures, Windows Programming (in progress), Org Leadership. Completing degree to reinforce long-term exec + technical breadth.</div>
           </div>
         </section>
       </div>
