@@ -63,7 +63,7 @@ const projects = [
     impact: "Unified customer self‑service",
     weight: 83,
     description:
-  "Launched self-service portal consolidating billing, ticketing, orders, service status, and usage—secured with MFA/OIDC to improve engagement efficiency.",
+  "Launched self-service portal consolidating billing, ticketing, orders, service status, and usage—secured with MFA/OIDC to improve engagement efficiency and reduce support volume by ~40%.",
     tech: ["Liferay", "Java", "MySQL", "OAuth2", "OIDC", "MFA", "SAML", "MuleSoft", "Linux", "Apache"],
   },
   {
@@ -135,7 +135,7 @@ const projects = [
     impact: "Broader transformation leadership",
   weight: 76, // Positioned above lowest-weight individual project so page ends on a specific deliverable
     description:
-      "Led platform rationalization, vendor portfolio optimization, KPI framework design, and enterprise operating model shifts aligning technology delivery with business priorities. Managed multi-year roadmaps, multimillion-dollar budgets, and cross-functional alignment across technology domains.",
+  "Led platform rationalization, vendor portfolio optimization, KPI framework design, and enterprise operating model shifts aligning technology delivery with business priorities. Managed multi-year roadmaps, multimillion-dollar budgets, and global Agile teams with cross-functional alignment across technology domains.",
     tech: [],
   },
   {
@@ -238,7 +238,18 @@ export default function Projects() {
         <p className="mb-8 text-gray-700 dark:text-gray-300 text-sm sm:text-base leading-relaxed">
           In addition to the projects below, I have led and contributed to other enterprise initiatives including platform consolidation, integration patterns, modernization, and cross-functional process improvement. Many of these outcomes were delivered by leading and collaborating with cross-functional teams. These selected efforts reflect breadth across operating model, product delivery, migration, and integration domains.
         </p>
-        {/* Category Filter */}
+        {/* Leadership highlights */}
+        <div className="mb-8 text-gray-700 dark:text-gray-300">
+          <p className="text-xs font-semibold uppercase tracking-wide text-gray-600 dark:text-gray-400 mb-2">Leadership highlights</p>
+          <ul className="list-disc pl-5 space-y-1 text-sm">
+            <li>Product-led operating model and portfolio governance</li>
+            <li>Post‑M&A platform consolidation and integration alignment</li>
+            <li>KPI frameworks and executive dashboards (velocity, throughput, SLA)</li>
+            <li>Platform and vendor rationalization (CRM, portal, ServiceNow, cloud)</li>
+            <li>Talent development and capability taxonomy for high‑performance teams</li>
+          </ul>
+        </div>
+  {/* Category Filter */}
         <div className="mb-8">
           <div className="flex flex-wrap gap-2">
     {categories.map((cat) => {
