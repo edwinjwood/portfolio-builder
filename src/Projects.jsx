@@ -236,19 +236,8 @@ export default function Projects() {
       <div className="max-w-3xl mx-auto py-12 px-4">
         <h1 className="text-3xl font-bold mb-6 text-gray-800 dark:text-gray-100">Major Projects</h1>
         <p className="mb-8 text-gray-700 dark:text-gray-300 text-sm sm:text-base leading-relaxed">
-          In addition to the projects below, I have led and contributed to other enterprise initiatives including platform consolidation, integration patterns, modernization, and cross-functional process improvement. Many of these outcomes were delivered by leading and collaborating with cross-functional teams. These selected efforts reflect breadth across operating model, product delivery, migration, and integration domains.
+          In addition to the projects below, I’ve led and collaborated across teams on enterprise initiatives—from product‑led operating model shifts and post‑M&A platform consolidation to KPI transparency, vendor rationalization, and modernization. These selections reflect breadth across operating model, product delivery, migration, and integration domains.
         </p>
-        {/* Leadership highlights */}
-        <div className="mb-8 text-gray-700 dark:text-gray-300">
-          <p className="text-xs font-semibold uppercase tracking-wide text-gray-600 dark:text-gray-400 mb-2">Leadership highlights</p>
-          <ul className="list-disc pl-5 space-y-1 text-sm">
-            <li>Product-led operating model and portfolio governance</li>
-            <li>Post‑M&A platform consolidation and integration alignment</li>
-            <li>KPI frameworks and executive dashboards (velocity, throughput, SLA)</li>
-            <li>Platform and vendor rationalization (CRM, portal, ServiceNow, cloud)</li>
-            <li>Talent development and capability taxonomy for high‑performance teams</li>
-          </ul>
-        </div>
   {/* Category Filter */}
         <div className="mb-8">
           <div className="flex flex-wrap gap-2">
