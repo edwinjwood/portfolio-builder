@@ -236,7 +236,7 @@ export default function Projects() {
       <div className="max-w-3xl mx-auto py-12 px-4">
         <h1 className="text-3xl font-bold mb-6 text-gray-800 dark:text-gray-100">Major Projects</h1>
         <p className="mb-8 text-gray-700 dark:text-gray-300 text-sm sm:text-base leading-relaxed">
-          In addition to the projects below, I have led and contributed to other enterprise initiatives including platform consolidation, integration patterns, modernization, and cross-functional process improvement. These selected efforts reflect breadth across operating model, product delivery, migration, and integration domains.
+          In addition to the projects below, I have led and contributed to other enterprise initiatives including platform consolidation, integration patterns, modernization, and cross-functional process improvement. Many of these outcomes were delivered by leading and collaborating with cross-functional teams. These selected efforts reflect breadth across operating model, product delivery, migration, and integration domains.
         </p>
         {/* Category Filter */}
         <div className="mb-8">

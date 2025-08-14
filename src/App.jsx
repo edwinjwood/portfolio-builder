@@ -32,9 +32,9 @@ function Resume() {
           </p>
         </section>
 
-        {/* Core Competencies */}
+        {/* Core Competencies & Leadership Skills */}
         <section className="mb-8">
-          <h3 className="text-xl font-semibold text-gray-700 dark:text-gray-200 mb-3">Core Competencies</h3>
+          <h3 className="text-xl font-semibold text-gray-700 dark:text-gray-200 mb-3">Core Competencies & Leadership Skills</h3>
           <div className="space-y-4 text-sm text-gray-700 dark:text-gray-300">
             <div>
               <p className="font-semibold text-gray-800 dark:text-gray-200 mb-1">Strategy & Operating Model</p>
@@ -46,7 +46,7 @@ function Resume() {
             </div>
             <div>
               <p className="font-semibold text-gray-800 dark:text-gray-200 mb-1">Transparency, Data & Tooling</p>
-              <p>Jira / Azure DevOps architecture, KPI engineering, exec dashboards (velocity, throughput, SLA), data quality / taxonomy stewardship.</p>
+              <p>Jira / Azure DevOps architecture, KPI engineering, executive dashboards (velocity, throughput, SLA), data quality / taxonomy stewardship.</p>
             </div>
             <div>
               <p className="font-semibold text-gray-800 dark:text-gray-200 mb-1">Platform & Vendor Strategy</p>
