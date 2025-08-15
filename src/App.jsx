@@ -1,6 +1,7 @@
 
 import './App.css';
 import { HashRouter as Router, Routes, Route, NavLink, Link, useLocation } from 'react-router-dom';
+import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import React, { useState, useEffect, Suspense } from 'react';
 import headshotUrl from '../assets/Headshot.png';
 const Projects = React.lazy(() => import('./Projects'));
@@ -8,7 +9,7 @@ const Resume = React.lazy(() => import('./Resume'));
 
 function HomeCard() {
   return (
-    <main id="content" className="bg-gray-50 dark:bg-gray-900 min-h-screen grid place-items-center font-sans text-gray-900 dark:text-gray-100">
+    <main id="content" className="bg-gray-50 dark:bg-gray-900 min-h-[calc(100svh-56px)] grid place-items-center font-sans text-gray-900 dark:text-gray-100">
       <div className="w-full px-4 flex justify-center">
   <div className="relative w-full max-w-[560px] aspect-[7/4] rounded-[14px] border border-gray-200 dark:border-gray-800 bg-white/90 dark:bg-gray-900/75 backdrop-blur shadow-xl overflow-hidden paper-texture paper-card">
           {/* Click-through overlay to open resume */}
@@ -19,16 +20,30 @@ function HomeCard() {
             <Link to="/projects" className="text-xs px-3 py-1.5 rounded-md border border-brand-600 text-brand-700 dark:text-brand-300 hover:bg-brand-50/60 dark:hover:bg-gray-800">Projects</Link>
           </div>
 
-          {/* Bottom content (photo + text); on desktop, center vertically and right-align text */}
-          <div className="absolute inset-x-4 bottom-4 z-10 sm:inset-0 sm:px-6 sm:flex sm:items-center sm:justify-start">
+          {/* Mobile layout: avatar top-left, text centered */}
+          <div className="absolute top-3 left-3 z-20 sm:hidden">
+            <div className="shrink-0 rounded-full p-[2px] ring-2 ring-brand-500/60 bg-gray-50 dark:bg-gray-900">
+              <img src={headshotUrl} alt="Edwin J. Wood headshot" className="block h-16 w-16 rounded-full object-cover" />
+            </div>
+          </div>
+          <div className="absolute inset-0 px-6 grid place-items-center text-center z-10 sm:hidden">
+            <div className="min-w-0">
+              <h1 className="text-xl font-extrabold tracking-tight">Edwin J. Wood</h1>
+              <p className="mt-1 text-xs text-gray-600 dark:text-gray-300">Technology & Platform Transformation Leader</p>
+              <div className="mt-2 text-[11px] text-gray-500 dark:text-gray-400">Columbia, SC · <a href="mailto:edwinjwood@gmail.com" className="hover:underline">edwinjwood@gmail.com</a></div>
+            </div>
+          </div>
+
+          {/* Desktop/tablet layout: side-by-side, left-aligned */}
+          <div className="hidden sm:absolute sm:inset-0 sm:px-6 sm:flex sm:items-center sm:justify-start">
             <div className="flex items-center gap-4 sm:gap-5">
               <div className="shrink-0 rounded-full p-[2px] ring-2 ring-brand-500/60 bg-gray-50 dark:bg-gray-900">
-                <img src={headshotUrl} alt="Edwin J. Wood headshot" className="block h-20 w-20 sm:h-24 sm:w-24 rounded-full object-cover" />
+                <img src={headshotUrl} alt="Edwin J. Wood headshot" className="block h-24 w-24 rounded-full object-cover" />
               </div>
               <div className="min-w-0">
-                <h1 className="text-xl sm:text-2xl font-extrabold tracking-tight">Edwin J. Wood</h1>
-                <p className="mt-1 text-xs sm:text-sm text-gray-600 dark:text-gray-300">Technology & Platform Transformation Leader</p>
-                <div className="mt-2 text-[11px] sm:text-xs text-gray-500 dark:text-gray-400">Columbia, SC · <a href="mailto:edwinjwood@gmail.com" className="hover:underline">edwinjwood@gmail.com</a></div>
+                <h1 className="text-2xl font-extrabold tracking-tight">Edwin J. Wood</h1>
+                <p className="mt-1 text-sm text-gray-600 dark:text-gray-300">Technology & Platform Transformation Leader</p>
+                <div className="mt-2 text-xs text-gray-500 dark:text-gray-400">Columbia, SC · <a href="mailto:edwinjwood@gmail.com" className="hover:underline">edwinjwood@gmail.com</a></div>
               </div>
             </div>
           </div>
@@ -40,6 +55,7 @@ function HomeCard() {
 
 function Shell() {
   const location = useLocation();
+  const prefersReduced = useReducedMotion();
   const [dark, setDark] = useState(() => {
     try { return localStorage.getItem('dark') === 'true'; } catch(e) { return false; }
   });
@@ -53,7 +69,7 @@ function Shell() {
   return (
     <>
       <a href="#content" className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 bg-brand-600 text-white px-3 py-2 rounded">Skip to content</a>
-      <nav className="bg-white/90 dark:bg-gray-900/70 backdrop-blur border-b border-gray-200 dark:border-gray-800 shadow-sm py-4 mb-8 transition-colors">
+  <nav className="bg-white/90 dark:bg-gray-900/70 backdrop-blur border-b border-gray-200 dark:border-gray-800 shadow-sm py-4 mb-2 sm:mb-8 transition-colors">
         <div className="max-w-3xl mx-auto flex gap-6 px-4 items-center">
           <div className="flex gap-4">
             <NavLink to="/" end className={({isActive}) => `font-semibold transition ${isActive ? 'text-brand-600 dark:text-brand-500' : 'text-gray-700 dark:text-gray-300 hover:text-brand-600'}`} aria-current={({isActive}) => isActive ? 'page' : undefined}>Home</NavLink>
@@ -76,12 +92,22 @@ function Shell() {
           </div>
         </div>
       </nav>
-      <Routes>
-        <Route path="/" element={<HomeCard />} />
-        <Route path="/resume" element={<Suspense fallback={<div className='px-4'>Loading…</div>}><Resume /></Suspense>} />
-        <Route path="/projects" element={<Suspense fallback={<div className='px-4'>Loading…</div>}><Projects /></Suspense>} />
-      </Routes>
-      <footer className="text-center text-xs text-gray-500 dark:text-gray-400 pb-6 mt-8 opacity-90">© {new Date().getFullYear()} Edwin J. Wood</footer>
+      <AnimatePresence mode="wait" initial={false}>
+        <motion.div
+          key={location.pathname}
+          initial={{ opacity: 0, y: prefersReduced ? 0 : 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: prefersReduced ? 0 : -6 }}
+          transition={{ duration: prefersReduced ? 0 : 0.25, ease: 'easeOut' }}
+        >
+          <Routes location={location}>
+            <Route path="/" element={<HomeCard />} />
+            <Route path="/resume" element={<Suspense fallback={<div className='px-4'>Loading…</div>}><Resume /></Suspense>} />
+            <Route path="/projects" element={<Suspense fallback={<div className='px-4'>Loading…</div>}><Projects /></Suspense>} />
+          </Routes>
+        </motion.div>
+      </AnimatePresence>
+  <footer className="text-center text-xs text-gray-500 dark:text-gray-400 pb-6 mt-4 sm:mt-8 opacity-90">© {new Date().getFullYear()} Edwin J. Wood</footer>
     </>
   );
 }
