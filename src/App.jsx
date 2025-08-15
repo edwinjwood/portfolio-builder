@@ -2,10 +2,10 @@
 import './App.css';
 import { HashRouter as Router, Routes, Route, NavLink, Link, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
-import React, { useState, useEffect, Suspense } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import headshotUrl from '../assets/Headshot.png';
-const Projects = React.lazy(() => import('./Projects'));
-const Resume = React.lazy(() => import('./Resume'));
+import Projects from './Projects';
+import Resume from './Resume';
 
 function HomeCard() {
   return (
@@ -56,6 +56,7 @@ function HomeCard() {
 function Shell() {
   const location = useLocation();
   const prefersReduced = useReducedMotion();
+  const firstRenderRef = useRef(true);
   const [dark, setDark] = useState(() => {
     try { return localStorage.getItem('dark') === 'true'; } catch(e) { return false; }
   });
@@ -63,6 +64,7 @@ function Shell() {
     const root = document.documentElement;
     if (dark) root.classList.add('dark'); else root.classList.remove('dark');
   }, [dark]);
+  useEffect(() => { firstRenderRef.current = false; }, []);
 
   const showExport = location.pathname === '/resume';
 
@@ -95,15 +97,15 @@ function Shell() {
       <AnimatePresence mode="wait" initial={false}>
         <motion.div
           key={location.pathname}
-          initial={{ opacity: 0, y: prefersReduced ? 0 : 8 }}
+          initial={firstRenderRef.current ? false : { opacity: 0, y: prefersReduced ? 0 : 8 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: prefersReduced ? 0 : -6 }}
           transition={{ duration: prefersReduced ? 0 : 0.25, ease: 'easeOut' }}
         >
           <Routes location={location}>
             <Route path="/" element={<HomeCard />} />
-            <Route path="/resume" element={<Suspense fallback={<div className='px-4'>Loading…</div>}><Resume /></Suspense>} />
-            <Route path="/projects" element={<Suspense fallback={<div className='px-4'>Loading…</div>}><Projects /></Suspense>} />
+            <Route path="/resume" element={<Resume />} />
+            <Route path="/projects" element={<Projects />} />
           </Routes>
         </motion.div>
       </AnimatePresence>
