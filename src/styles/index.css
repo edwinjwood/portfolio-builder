@@ -1,0 +1,18 @@
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Print stylesheet for clean PDF export */
+@media print {
+	nav, footer, button, a[href^='#'] { display: none !important; }
+	body { background: #fff !important; color: #000 !important; }
+	main { box-shadow: none !important; padding-top: 0 !important; }
+	a { color: #000 !important; text-decoration: none; }
+	ul { margin-top: 0.25rem; }
+}
+
+/* Global background to prevent white footer / gaps in dark mode */
+html, body { background-color: #f9fafb; color: #111827; }
+.dark html, .dark body { background-color: #111827; color: #f3f4f6; }
+/* ...existing index.css content... */
