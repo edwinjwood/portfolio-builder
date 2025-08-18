@@ -89,13 +89,14 @@ GitHub Pages can’t serve SPA history routes. HashRouter keeps the path client-
 | Area | Where | Notes |
 |------|-------|-------|
 | Resume content | `src/Resume.jsx` | Replace sections / bullet points |
-| Home business card | `src/App.jsx` | Edit HomeCard (name, subtitle, layout) |
-| Projects list | src/Projects.jsx | Edit the projects array |
+| Home business card | `src/components/App.jsx` | Edit HomeCard (name, subtitle, layout) |
+| Projects list | `src/components/Projects.jsx` | Edit the projects array or update `src/data/projects.json` |
+| Home card data | `src/data/homecard.json` | Update the JSON file for home card details |
 | Styles / Theme | tailwind.config.js, index.css | Extend colors, fonts, etc. |
-| Card texture | `src/App.css` | Tweak `.paper-texture` / `.paper-card` or remove |
+| Card texture | `src/styles/App.css` | Tweak `.paper-texture` / `.paper-card` or remove |
 | Favicon | vite.svg | Replace file + link tag |
 | SEO Meta | index.html | Update title + description |
-| Navigation | `src/App.jsx` | Add `Link` + `Route` |
+| Navigation | `src/components/App.jsx` | Add `Link` + `Route` |
 | Deployment msg | deploy.ps1 | Adjust commit message template |
 
 Dark mode: add `darkMode: 'class'` to tailwind config, toggle `classList` on the html element.
@@ -114,19 +115,6 @@ Behavior notes
 - Export PDF button is shown on the Resume page only (hidden on Home and Projects).
 - The Home card is fully clickable (opens Resume) and includes quick links in the top-right.
 
-
----
-
-## 🔧 Troubleshooting
-
-| Symptom | Cause | Fix |
-|---------|-------|-----|
-| Empty production index.html | Built file copied over source earlier | Restore dev index.html (script tag to /src/main.jsx) then rebuild |
-| Dev server points at built bundle | index.html was not restored to dev template | Copy index.dev.html over index.html (or re-run deploy.ps1 which restores it) |
-| Old content after deploy | Browser / Pages cache | Hard refresh (Ctrl+F5) or wait 1–2 min |
-| 404 on deep route (no hash) | Switched to BrowserRouter on Pages | Use HashRouter or move hosting |
-| Tailwind classes missing | Purge misconfig / missing directives | Ensure @tailwind base; components; utilities; in index.css |
-| Home headshot not showing | Wrong image path | Replace the file at `assets/Headshot.png` or update the import in `src/App.jsx` |
 
 ---
 
