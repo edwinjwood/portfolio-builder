@@ -4,12 +4,13 @@ import { HashRouter as Router, Routes, Route, NavLink, Link, useLocation } from 
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import React, { useState, useEffect, useRef } from 'react';
 import headshotUrl from '../assets/Headshot.png';
+import viteLogo from '/vite.svg';
 import Projects from './Projects';
 import Resume from './Resume';
 
 function HomeCard() {
   return (
-    <main id="content" className="bg-gray-50 dark:bg-gray-900 min-h-[calc(100svh-56px)] grid place-items-center font-sans text-gray-900 dark:text-gray-100">
+    <main id="content" className="w-full h-full grid place-items-center font-sans text-gray-900 dark:text-gray-100">
       <div className="w-full px-4 flex justify-center">
   <div className="relative w-full max-w-[560px] aspect-[7/4] rounded-[14px] border border-gray-200 dark:border-gray-800 bg-white/90 dark:bg-gray-900/75 backdrop-blur shadow-xl overflow-hidden paper-texture paper-card">
           {/* Click-through overlay to open resume */}
@@ -69,7 +70,7 @@ function Shell() {
   const showExport = location.pathname === '/resume';
 
   return (
-    <>
+    <div className="min-h-screen flex flex-col">
       <a href="#content" className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 bg-brand-600 text-white px-3 py-2 rounded">Skip to content</a>
   <nav className="bg-white/90 dark:bg-gray-900/70 backdrop-blur border-b border-gray-200 dark:border-gray-800 shadow-sm py-4 mb-2 sm:mb-8 transition-colors">
         <div className="max-w-3xl mx-auto flex gap-6 px-4 items-center">
@@ -83,9 +84,7 @@ function Shell() {
             {showExport && (
               <button
                 onClick={() => window.print()}
-                className="text-xs px-3 py-1 rounded font-medium border border-brand-600 text-brand-600 bg-white/60 backdrop-blur
-                           hover:bg-brand-600 hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2 focus-visible:ring-offset-white
-                           dark:border-brand-400 dark:text-brand-300 dark:bg-gray-800/70 dark:hover:bg-brand-500 dark:hover:text-gray-900 dark:focus-visible:ring-offset-gray-900 transition"
+                className="text-xs px-3 py-1 rounded font-medium border border-brand-600 text-brand-600 bg-white/60 backdrop-blur hover:bg-brand-600 hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:border-brand-400 dark:text-brand-300 dark:bg-gray-800/70 dark:hover:bg-brand-500 dark:hover:text-gray-900 dark:focus-visible:ring-offset-gray-900 transition"
                 aria-label="Export PDF (Print)"
               >
                 Export PDF
@@ -101,6 +100,7 @@ function Shell() {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: prefersReduced ? 0 : -6 }}
           transition={{ duration: prefersReduced ? 0 : 0.25, ease: 'easeOut' }}
+          className="flex-1 grid place-items-center"
         >
           <Routes location={location}>
             <Route path="/" element={<HomeCard />} />
@@ -109,8 +109,29 @@ function Shell() {
           </Routes>
         </motion.div>
       </AnimatePresence>
-  <footer className="text-center text-xs text-gray-500 dark:text-gray-400 pb-6 mt-4 sm:mt-8 opacity-90">© {new Date().getFullYear()} Edwin J. Wood</footer>
-    </>
+      <footer className="text-center text-xs text-gray-500 dark:text-gray-400 pb-6 mt-4 sm:mt-8 opacity-90">
+        <div>© {new Date().getFullYear()} Edwin J. Wood</div>
+        <div className="mt-2 flex items-center justify-center gap-2">
+                    <span className="opacity-90">Built With:</span>
+          <span className="inline-flex items-center" aria-label="React" title="React">
+            <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="2.2" />
+              <ellipse cx="12" cy="12" rx="10" ry="4.5" />
+              <ellipse cx="12" cy="12" rx="10" ry="4.5" transform="rotate(60 12 12)" />
+              <ellipse cx="12" cy="12" rx="10" ry="4.5" transform="rotate(120 12 12)" />
+            </svg>
+          </span>
+          <span className="opacity-60">+</span>
+          <img src={viteLogo} alt="Vite" className="h-4 w-4" title="Vite" />
+          <span className="opacity-60">+</span>
+          <span className="inline-flex items-center" aria-label="Tailwind CSS" title="Tailwind CSS">
+            <svg className="h-4 w-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M11.5 6.5c-2.3 0-3.8 1.2-4.5 3.6C6.5 12 5.4 13 3.5 13c-1 0-1.8-.3-2.3-.9.7 2.2 2.1 3.4 4.1 3.4 2.3 0 3.8-1.2 4.5-3.6.5-1.6 1.5-2.4 3-2.4 1.1 0 1.9.3 2.4.9.1-2.2-1.2-3.9-3.7-3.9zM20.5 8.5c-2.3 0-3.8 1.2-4.5 3.6-.5 1.6-1.5 2.4-3 2.4-1.1 0-1.9-.3-2.4-.9-.1 2.2 1.2 3.9 3.7 3.9 2.3 0 3.8-1.2 4.5-3.6.5-1.6 1.5-2.4 3-2.4 1.1 0 1.9.3 2.4.9.1-2.2-1.2-3.9-3.7-3.9z" />
+            </svg>
+          </span>
+        </div>
+      </footer>
+    </div>
   );
 }
 
