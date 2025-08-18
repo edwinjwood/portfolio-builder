@@ -93,7 +93,6 @@ GitHub Pages can’t serve SPA history routes. HashRouter keeps the path client-
 | Projects list | `src/components/Projects.jsx` | Edit the projects array or update `src/data/projects.json` |
 | Home card data | `src/data/homecard.json` | Update the JSON file for home card details |
 | Styles / Theme | tailwind.config.js, index.css | Extend colors, fonts, etc. |
-| Card texture | `src/styles/App.css` | Tweak `.paper-texture` / `.paper-card` or remove |
 | Favicon | vite.svg | Replace file + link tag |
 | SEO Meta | index.html | Update title + description |
 | Navigation | `src/components/App.jsx` | Add `Link` + `Route` |
