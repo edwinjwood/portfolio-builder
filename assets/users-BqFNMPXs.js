@@ -1,0 +1,1 @@
+const e=[{id:"00000000-0000-0000-0000-000000000001",email:"demo@example.com",name:"Demo User",passwordHash:"5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8",createdAt:"2024-01-01T00:00:00.000Z"}];export{e as default};
