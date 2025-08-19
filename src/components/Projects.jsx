@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
-import projects from '../data/projects.json';
+import projectsData from '../data/projects.json';
 
 export default function Projects() {
-	// Category derivation with defined ordering and counts
 	const CATEGORY_ORDER = [
 		"Operating Model",
 		"M&A Integration",
@@ -15,6 +14,8 @@ export default function Projects() {
 		"Strategy",
 	];
 	const [activeCategory, setActiveCategory] = useState("All");
+	const projects = projectsData.items;
+	const summary = projectsData.summary;
 
 	const counts = React.useMemo(() => {
 		const map = {};
@@ -22,7 +23,7 @@ export default function Projects() {
 			p.categories.forEach((c) => (map[c] = (map[c] || 0) + 1));
 		});
 		return map;
-	}, []);
+	}, [projects]);
 
 	const categories = React.useMemo(
 		() => ["All", ...CATEGORY_ORDER.filter((c) => counts[c])],
@@ -78,9 +79,12 @@ export default function Projects() {
 		<main className="bg-gray-50 dark:bg-gray-900 min-h-screen font-sans text-gray-900 dark:text-gray-100 transition-colors">
 			<div className="max-w-3xl mx-auto py-12 px-4">
 				<h1 className="text-3xl font-bold mb-6 text-gray-800 dark:text-gray-100">Major Projects</h1>
-				<p className="mb-8 text-gray-700 dark:text-gray-300 text-sm sm:text-base leading-relaxed">
-					In addition to the projects below, I’ve led and collaborated across teams on enterprise initiatives—from product‑led operating model shifts and post‑M&A platform consolidation to KPI transparency, vendor rationalization, and modernization. These selections reflect breadth across operating model, product delivery, migration, and integration domains.
-				</p>
+				   {/* Projects summary section */}
+				   <section className="mb-8">
+					   <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6 flex flex-col items-center justify-center min-h-[120px]">
+						   <span className="text-gray-700 dark:text-gray-300 text-sm text-center">{summary}</span>
+					   </div>
+				   </section>
 	{/* Category Filter */}
 				<div className="mb-8">
 					<div className="flex flex-wrap gap-2">

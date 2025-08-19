@@ -1,0 +1,9 @@
+{
+  "title": "Your Name",
+  "subtitle": "Your Tagline / Role",
+  "description": "City, ST · you@example.com",
+  "links": [
+    { "label": "Resume", "to": "/resume" },
+    { "label": "Projects", "to": "/projects" }
+  ]
+}

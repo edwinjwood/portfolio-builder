@@ -1,0 +1,26 @@
+{
+  "header": {
+    "name": "Your Name",
+    "title": "Your Role / Title",
+    "location": "City, ST",
+    "phone": "555.555.5555",
+    "email": "you@example.com",
+    "linkedin": "https://linkedin.com/in/your-profile"
+  },
+  "summary": "Brief professional summary describing your focus, strengths, and the value you bring.",
+  "competencies": [
+    { "heading": "Strategy & Operating Model", "text": "Product-led transformation; cross-functional pods; roadmap planning." }
+  ],
+  "experience": [
+    {
+      "company": "Company Name",
+      "location": "City, ST",
+      "period": "2019–Present",
+      "roles": [ { "title": "Director of Product", "period": "2022–Present" } ],
+      "bullets": ["Shifted teams to a product-led structure improving focus and delivery cadence."]
+    }
+  ],
+  "education": [
+    { "institution": "University Name", "location": "City, ST", "degree": "B.S. Field", "details": "Honors/notes" }
+  ]
+}

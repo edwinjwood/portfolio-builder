@@ -1,9 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import headshotUrl from '../assets/Headshot.png';
-import homecardData from '../data/homecard.json';
+import virtualBCData from '../data/virtualBC.json';
 
-function HomeCard() {
+function LandingCard({ data }) {
+  const d = data || virtualBCData;
   return (
     <main id="content" className="w-full h-full grid place-items-center font-sans text-gray-900 dark:text-gray-100">
       <div className="w-full px-4 flex justify-center">
@@ -23,9 +24,9 @@ function HomeCard() {
           </div>
           <div className="absolute inset-0 px-6 grid place-items-center text-center z-10 sm:hidden">
             <div className="min-w-0">
-              <h1 className="text-xl font-extrabold tracking-tight">{homecardData.title}</h1>
-              <p className="mt-1 text-xs text-gray-600 dark:text-gray-300">{homecardData.subtitle}</p>
-              <div className="mt-2 text-[11px] text-gray-500 dark:text-gray-400">{homecardData.description}</div>
+              <h1 className="text-xl font-extrabold tracking-tight">{d.title}</h1>
+              <p className="mt-1 text-xs text-gray-600 dark:text-gray-300">{d.subtitle}</p>
+              <div className="mt-2 text-[11px] text-gray-500 dark:text-gray-400">{d.description}</div>
             </div>
           </div>
           {/* Desktop/tablet layout: side-by-side, left-aligned */}
@@ -35,9 +36,9 @@ function HomeCard() {
                 <img src={headshotUrl} alt="Headshot" className="block h-24 w-24 rounded-full object-cover" />
               </div>
               <div className="min-w-0">
-                <h1 className="text-2xl font-extrabold tracking-tight">{homecardData.title}</h1>
-                <p className="mt-1 text-sm text-gray-600 dark:text-gray-300">{homecardData.subtitle}</p>
-                <div className="mt-2 text-xs text-gray-500 dark:text-gray-400">{homecardData.description}</div>
+                <h1 className="text-2xl font-extrabold tracking-tight">{d.title}</h1>
+                <p className="mt-1 text-sm text-gray-600 dark:text-gray-300">{d.subtitle}</p>
+                <div className="mt-2 text-xs text-gray-500 dark:text-gray-400">{d.description}</div>
               </div>
             </div>
           </div>
@@ -47,4 +48,4 @@ function HomeCard() {
   );
 }
 
-export default HomeCard;
+export default LandingCard;

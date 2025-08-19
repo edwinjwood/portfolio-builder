@@ -1,29 +1,32 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 import { useLocation, Routes, Route } from 'react-router-dom';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
-import HomeCard from '../components/HomeCard';
-import Projects from '../components/Projects';
+import Home from '../components/Home';
+import Login from '../components/Login';
+import Signup from '../components/Signup';
+import TemplateGallery from '../components/TemplateGallery';
+import TemplateDemoShell from '../components/TemplateDemoShell';
+import LandingCard from '../components/LandingCard';
 import Resume from '../components/Resume';
+import ProjectsSimple from '../components/ProjectsSimple';
+import TemplatePreview from '../components/TemplatePreview';
+import classic from '../templates/classic';
 import Footer from '../components/Footer';
 import NavBar from '../components/NavBar';
+import Pricing from '../components/Pricing';
 
 function Shell() {
   const location = useLocation();
   const prefersReduced = useReducedMotion();
   const firstRenderRef = useRef(true);
-  const [dark, setDark] = useState(() => {
-    try { return localStorage.getItem('dark') === 'true'; } catch(e) { return false; }
-  });
-  useEffect(() => {
-    const root = document.documentElement;
-    if (dark) root.classList.add('dark'); else root.classList.remove('dark');
-  }, [dark]);
-  useEffect(() => { firstRenderRef.current = false; }, []);
+
+  const isPreview = location.pathname.startsWith('/preview/');
+  const isDemo = location.pathname.startsWith('/demo/');
 
   return (
     <div className="min-h-screen flex flex-col">
       <a href="#content" className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 bg-brand-600 text-white px-3 py-2 rounded">Skip to content</a>
-      <NavBar dark={dark} setDark={setDark} />
+      {!isPreview && !isDemo && <NavBar />}
       <AnimatePresence mode="wait" initial={false}>
         <motion.div
           key={location.pathname}
@@ -31,16 +34,28 @@ function Shell() {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: prefersReduced ? 0 : -6 }}
           transition={{ duration: prefersReduced ? 0 : 0.25, ease: 'easeOut' }}
-          className="flex-1 grid place-items-center"
+          className={(!isPreview && !isDemo) ? "flex-1 grid place-items-center" : "flex-1 w-full"}
         >
           <Routes location={location}>
-            <Route path="/" element={<HomeCard />} />
-            <Route path="/resume" element={<Resume />} />
-            <Route path="/projects" element={<Projects />} />
+            <Route path="/" element={<Home />} />
+            <Route path="/portfolio-preview" element={<TemplateGallery />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/pricing" element={<Pricing />} />
+            {/* Standalone template preview route (unbranded) */}
+            <Route path="/preview/:id" element={<TemplatePreview />} />
+            {/* Full demo experience routes (unbranded, new-tab friendly) */}
+            <Route path="/demo/:id" element={<TemplateDemoShell view="landing" />} />
+            <Route path="/demo/:id/resume" element={<TemplateDemoShell view="resume" />} />
+            <Route path="/demo/:id/projects" element={<TemplateDemoShell view="projects" />} />
+            {/* Classic template preview routes */}
+            <Route path="/virtual-bc" element={<LandingCard data={classic.defaults.landing} variant="classic" />} />
+            <Route path="/resume" element={<Resume data={classic.defaults.resume} />} />
+            <Route path="/projects" element={<ProjectsSimple data={classic.defaults.projects} />} />
           </Routes>
         </motion.div>
       </AnimatePresence>
-      <Footer />
+      {!isPreview && !isDemo && <Footer />}
     </div>
   );
 }

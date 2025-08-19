@@ -1,0 +1,10 @@
+{
+  "items": [
+    {
+      "title": "Project Title",
+      "summary": "Short one-line description.",
+      "tech": ["React", "API"],
+      "links": [{ "label": "GitHub", "href": "#" }]
+    }
+  ]
+}

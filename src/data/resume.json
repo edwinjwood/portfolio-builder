@@ -1,0 +1,46 @@
+{
+	"header": {
+		"name": "Your Name",
+		"title": "Your Role / Title",
+		"location": "City, ST",
+		"phone": "555.555.5555",
+		"email": "you@example.com",
+		"linkedin": "https://linkedin.com/in/your-profile"
+	},
+	"summary": "Brief professional summary describing your focus, strengths, and the value you bring. Keep this 3-5 sentences and results-oriented.",
+	"competencies": [
+		{ "heading": "Strategy & Operating Model", "text": "Product-led transformation; cross-functional pods; multi-year roadmap planning; continuous improvement." },
+		{ "heading": "Portfolio & Investment Governance", "text": "Prioritization frameworks; benefits realization; roadmap → epic → work item traceability." },
+		{ "heading": "Transparency, Data & Tooling", "text": "Jira/Azure DevOps taxonomy; KPI design; executive dashboards; data stewardship." },
+		{ "heading": "Platform & Vendor Strategy", "text": "Platform rationalization; contract optimization; identity & access modernization (OAuth2/MFA)." },
+		{ "heading": "Metrics & Performance", "text": "Cycle time, velocity, cost per feature, SLA adherence; benchmarking & continuous improvement." },
+		{ "heading": "Talent & Enablement", "text": "Capability taxonomy; coaching frameworks; succession readiness; high-performance culture." }
+	],
+	"experience": [
+		{
+			"company": "Company Name",
+			"location": "City, ST",
+			"period": "2019–Present",
+			"roles": [
+				{ "title": "Director of Product", "period": "2022–Present" },
+				{ "title": "Product Manager", "period": "2019–2022" }
+			],
+			"bullets": [
+				"Shifted teams to a product-led structure improving focus and delivery cadence.",
+				"Established unified tooling taxonomy and dashboards for portfolio visibility.",
+				"Introduced prioritization lifecycle from business case through benefits review.",
+				"Consolidated overlapping platforms to reduce redundancy and fund modernization.",
+				"Embedded throughput/cycle time KPIs into planning and review cadences.",
+				"Developed a capability taxonomy improving role clarity and growth paths."
+			]
+		}
+	],
+	"education": [
+		{
+			"institution": "University Name",
+			"location": "City, ST",
+			"degree": "B.S. in Field of Study",
+			"details": "Coursework or honors (optional)."
+		}
+	]
+}
