@@ -218,6 +218,8 @@ if ($mainHash -and $mainHash -ne $devHashBefore) {
 	Write-Host "Dev already up to date with main." -ForegroundColor DarkGray
 }
 
+Write-Host "Deployment pushed to main." -ForegroundColor Green
+
 # Restore dev index (overwrites production version pulled from main) for local development convenience
 if (Test-Path './index.dev.html') {
 	Copy-Item -Path ./index.dev.html -Destination ./index.html -Force
