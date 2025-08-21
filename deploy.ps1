@@ -95,6 +95,7 @@ function Assert-Success($Message) {
  	Assert-Success "Failed to pull latest dev changes."
  }
 
+
 Write-Host "Building production bundle..." -ForegroundColor Cyan
 npm run build
 Assert-Success "Build failed. Aborting deployment."
@@ -104,8 +105,20 @@ if (-not (Test-Path 'dist/index.html')) {
 	exit 1
 }
 
-# Purge build artifacts from assets except for logo images before deploy
-Get-ChildItem "$PSScriptRoot\assets" | Where-Object { $_.Name -notlike '*.png' -and $_.Name -notlike '*.svg' } | Remove-Item -Force
+# Copy latest build output to project root
+Write-Host "Copying dist/index.html to ./index.html..." -ForegroundColor Cyan
+Copy-Item -Path 'dist/index.html' -Destination './index.html' -Force
+Write-Host "Copying dist/assets/* to ./assets/..." -ForegroundColor Cyan
+if (Test-Path './assets') {
+	Remove-Item './assets/*' -Recurse -Force
+} else {
+	New-Item -ItemType Directory -Path './assets' | Out-Null
+}
+Copy-Item -Path 'dist/assets/*' -Destination './assets/' -Recurse -Force
+if (Test-Path 'dist/vite.svg') {
+	Write-Host "Copying dist/vite.svg to ./vite.svg..." -ForegroundColor Cyan
+	Copy-Item -Path 'dist/vite.svg' -Destination './vite.svg' -Force
+}
 
 # Switch to main and integrate dev changes if needed
 git checkout main
