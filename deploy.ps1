@@ -66,6 +66,42 @@ function Assert-Success($Message) {
  	}
  }
 
+# Ensure a dev template exists for 404.html
+if (-not (Test-Path './404.dev.html')) {
+ Write-Host 'Creating 404.dev.html template (dev entry point)...' -ForegroundColor DarkGray
+ @'
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width,initial-scale=1" />
+		<title>404 – Not Found</title>
+		<meta name="description" content="Page not found." />
+		<link rel="icon" type="image/svg+xml" href="/vite.svg" />
+		<script>
+			try { const d = localStorage.getItem('dark'); if(d==='true'){ document.documentElement.classList.add('dark'); } } catch(e){}
+		</script>
+		<script type="application/ld+json">
+		{ "@context": "https://schema.org", "@type": "WebPage", "name": "404 – Not Found" }
+		</script>
+	</head>
+	<body>
+		<div id="root"></div>
+		<script type="module" src="/src/main.jsx"></script>
+	</body>
+</html>
+'@ | Out-File -FilePath './404.dev.html' -Encoding UTF8 -NoNewline
+}
+
+# Copy dev template into working 404.html if the current 404.html appears to be a built artifact (heuristic: contains '/assets/index')
+if (Test-Path './404.dev.html') {
+ $needsDev404 = (Select-String -Path './404.html' -Pattern '/assets/index' -SimpleMatch -Quiet) 2>$null
+ if ($needsDev404) {
+	Write-Host 'Switching working 404.html to dev template for build context...' -ForegroundColor DarkGray
+	Copy-Item -Path ./404.dev.html -Destination ./404.html -Force
+ }
+}
+
  # Handle uncommitted changes on dev (interactive by default)
  $status = git status --porcelain
  if ($status) {
