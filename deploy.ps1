@@ -173,9 +173,9 @@ if ($mergeBase -eq $devHead) {
 
 # Copy built artifacts (index.html + assets + vite.svg). Overwrite existing.
 Write-Host "Copying build artifacts to main..." -ForegroundColor Cyan
-Copy-Item -Path .\dist\index.html -Destination .\ -Force
-Copy-Item -Path .\dist\vite.svg -Destination .\ -Force -ErrorAction SilentlyContinue
-if (Test-Path .\dist\assets) { Copy-Item -Path .\dist\assets -Destination .\ -Recurse -Force }
+Copy-Item -Path .\dist\index.html -Destination .\index.html -Force
+Copy-Item -Path .\dist\vite.svg -Destination .\vite.svg -Force -ErrorAction SilentlyContinue
+if (Test-Path .\dist\assets) { Copy-Item -Path .\dist\assets -Destination .\assets -Recurse -Force }
 
 # Create / update 404.html for SPA fallback (HashRouter safety)
 Copy-Item -Path .\dist\index.html -Destination .\404.html -Force
