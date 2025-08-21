@@ -67,33 +67,22 @@ function Assert-Success($Message) {
  }
 
 
- # Handle uncommitted changes on dev (interactive by default)
- $status = git status --porcelain
- if ($status) {
- 	if ($AutoCommit) {
- 		Write-Host "AutoCommit flag detected. Staging all changes..." -ForegroundColor Cyan
- 		git add .
- 	} else {
- 		Write-Host "Uncommitted changes found:" -ForegroundColor Yellow
- 		$status | ForEach-Object { Write-Host "  $_" }
- 		$answer = Read-Host "Commit these changes now? (Y/n)"
- 		if ($answer -match '^(n|no)$') {
- 			Write-Host "Aborting deploy so you can review changes." -ForegroundColor Red
- 			exit 1
- 		}
- 		git add .
- 	}
- 	$defaultMsg = "chore: dev updates"
- 	$commitMsg = Read-Host "Enter commit message (default: '$defaultMsg')"
- 	if (-not $commitMsg) { $commitMsg = $defaultMsg }
- 	git commit -m $commitMsg
- 	Assert-Success "Commit failed."
- }
+
+# Fully automated: auto-commit any uncommitted changes before deploy
+$status = git status --porcelain
+if ($status) {
+	Write-Host "Auto-committing all uncommitted changes on dev..." -ForegroundColor Cyan
+	git add .
+	$timestamp = Get-Date -Format 'yyyy-MM-dd HH:mm'
+	git commit -m "Auto-commit before deploy: $timestamp"
+	Assert-Success "Commit failed."
+}
 
  if (-not $SkipPull) {
  	git pull --rebase origin dev
  	Assert-Success "Failed to pull latest dev changes."
  }
+
 
 Write-Host "Building production bundle..." -ForegroundColor Cyan
 npm run build
@@ -104,10 +93,32 @@ if (-not (Test-Path 'dist/index.html')) {
 	exit 1
 }
 
-# Purge build artifacts from assets except for logo images before deploy
-Get-ChildItem "$PSScriptRoot\assets" | Where-Object { $_.Name -notlike '*.png' -and $_.Name -notlike '*.svg' } | Remove-Item -Force
+# Copy latest build output to project root
+Write-Host "Copying dist/index.html to ./index.html..." -ForegroundColor Cyan
+Copy-Item -Path 'dist/index.html' -Destination './index.html' -Force
+Write-Host "Copying dist/assets/* to ./assets/..." -ForegroundColor Cyan
+if (Test-Path './assets') {
+	Remove-Item './assets/*' -Recurse -Force
+} else {
+	New-Item -ItemType Directory -Path './assets' | Out-Null
+}
+Copy-Item -Path 'dist/assets/*' -Destination './assets/' -Recurse -Force
+if (Test-Path 'dist/vite.svg') {
+	Write-Host "Copying dist/vite.svg to ./vite.svg..." -ForegroundColor Cyan
+	Copy-Item -Path 'dist/vite.svg' -Destination './vite.svg' -Force
+}
 
 # Switch to main and integrate dev changes if needed
+
+# Fully automated: commit any uncommitted changes to index.html before switching branches
+$mainStatus = git status --porcelain
+if ($mainStatus) {
+	Write-Host "Auto-committing all uncommitted changes before switching to main..." -ForegroundColor Cyan
+	git add .
+	$timestamp = Get-Date -Format 'yyyy-MM-dd HH:mm'
+	git commit -m "Auto-commit before switching to main: $timestamp"
+	Assert-Success "Commit failed."
+}
 git checkout main
 Assert-Success "Failed to checkout main."
 if (-not $SkipPull) {
