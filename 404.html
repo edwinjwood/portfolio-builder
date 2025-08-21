@@ -1,22 +1,27 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Portfolio Builder</title>
-    <meta name="description" content="Create and customize your portfolio or resume effortlessly." />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Edwin J. Wood – Business Technology & Platform Transformation Leader</title>
+    <meta name="description" content="Business Technology leader driving product-led operating model, platform modernization, and measurable portfolio value realization." />
+    <meta property="og:title" content="Edwin J. Wood – Business Technology & Platform Transformation" />
+    <meta property="og:description" content="Product-led BT strategy, platform rationalization, KPI frameworks, and 0-to-1 product delivery." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://edwinjwood.github.io" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Edwin J. Wood – Business Technology & Platform Transformation" />
+    <meta name="twitter:description" content="Product-led BT strategy, platform rationalization, KPI frameworks, and 0-to-1 product delivery." />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <script>
-      // Apply persisted dark mode before first paint to prevent flash
-      try {
-        const d = localStorage.getItem('pb:dark');
-        if (d === 'true' || (d === null && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-          document.documentElement.classList.add('dark');
-        }
-      } catch {}
+      // Persist dark mode early
+      try { const d = localStorage.getItem('dark'); if(d==='true'){ document.documentElement.classList.add('dark'); } } catch(e){}
     </script>
-    <script type="module" crossorigin src="/assets/index-DDCMnugg.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/index-BmsCWa4P.css">
+    <script type="application/ld+json">
+{ "@context": "https://schema.org", "@type": "Person", "name": "Edwin J. Wood", "jobTitle": "Business Technology & Platform Transformation Leader", "url": "https://edwinjwood.github.io", "email": "mailto:edwinjwood@gmail.com", "sameAs": ["https://www.linkedin.com/in/edwin-j-wood"] }
+    </script>
+    <script type="module" crossorigin src="/assets/index-BYrShLJu.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-BbsMcxwL.css">
   </head>
   <body>
     <div id="root"></div>
