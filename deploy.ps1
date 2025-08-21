@@ -139,9 +139,13 @@ if ($mergeBase -eq $devHead) {
 
 # Stage and commit only source files for Railway build
 git add index.html assets vite.svg
+
 $changes = git diff --cached --name-only
 if (-not $changes) {
-	Write-Host "No deploy-related changes to commit." -ForegroundColor Yellow
+	Write-Host "No deploy-related changes to commit, but main may have new merge commits." -ForegroundColor Yellow
+	git push origin main
+	Assert-Success "Push failed."
+	Write-Host "Deployment pushed to main (merge only)." -ForegroundColor Green
 } else {
 	$timestamp = Get-Date -Format 'yyyy-MM-dd HH:mm'
 	git commit -m "Deploy: $timestamp"
