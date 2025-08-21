@@ -224,4 +224,10 @@ if (Test-Path './index.dev.html') {
 	Write-Host 'Restored development index.html (points to /src/main.jsx).' -ForegroundColor DarkGray
 }
 
+# Restore dev 404.html (overwrites production version pulled from main) for local development convenience
+if (Test-Path './404.dev.html') {
+	Copy-Item -Path ./404.dev.html -Destination ./404.html -Force
+	Write-Host 'Restored development 404.html (points to /src/main.jsx).' -ForegroundColor DarkGray
+}
+
 Write-Host "Site should update shortly at: https://edwinjwood.github.io" -ForegroundColor Green
