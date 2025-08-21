@@ -103,6 +103,9 @@ if (-not (Test-Path 'dist/index.html')) {
 	exit 1
 }
 
+# Purge build artifacts from assets except for logo images before deploy
+Get-ChildItem "$PSScriptRoot\assets" | Where-Object { $_.Name -notlike '*.png' -and $_.Name -notlike '*.svg' } | Remove-Item -Force
+
 # Switch to main and integrate dev changes if needed
 git checkout main
 Assert-Success "Failed to checkout main."

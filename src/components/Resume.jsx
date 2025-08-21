@@ -1,9 +1,12 @@
 import React from 'react';
 import defaultResume from '../data/resume.json';
+import { useAuth } from '../features/user/context/AuthContext';
 
 export default function Resume({ data }) {
   const r = data || defaultResume;
   const { header, summary, competencies, experience, education } = r;
+  const { currentUser } = useAuth();
+
   return (
     <main id="content" className="bg-gray-50 dark:bg-gray-900 min-h-screen font-sans text-gray-900 dark:text-gray-100 transition-colors">
       <div className="max-w-3xl mx-auto py-12 px-4">
@@ -48,7 +51,7 @@ export default function Resume({ data }) {
             <div key={idx} className="mb-6">
               <div className="mb-2">
                 <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-1">
-                  <span className="font-bold text-gray-800 dark:text-gray-100 tracking-tight">{exp.company}{exp.location ? ` — ${exp.location}` : ''}</span>
+                  <span className="font-bold text-gray-800 dark:text-gray-100 tracking-tight">{exp.company}{exp.location ? `  ${exp.location}` : ''}</span>
                   <span className="text-gray-500 dark:text-gray-400 text-xs sm:text-sm">{exp.period}</span>
                 </div>
                 {exp.roles?.map((r, i) => (
@@ -67,12 +70,17 @@ export default function Resume({ data }) {
           <h3 className="text-xl font-semibold text-gray-700 dark:text-gray-200 mb-2">Education</h3>
           {education?.map((ed, idx) => (
             <div key={idx} className="mb-3">
-              <span className="font-bold text-gray-800 dark:text-gray-100">{ed.institution}{ed.location ? ` — ${ed.location}` : ''}</span>
+              <span className="font-bold text-gray-800 dark:text-gray-100">{ed.institution}{ed.location ? `  ${ed.location}` : ''}</span>
               {ed.degree && <div className="text-gray-600 dark:text-gray-400 text-sm">{ed.degree}</div>}
               {ed.details && <div className="text-gray-700 dark:text-gray-300 text-sm">{ed.details}</div>}
             </div>
           ))}
         </section>
+
+        {/* Feature-gated actions removed for MVP */}
+        <div className="mt-8 flex gap-4">
+          <button className="px-4 py-2 rounded bg-brand-600 text-white hover:bg-brand-700">Export PDF</button>
+        </div>
       </div>
     </main>
   );

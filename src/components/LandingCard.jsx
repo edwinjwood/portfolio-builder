@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useTenant } from '../contexts/TenantContext';
 import defaultData from '../data/virtualBC.json';
 
 // Simple variant style map (can expand per template)
@@ -19,6 +20,7 @@ const styles = {
 };
 
 export default function LandingCard({ data, variant = 'classic', linksTo }) {
+  const { tenant } = useTenant();
   const d = data || defaultData;
   const s = styles[variant] || styles.classic;
   const resumeHref = linksTo?.resume || '/resume';
@@ -68,6 +70,8 @@ export default function LandingCard({ data, variant = 'classic', linksTo }) {
               </div>
             </div>
           </div>
+          {/* Show institution name if available */}
+          {tenant && <div className="absolute bottom-3 right-3 z-20 text-xs font-semibold text-brand-600 dark:text-brand-400">{tenant.name}</div>}
         </div>
       </div>
     </main>

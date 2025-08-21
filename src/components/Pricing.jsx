@@ -4,42 +4,44 @@ import { useAuth } from '../features/user/context/AuthContext';
 
 const plans = [
 	{
-		name: 'Basic',
-		price: 'Free',
+		name: 'Individual',
+		price: '$6/mo',
 		description:
-			'Get started with our AI-powered resume builder. Design your resume and download it as a polished PDF—no cost, no commitment.',
+			'Perfect for personal use, freelancers, and job seekers. Build your resume and portfolio, download as PDF, and get started instantly.',
 		features: [
-			'AI-powered resume builder',
+			'Resume builder',
+			'Portfolio templates',
 			'Download as PDF',
-			'No cloud publishing',
-			'No portfolio site',
+			'No team collaboration',
+			'No advanced analytics',
 		],
 		highlight: false,
 	},
 	{
-		name: 'Intermediate',
-		price: '$8/mo',
+		name: 'Team',
+		price: '$4/user/mo',
 		description:
-			'Upgrade to publish your resume online. Get a custom URL to share with employers and colleagues—perfect for a modern job search.',
+			'For small businesses, bootcamps, and training groups. Collaborate, manage multiple users, and access team analytics. Pricing is per user per month.',
 		features: [
-			'All Basic features',
-			'Publish resume to the cloud',
-			'Custom URL',
-			'No portfolio site',
+			'All Individual features',
+			'Team collaboration',
+			'User management',
+			'Basic analytics',
+			'Custom branding',
 		],
 		highlight: false,
 	},
 	{
-		name: 'Pro',
-		price: '$18/mo',
+		name: 'Enterprise',
+		price: 'Contact Us',
 		description:
-			'Unlock the full Facet experience: build a complete portfolio with a digital business card, resume, and projects page. Showcase your work, skills, and story—all in one place.',
+			'For universities, large organizations, and custom deployments. Advanced analytics, white-label branding, dedicated support, and more.',
 		features: [
-			'All Intermediate features',
-			'Digital business card',
-			'Projects page',
-			'Full portfolio site',
-			'Priority support',
+			'All Team features',
+			'Advanced analytics',
+			'White-label branding',
+			'Dedicated support',
+			'Custom integrations',
 		],
 		highlight: true,
 	},
@@ -55,7 +57,7 @@ function Pricing() {
 			navigate('/login');
 			return;
 		}
-		if (plan.name === 'Basic') {
+		if (plan.name === 'Individual') {
 			navigate('/resume');
 			return;
 		}

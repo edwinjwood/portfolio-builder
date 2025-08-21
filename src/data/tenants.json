@@ -1,0 +1,29 @@
+[
+  {
+    "id": "tenant-001",
+    "name": "University of South Carolina",
+    "domain": "sc.edu",
+    "theme": {
+      "primaryColor": "#73000A",
+      "secondaryColor": "#C10230",
+      "logoUrl": "/assets/uofsc-logo.png"
+    },
+    "features": ["resume-builder", "analytics", "white-label"],
+  "createdAt": "2025-08-20T00:00:00Z",
+  "licenseCount": 10,
+  "licensesAvailable": 8
+  },
+  {
+    "id": "tenant-002",
+    "name": "Bootcamp Academy",
+    "domain": "bootcamp.io",
+    "theme": {
+      "primaryColor": "#e91e63",
+      "logoUrl": "/assets/tenant-002-logo.png"
+    },
+    "features": ["resume-builder", "role-based-access"],
+  "createdAt": "2025-08-20T00:00:00Z",
+  "licenseCount": 5,
+  "licensesAvailable": 2
+  }
+]

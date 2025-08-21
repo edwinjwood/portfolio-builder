@@ -3,7 +3,88 @@
     "id": "00000000-0000-0000-0000-000000000001",
     "email": "demo@example.com",
     "name": "Demo User",
+    "passwordHash": "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8",
+    "createdAt": "2024-01-01T00:00:00.000Z",
+  "tenantId": "tenant-001",
+  "role": "admin",
+  "userType": "tenant",
+    "subscription": {
+      "plan": "Starter",
+      "status": "active",
+      "renewal": "2025-09-01"
+    }
+  },
+  {
+    "id": "00000000-0000-0000-0000-000000000002",
+    "email": "pro@example.com",
+    "name": "Pro User",
   "passwordHash": "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8",
-    "createdAt": "2024-01-01T00:00:00.000Z"
+    "createdAt": "2024-02-01T00:00:00.000Z",
+  "tenantId": "tenant-001",
+  "role": "user",
+  "userType": "tenant",
+    "subscription": {
+      "plan": "Professional",
+      "status": "active",
+      "renewal": "2025-09-01"
+    }
+  },
+  {
+    "id": "00000000-0000-0000-0000-000000000003",
+    "email": "elite@example.com",
+    "name": "Elite User",
+  "passwordHash": "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8",
+    "createdAt": "2024-03-01T00:00:00.000Z",
+  "tenantId": "tenant-002",
+  "role": "user",
+  "userType": "tenant",
+    "subscription": {
+      "plan": "Elite",
+      "status": "active",
+      "renewal": "2025-09-01"
+    }
+  },
+  {
+    "id": "00000000-0000-0000-0000-000000000005",
+    "email": "superadmin@platform.io",
+    "name": "Platform Superadmin",
+    "passwordHash": "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8",
+    "createdAt": "2025-08-20T00:00:00.000Z",
+    "role": "superadmin",
+    "userType": "platform",
+    "subscription": {
+      "plan": "Enterprise",
+      "status": "active",
+      "renewal": "2026-08-20"
+    }
+  },
+  {
+    "id": "00000000-0000-0000-0000-000000000004",
+    "email": "admin@bootcamp.io",
+    "name": "Bootcamp Admin",
+  "passwordHash": "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8",
+    "createdAt": "2025-08-20T00:00:00.000Z",
+    "tenantId": "tenant-002",
+    "role": "admin",
+    "userType": "tenant",
+    "subscription": {
+      "plan": "Professional",
+      "status": "active",
+      "renewal": "2026-08-20"
+    }
+  },
+  {
+    "id": "00000000-0000-0000-0000-000000000006",
+    "email": "individual@example.com",
+    "name": "Individual User",
+    "passwordHash": "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8",
+    "createdAt": "2025-08-20T00:00:00.000Z",
+    "role": "user",
+    "userType": "individual",
+    "subscription": {
+      "plan": "Free",
+      "status": "active",
+      "renewal": "2026-08-20"
+    }
   }
 ]

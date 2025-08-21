@@ -2,6 +2,7 @@ import React, { useRef } from 'react';
 import { useLocation, Routes, Route } from 'react-router-dom';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import Home from '../components/Home';
+import TenantAdminDashboard from '../components/TenantAdminDashboard';
 import Login from '../components/Login';
 import Signup from '../components/Signup';
 import TemplateGallery from '../components/TemplateGallery';
@@ -14,6 +15,8 @@ import classic from '../templates/classic';
 import Footer from '../components/Footer';
 import NavBar from '../components/NavBar';
 import Pricing from '../components/Pricing';
+import Dashboard from '../components/Dashboard';
+import AdminDashboard from '../components/AdminDashboard';
 
 function Shell() {
   const location = useLocation();
@@ -38,6 +41,9 @@ function Shell() {
         >
           <Routes location={location}>
             <Route path="/" element={<Home />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/admin" element={<AdminDashboard />} />
+            <Route path="/tenant-admin" element={<TenantAdminDashboard />} />
             <Route path="/portfolio-preview" element={<TemplateGallery />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />

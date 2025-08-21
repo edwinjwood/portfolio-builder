@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { saveDraft } from '../utils/draft';
 import { useAuth } from '../features/user/context/AuthContext';
+import { useTenant } from '../contexts/TenantContext';
 import LandingCard from './LandingCard';
 import Resume from './Resume';
 import ProjectsSimple from './ProjectsSimple';
@@ -41,6 +42,7 @@ function PreviewFrame({ width = 640, height = 400, scale = 0.35, className = '',
 }
 
 export default function TemplateGallery() {
+  const { tenant } = useTenant();
   const views = ['landing', 'resume', 'projects'];
 
   function TemplateCard({ t }) {
@@ -153,15 +155,16 @@ export default function TemplateGallery() {
 
   return (
     <main id="content" className="w-full min-h-[70vh] grid place-items-center font-sans text-gray-900 dark:text-gray-100">
-        <div className="w-full max-w-5xl px-4">
-          <h1 className="text-3xl font-bold mb-2">Portfolio Templates</h1>
-          <p className="text-gray-600 dark:text-gray-300 mb-6">Pick a starting point. You can customize everything later.</p>
-          <div className="grid gap-6">
-            {templates.map(t => (
-              <TemplateCard key={t.id} t={t} />
-            ))}
-          </div>
+      <div className="w-full max-w-5xl px-4">
+        <h1 className="text-3xl font-bold mb-2">Portfolio Templates</h1>
+        {tenant && <p className="text-brand-600 dark:text-brand-400 font-semibold mb-2">Institution: {tenant.name}</p>}
+        <p className="text-gray-600 dark:text-gray-300 mb-6">Pick a starting point. You can customize everything later.</p>
+        <div className="grid gap-6">
+          {templates.map(t => (
+            <TemplateCard key={t.id} t={t} />
+          ))}
         </div>
-      </main>
+      </div>
+    </main>
   );
 }

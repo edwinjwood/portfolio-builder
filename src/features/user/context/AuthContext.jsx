@@ -65,8 +65,8 @@ export function AuthProvider({ children }) {
 		const passwordHash = await sha256(password);
 		const user = users.find(u => u.email.toLowerCase() === email.toLowerCase() && u.passwordHash === passwordHash);
 		if (!user) throw new Error('Invalid credentials');
-		setCurrentUser({ id: user.id, email: user.email, name: user.name });
-		return { id: user.id, email: user.email, name: user.name };
+		setCurrentUser(user);
+		return user;
 	};
 
 	const logout = () => setCurrentUser(null);
