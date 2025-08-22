@@ -1,3 +1,23 @@
+// ...existing code...
+const express = require('express');
+const cors = require('cors');
+const logoUpload = require('./logoUpload');
+const jwt = require('jsonwebtoken');
+const fs = require('fs');
+const crypto = require('crypto');
+const { Pool } = require('pg');
+require('dotenv').config();
+
+const app = express();
+app.use(cors());
+app.use(express.json());
+
+app.use('/api', logoUpload);
+
+// JWT secret (use env var in production)
+const JWT_SECRET = process.env.JWT_SECRET || 'your_jwt_secret';
+const pool = new Pool({ connectionString: process.env.DATABASE_URL });
+
 // Get all users route
 app.get('/api/users', async (req, res) => {
   try {
@@ -8,7 +28,6 @@ app.get('/api/users', async (req, res) => {
     res.status(500).json({ error: 'Server error.' });
   }
 });
-// ...existing code up to first duplicate...
 const express = require('express');
 const cors = require('cors');
 const logoUpload = require('./logoUpload');
