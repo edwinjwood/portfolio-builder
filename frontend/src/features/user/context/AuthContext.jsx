@@ -62,14 +62,50 @@ export function AuthProvider({ children }) {
 	};
 
 	const login = async ({ email, password }) => {
-		const passwordHash = await sha256(password);
-		const user = users.find(u => u.email.toLowerCase() === email.toLowerCase() && u.passwordHash === passwordHash);
-		if (!user) throw new Error('Invalid credentials');
-		setCurrentUser(user);
-		return user;
+		try {
+			const res = await fetch('/api/login', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ email, password })
+			});
+			const data = await res.json();
+			if (!res.ok) throw new Error(data.error || 'Login failed');
+			// Store JWT in localStorage
+			storage.set('pb:token', data.token);
+			setCurrentUser(data.user);
+			return data.user;
+		} catch (err) {
+			throw err;
+		}
 	};
 
-	const logout = () => setCurrentUser(null);
+	const logout = () => {
+		setCurrentUser(null);
+		storage.remove('pb:token');
+	};
+// Helper to get JWT from storage
+function getToken() {
+	return storage.get('pb:token', null);
+}
+
+// Validate JWT and fetch user info from backend (optional, for protected routes)
+async function validateToken() {
+	const token = getToken();
+	if (!token) return null;
+	try {
+		const res = await fetch('/api/validate', {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+		});
+		const data = await res.json();
+		if (!res.ok) throw new Error(data.error || 'Invalid token');
+		setCurrentUser(data.user);
+		return data.user;
+	} catch {
+		logout();
+		return null;
+	}
+}
 
 	// Dev utility: clear local data and re-seed from bundled JSON
 	const resetDemo = async () => {
@@ -80,7 +116,7 @@ export function AuthProvider({ children }) {
 		setCurrentUser(null);
 	};
 
-	const value = useMemo(() => ({ currentUser, users, signup, login, logout, resetDemo }), [currentUser, users]);
+	const value = useMemo(() => ({ currentUser, users, signup, login, logout, resetDemo, getToken, validateToken }), [currentUser, users]);
 
 	return (
 		<AuthContext.Provider value={value}>{children}</AuthContext.Provider>

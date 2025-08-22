@@ -17,6 +17,7 @@ import NavBar from '../components/NavBar';
 import Pricing from '../components/Pricing';
 import Dashboard from '../components/Dashboard';
 import AdminDashboard from '../components/AdminDashboard';
+import { ProtectedRoute } from '../features/user/components';
 
 function Shell() {
   const location = useLocation();
@@ -41,9 +42,9 @@ function Shell() {
         >
           <Routes location={location}>
             <Route path="/" element={<Home />} />
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/admin" element={<AdminDashboard />} />
-            <Route path="/tenant-admin" element={<TenantAdminDashboard />} />
+            <Route path="/dashboard" element={<ProtectedRoute roles={['user','admin','superadmin']}><Dashboard /></ProtectedRoute>} />
+            <Route path="/admin" element={<ProtectedRoute roles={['admin','superadmin']}><AdminDashboard /></ProtectedRoute>} />
+            <Route path="/tenant-admin" element={<ProtectedRoute roles={['superadmin']}><TenantAdminDashboard /></ProtectedRoute>} />
             <Route path="/portfolio-preview" element={<TemplateGallery />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
