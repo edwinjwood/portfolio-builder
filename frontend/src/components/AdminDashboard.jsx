@@ -44,6 +44,7 @@ export default function AdminDashboard() {
       const formData = new FormData();
       formData.append('logo', logoFile);
   const apiUrl = import.meta.env.VITE_API_URL || '';
+  console.log('VITE_API_URL:', apiUrl);
   fetch(`${apiUrl}/api/upload-logo?tenantId=${tenant.id}`, {
         method: 'POST',
         body: formData,
