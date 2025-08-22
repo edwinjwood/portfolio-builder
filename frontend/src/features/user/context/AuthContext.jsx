@@ -35,7 +35,8 @@ export function AuthProvider({ children }) {
 		// Helper to seed from API
 		const seedFromApi = async () => {
 			try {
-				const res = await fetch('/api/users');
+			const apiUrl = import.meta.env.VITE_API_URL || '';
+			const res = await fetch(`${apiUrl}/api/users`);
 				const data = await res.json();
 				if (Array.isArray(data)) return data;
 			} catch {}
@@ -64,7 +65,8 @@ export function AuthProvider({ children }) {
 
 	const login = async ({ email, password }) => {
 		try {
-			const res = await fetch('/api/login', {
+			const apiUrl = import.meta.env.VITE_API_URL || '';
+			const res = await fetch(`${apiUrl}/api/login`, {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify({ email, password })
@@ -94,7 +96,8 @@ async function validateToken() {
 	const token = getToken();
 	if (!token) return null;
 	try {
-		const res = await fetch('/api/validate', {
+	const apiUrl = import.meta.env.VITE_API_URL || '';
+	const res = await fetch(`${apiUrl}/api/validate`, {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
 		});

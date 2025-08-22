@@ -35,7 +35,8 @@ export function AuthProvider({ children }) {
   // Helper to seed from API
   const seedFromApi = async () => {
     try {
-      const res = await fetch('/api/users');
+  const apiUrl = import.meta.env.VITE_API_URL || '';
+  const res = await fetch(`${apiUrl}/api/users`);
       const data = await res.json();
       if (Array.isArray(data)) return data;
     } catch {}

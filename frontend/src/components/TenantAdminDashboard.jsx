@@ -39,7 +39,8 @@ export default function TenantAdminDashboard() {
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
-    fetch('/api/users')
+  const apiUrl = import.meta.env.VITE_API_URL || '';
+  fetch(`${apiUrl}/api/users`)
       .then(res => res.json())
       .then(data => setUsers(data))
       .catch(() => setUsers([]));
