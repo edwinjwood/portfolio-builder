@@ -32,22 +32,23 @@ export function AuthProvider({ children }) {
 	useEffect(() => { storage.set(USERS_KEY, users); }, [users]);
 	useEffect(() => { if (currentUser) storage.set(CURRENT_KEY, currentUser); else storage.remove(CURRENT_KEY); }, [currentUser]);
 
-	// Helper to seed from JSON
-	const seedFromJson = async () => {
-		try {
-			const mod = await import('../../../data/users.json');
-			if (Array.isArray(mod.default)) return mod.default;
-		} catch {}
-		return [];
-	};
+		// Helper to seed from API
+		const seedFromApi = async () => {
+			try {
+				const res = await fetch('/api/users');
+				const data = await res.json();
+				if (Array.isArray(data)) return data;
+			} catch {}
+			return [];
+		};
 
-	// Seed from static JSON once (first load only)
-	useEffect(() => {
-		if (users && users.length) return;
-		seedFromJson().then((list) => {
-			if (list.length) setUsers(list);
-		});
-	// eslint-disable-next-line react-hooks/exhaustive-deps
+		// Seed from API once (first load only)
+		useEffect(() => {
+			if (users && users.length) return;
+			seedFromApi().then((list) => {
+				if (list.length) setUsers(list);
+			});
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	const signup = async ({ email, password, name }) => {

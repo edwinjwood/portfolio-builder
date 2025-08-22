@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../features/user/context/AuthContext';
 import tenantsData from '../data/tenants.json';
-import usersData from '../data/users.json';
+
 
 export default function TenantAdminDashboard() {
   const { currentUser } = useAuth();
@@ -35,6 +35,15 @@ export default function TenantAdminDashboard() {
       </main>
     );
   }
+
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    fetch('/api/users')
+      .then(res => res.json())
+      .then(data => setUsers(data))
+      .catch(() => setUsers([]));
+  }, []);
 
   return (
     <main className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 p-8">
@@ -73,7 +82,7 @@ export default function TenantAdminDashboard() {
           </thead>
           <tbody>
             {tenants.map(t => {
-              const activeUsers = usersData.filter(u => u.tenantId === t.id && u.subscription && u.subscription.status === 'active');
+              const activeUsers = users.filter(u => u.tenantid === t.id && u.subscription && u.subscription.status === 'active');
               const licensesAvailable = t.licenseCount - activeUsers.length;
               return (
                 <tr key={t.id} className="border-t">
