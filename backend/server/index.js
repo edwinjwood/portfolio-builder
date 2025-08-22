@@ -1,16 +1,4 @@
-// ...existing code...
 
-
-// Get all users route
-app.get('/api/users', async (req, res) => {
-  try {
-    const result = await pool.query('SELECT * FROM users');
-    res.json(result.rows);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: 'Server error.' });
-  }
-});
 const express = require('express');
 const cors = require('cors');
 const logoUpload = require('./logoUpload');
@@ -29,6 +17,17 @@ app.use('/api', logoUpload);
 // JWT secret (use env var in production)
 const JWT_SECRET = process.env.JWT_SECRET || 'your_jwt_secret';
 const pool = new Pool({ connectionString: process.env.DATABASE_URL });
+
+// Get all users route
+app.get('/api/users', async (req, res) => {
+  try {
+    const result = await pool.query('SELECT * FROM users');
+    res.json(result.rows);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Server error.' });
+  }
+});
 
 // Login route
 app.post('/api/login', async (req, res) => {
