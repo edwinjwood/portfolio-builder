@@ -5,6 +5,8 @@ const logoUpload = require('./logoUpload');
 const jwt = require('jsonwebtoken');
 const fs = require('fs');
 const crypto = require('crypto');
+const { Pool } = require('pg');
+require('dotenv').config();
 
 const app = express();
 app.use(cors());
@@ -13,42 +15,45 @@ app.use(express.json());
 app.use('/api', logoUpload);
 
 // JWT secret (use env var in production)
-const JWT_SECRET = 'your_jwt_secret';
+const JWT_SECRET = process.env.JWT_SECRET || 'your_jwt_secret';
+const pool = new Pool({ connectionString: process.env.DATABASE_URL });
 
 // Login route
-app.post('/api/login', (req, res) => {
+app.post('/api/login', async (req, res) => {
   const { email, password } = req.body;
   if (!email || !password) {
     return res.status(400).json({ error: 'Email and password required.' });
   }
-  // Load users
-  const users = JSON.parse(fs.readFileSync(__dirname + '/users.json'));
-  const user = users.find(u => u.email === email);
-  if (!user) {
-    return res.status(401).json({ error: 'Invalid credentials.' });
+  try {
+    const result = await pool.query('SELECT * FROM users WHERE email = $1', [email]);
+    const user = result.rows[0];
+    if (!user) {
+      return res.status(401).json({ error: 'Invalid credentials.' });
+    }
+    // For demo: compare plaintext password (replace with hash in production)
+    if (password !== user.password) {
+      return res.status(401).json({ error: 'Invalid credentials.' });
+    }
+    // Create JWT
+    const token = jwt.sign({ id: user.id, email: user.email, role: user.role }, JWT_SECRET, { expiresIn: '1h' });
+    res.json({ token, user: { id: user.id, email: user.email, name: user.username, role: user.role } });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Server error.' });
   }
-  // Hash password and compare
-  const hash = crypto.createHash('sha256').update(password).digest('hex');
-  if (hash !== user.passwordHash) {
-    return res.status(401).json({ error: 'Invalid credentials.' });
-  }
-  // Create JWT
-  const token = jwt.sign({ id: user.id, email: user.email, role: user.role }, JWT_SECRET, { expiresIn: '1h' });
-  res.json({ token, user: { id: user.id, email: user.email, name: user.name, role: user.role } });
 });
 
 // Validate JWT route
-app.post('/api/validate', (req, res) => {
+app.post('/api/validate', async (req, res) => {
   const authHeader = req.headers['authorization'];
   const token = authHeader && authHeader.split(' ')[1];
   if (!token) return res.status(401).json({ error: 'No token provided.' });
   try {
     const decoded = jwt.verify(token, JWT_SECRET);
-    // Load users
-    const users = JSON.parse(fs.readFileSync(__dirname + '/users.json'));
-    const user = users.find(u => u.id === decoded.id);
+    const result = await pool.query('SELECT * FROM users WHERE id = $1', [decoded.id]);
+    const user = result.rows[0];
     if (!user) return res.status(404).json({ error: 'User not found.' });
-    res.json({ user: { id: user.id, email: user.email, name: user.name, role: user.role } });
+    res.json({ user: { id: user.id, email: user.email, name: user.username, role: user.role } });
   } catch (err) {
     res.status(401).json({ error: 'Invalid or expired token.' });
   }
