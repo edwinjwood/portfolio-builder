@@ -75,8 +75,8 @@ export function AuthProvider({ children }) {
 			if (!res.ok) throw new Error(data.error || 'Login failed');
 			// Store JWT in localStorage
 			storage.set('pb:token', data.token);
-			setCurrentUser(data.user);
-			return data.user;
+			setCurrentUser({ ...data.user, token: data.token });
+			return { ...data.user, token: data.token };
 		} catch (err) {
 			throw err;
 		}
@@ -103,8 +103,8 @@ async function validateToken() {
 		});
 		const data = await res.json();
 		if (!res.ok) throw new Error(data.error || 'Invalid token');
-		setCurrentUser(data.user);
-		return data.user;
+		setCurrentUser({ ...data.user, token });
+		return { ...data.user, token };
 	} catch {
 		logout();
 		return null;

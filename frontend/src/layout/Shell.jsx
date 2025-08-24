@@ -10,6 +10,7 @@ import TemplateDemoShell from '../components/TemplateDemoShell';
 import LandingCard from '../components/LandingCard';
 import Resume from '../components/Resume';
 import ProjectsSimple from '../components/ProjectsSimple';
+import PortfolioHome from '../components/PortfolioHome';
 import TemplatePreview from '../components/TemplatePreview';
 import classic from '../templates/classic';
 import Footer from '../components/Footer';
@@ -59,6 +60,7 @@ function Shell() {
             <Route path="/virtual-bc" element={<LandingCard data={classic.defaults.landing} variant="classic" />} />
             <Route path="/resume" element={<Resume data={classic.defaults.resume} />} />
             <Route path="/projects" element={<ProjectsSimple data={classic.defaults.projects} />} />
+            <Route path="/portfolio/:id" element={<ProtectedRoute roles={['user','admin','superadmin']}><PortfolioHome /></ProtectedRoute>} />
           </Routes>
         </motion.div>
       </AnimatePresence>

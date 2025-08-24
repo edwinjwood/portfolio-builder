@@ -111,29 +111,49 @@ const NavBar = () => {
             )}
           </button>
         </div>
-        {/* Hamburger for mobile: only show for non-tenant users */}
-        {!currentUser && (
-          <div className="flex md:hidden items-center ml-auto">
-            <button
-              className="p-2 rounded border border-gray-300 dark:border-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
-              aria-label="Open menu"
-              onClick={() => setMenuOpen(!menuOpen)}
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-              </svg>
-            </button>
-          </div>
-        )}
+        {/* Hamburger for mobile: show for all users */}
+        <div className="flex md:hidden items-center ml-auto">
+          <button
+            className="p-2 rounded border border-gray-300 dark:border-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
+            aria-label="Open menu"
+            onClick={() => setMenuOpen(!menuOpen)}
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+          </button>
+        </div>
       </div>
-      {/* Mobile menu dropdown: only show for non-tenant users */}
-      {!currentUser && menuOpen && (
+      {/* Mobile menu dropdown: show for all users */}
+      {menuOpen && (
         <div className="md:hidden w-full bg-white dark:bg-gray-900 shadow-lg border-b border-gray-200 dark:border-gray-800 z-40">
           <div className="flex flex-col gap-2 px-6 py-4">
-            <NavLink to="/portfolio-preview" className={({isActive}) => `font-semibold transition block py-2 px-4 rounded ${isActive ? 'bg-brand-100 text-brand-700 dark:bg-brand-900 dark:text-brand-300' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800'}`} onClick={() => setMenuOpen(false)}>Portfolio Templates</NavLink>
-            <NavLink to="/pricing" className={({isActive}) => `font-semibold transition block py-2 px-4 rounded ${isActive ? 'bg-brand-100 text-brand-700 dark:bg-brand-900 dark:text-brand-300' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800'}`} onClick={() => setMenuOpen(false)}>Pricing & Plans</NavLink>
-            <NavLink to="/login" className={({isActive}) => `font-semibold transition block py-2 px-4 rounded ${isActive ? 'bg-brand-100 text-brand-700 dark:bg-brand-900 dark:text-brand-300' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800'}`} onClick={() => setMenuOpen(false)}>Login</NavLink>
-            <NavLink to="/signup" className={({isActive}) => `font-semibold transition block py-2 px-4 rounded ${isActive ? 'bg-brand-100 text-brand-700 dark:bg-brand-900 dark:text-brand-300' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800'}`} onClick={() => setMenuOpen(false)}>Sign up</NavLink>
+            {currentUser ? (
+              <>
+                <NavLink to="/dashboard" className={({isActive}) => `font-semibold transition block py-2 px-4 rounded ${isActive ? 'bg-brand-100 text-brand-700 dark:bg-brand-900 dark:text-brand-300' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800'}`} onClick={() => setMenuOpen(false)}>Dashboard</NavLink>
+                {/* Only show Admin link for users with admin role */}
+                {currentUser?.role === 'admin' && (
+                  <NavLink to="/admin" className={({isActive}) => `font-semibold transition block py-2 px-4 rounded ${isActive ? 'bg-brand-100 text-brand-700 dark:bg-brand-900 dark:text-brand-300' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800'}`} onClick={() => setMenuOpen(false)}>Admin</NavLink>
+                )}
+                <button
+                  onClick={async () => {
+                    await logout();
+                    window.location.hash = '#/';
+                    setMenuOpen(false);
+                  }}
+                  className="mt-2 px-3 py-2 rounded border border-gray-300 dark:border-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
+                >
+                  Logout
+                </button>
+              </>
+            ) : (
+              <>
+                <NavLink to="/portfolio-preview" className={({isActive}) => `font-semibold transition block py-2 px-4 rounded ${isActive ? 'bg-brand-100 text-brand-700 dark:bg-brand-900 dark:text-brand-300' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800'}`} onClick={() => setMenuOpen(false)}>Portfolio Templates</NavLink>
+                <NavLink to="/pricing" className={({isActive}) => `font-semibold transition block py-2 px-4 rounded ${isActive ? 'bg-brand-100 text-brand-700 dark:bg-brand-900 dark:text-brand-300' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800'}`} onClick={() => setMenuOpen(false)}>Pricing & Plans</NavLink>
+                <NavLink to="/login" className={({isActive}) => `font-semibold transition block py-2 px-4 rounded ${isActive ? 'bg-brand-100 text-brand-700 dark:bg-brand-900 dark:text-brand-300' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800'}`} onClick={() => setMenuOpen(false)}>Login</NavLink>
+                <NavLink to="/signup" className={({isActive}) => `font-semibold transition block py-2 px-4 rounded ${isActive ? 'bg-brand-100 text-brand-700 dark:bg-brand-900 dark:text-brand-300' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800'}`} onClick={() => setMenuOpen(false)}>Sign up</NavLink>
+              </>
+            )}
             <button
               onClick={toggle}
               className="mt-2 px-3 py-2 rounded border border-gray-300 dark:border-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"

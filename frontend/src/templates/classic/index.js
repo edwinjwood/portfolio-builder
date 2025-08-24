@@ -11,3 +11,10 @@ export const classicTemplate = {
 };
 
 export default classicTemplate;
+
+// Export all classic template components
+import ResumePreview from './ResumePreview';
+import ClassicTemplate from './ClassicTemplate';
+import * as utils from './utils';
+
+export { ClassicTemplate, ResumePreview, utils };

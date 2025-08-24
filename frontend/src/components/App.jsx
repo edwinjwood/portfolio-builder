@@ -10,6 +10,11 @@ import { TenantProvider } from '../contexts/TenantContext';
 
 
 function App() {
+  useEffect(() => {
+    document.body.style.overflow = 'hidden';
+    return () => { document.body.style.overflow = ''; };
+  }, []);
+
   return (
     <Router>
       <ThemeProvider>

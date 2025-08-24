@@ -2,28 +2,31 @@ import React from 'react';
 import defaultResume from '../data/resume.json';
 import { useAuth } from '../features/user/context/AuthContext';
 
-export default function Resume({ data }) {
+export default function Resume({ data, hideActions, preview }) {
   const r = data || defaultResume;
   const { header, summary, competencies, experience, education } = r;
   const { currentUser } = useAuth();
 
   return (
     <main id="content" className="bg-gray-50 dark:bg-gray-900 min-h-screen font-sans text-gray-900 dark:text-gray-100 transition-colors">
-      <div className="max-w-3xl mx-auto py-12 px-4">
-        {/* Header */}
-        <header className="mb-8 border-b pb-6">
-          <h1 className="text-3xl sm:text-4xl font-bold text-gray-800 dark:text-gray-100 mb-2">{header.name}</h1>
-          <h2 className="text-lg sm:text-xl text-gray-600 dark:text-gray-300 font-medium mb-2">{header.title}</h2>
-          <div className="flex flex-col sm:flex-row sm:items-center text-gray-500 text-sm gap-1">
-            {header.location && <span>{header.location}</span>}
-            {(header.location && (header.phone || header.email || header.linkedin)) && <span className="hidden sm:inline mx-2">•</span>}
-            {header.phone && <span>{header.phone}</span>}
-            {(header.phone && (header.email || header.linkedin)) && <span className="hidden sm:inline mx-2">•</span>}
-            {header.email && <a href={`mailto:${header.email}`} className="hover:underline">{header.email}</a>}
-            {(header.email && header.linkedin) && <span className="hidden sm:inline mx-2">•</span>}
-            {header.linkedin && <a href={header.linkedin} target="_blank" rel="noopener noreferrer" className="hover:underline">{header.linkedin.replace('https://','')}</a>}
+    <div
+      className={`max-w-3xl w-full text-left${preview ? '' : ' px-4 py-6'}`}
+      style={preview ? { padding: '24px', margin: '0 auto' } : {}}
+    >
+      {/* Header */}
+      <header className="mb-8 border-b pb-6 text-left w-full">
+        <h1 className="text-3xl sm:text-4xl font-bold text-gray-800 dark:text-gray-100 mb-2 text-left">{header.name}</h1>
+        <h2 className="text-lg sm:text-xl text-gray-600 dark:text-gray-300 font-medium mb-2 text-left">{header.title}</h2>
+        <div className="flex flex-col gap-1 text-gray-500 text-sm text-left w-full">
+          {/* On small screens, stack contact info. On larger screens, show inline with separators and wrap if needed. */}
+          <div className="flex flex-row flex-wrap items-center gap-x-4 gap-y-1 w-full justify-start">
+            {header.location && <span className="min-w-0 truncate">{header.location}</span>}
+            {header.phone && <span className="min-w-0 truncate">{header.phone}</span>}
+            {header.email && <a href={`mailto:${header.email}`} className="min-w-0 truncate hover:underline">{header.email}</a>}
+            {header.linkedin && <a href={header.linkedin} target="_blank" rel="noopener noreferrer" className="min-w-0 truncate hover:underline">{header.linkedin.replace('https://','')}</a>}
           </div>
-        </header>
+        </div>
+      </header>
 
         {/* Professional Summary */}
         <section className="mb-8">
@@ -78,9 +81,11 @@ export default function Resume({ data }) {
         </section>
 
         {/* Feature-gated actions removed for MVP */}
-        <div className="mt-8 flex gap-4">
-          <button className="px-4 py-2 rounded bg-brand-600 text-white hover:bg-brand-700">Export PDF</button>
-        </div>
+        {!hideActions && (
+          <div className="mt-8 flex gap-4">
+            <button className="px-4 py-2 rounded bg-brand-600 text-white hover:bg-brand-700">Export PDF</button>
+          </div>
+        )}
       </div>
     </main>
   );

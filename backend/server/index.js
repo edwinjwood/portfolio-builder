@@ -1,3 +1,6 @@
+// ...existing code...
+// ...existing code...
+// ...existing code...
 
 const express = require('express');
 const cors = require('cors');
@@ -11,12 +14,11 @@ require('dotenv').config();
 const app = express();
 app.use(cors());
 app.use(express.json());
-
 app.use('/api', logoUpload);
 
-// JWT secret (use env var in production)
 const JWT_SECRET = process.env.JWT_SECRET || 'your_jwt_secret';
 const pool = new Pool({ connectionString: process.env.DATABASE_URL });
+
 
 // Get all users route
 app.get('/api/users', async (req, res) => {
@@ -72,6 +74,117 @@ app.post('/api/validate', async (req, res) => {
   }
 });
 
+// Get portfolios for current user
+app.get('/api/portfolios', async (req, res) => {
+  const authHeader = req.headers['authorization'];
+  const token = authHeader && authHeader.split(' ')[1];
+  if (!token) {
+    return res.status(401).json({ error: 'No token provided.' });
+  }
+  let userId;
+  try {
+    const decoded = jwt.verify(token, JWT_SECRET);
+    userId = decoded.id;
+  } catch (err) {
+    return res.status(401).json({ error: 'Invalid or expired token.' });
+  }
+  try {
+    const result = await pool.query('SELECT * FROM portfolios WHERE user_id = $1', [userId]);
+    res.json(result.rows);
+  } catch (err) {
+    res.status(500).json({ error: 'Server error.' });
+  }
+});
+
+// Get a single portfolio by ID for the current user
+app.get('/api/portfolios/:id', async (req, res) => {
+  const authHeader = req.headers['authorization'];
+  const token = authHeader && authHeader.split(' ')[1];
+  if (!token) {
+    return res.status(401).json({ error: 'No token provided.' });
+  }
+  let userId;
+  try {
+    const decoded = jwt.verify(token, JWT_SECRET);
+    userId = decoded.id;
+  } catch (err) {
+    return res.status(401).json({ error: 'Invalid or expired token.' });
+  }
+  const portfolioId = req.params.id;
+  try {
+    const result = await pool.query(
+      'SELECT * FROM portfolios WHERE id = $1 AND user_id = $2',
+      [portfolioId, userId]
+    );
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: 'Portfolio not found.' });
+    }
+    res.json(result.rows[0]);
+  } catch (err) {
+    res.status(500).json({ error: 'Server error.' });
+  }
+});
+
+// Create portfolio route
+app.post('/api/portfolios', async (req, res) => {
+  const authHeader = req.headers['authorization'];
+  const token = authHeader && authHeader.split(' ')[1];
+  if (!token) {
+    return res.status(401).json({ error: 'No token provided.' });
+  }
+  let userId;
+  try {
+    const decoded = jwt.verify(token, JWT_SECRET);
+    userId = decoded.id;
+  } catch (err) {
+    return res.status(401).json({ error: 'Invalid or expired token.' });
+  }
+  const { name } = req.body;
+  if (!name) {
+    return res.status(400).json({ error: 'Portfolio name required.' });
+  }
+  try {
+    const result = await pool.query(
+      'INSERT INTO portfolios (user_id, name) VALUES ($1, $2) RETURNING *',
+      [userId, name]
+    );
+    res.status(201).json(result.rows[0]);
+  } catch (err) {
+    res.status(500).json({ error: 'Server error.' });
+  }
+});
+
+// Get all templates with their components
+app.get('/api/templates', async (req, res) => {
+  try {
+    const templates = await pool.query('SELECT * FROM templates ORDER BY id');
+    const templateIds = templates.rows.map(t => t.id);
+    let components = [];
+    if (templateIds.length > 0) {
+      const compResult = await pool.query(
+        'SELECT * FROM template_components WHERE template_id = ANY($1::int[]) ORDER BY position',
+        [templateIds]
+      );
+      components = compResult.rows;
+    }
+    // Group components by template_id
+    const componentsByTemplate = {};
+    components.forEach(c => {
+      if (!componentsByTemplate[c.template_id]) componentsByTemplate[c.template_id] = [];
+      componentsByTemplate[c.template_id].push(c);
+    });
+    // Attach components to templates
+    const result = templates.rows.map(t => ({
+      ...t,
+      components: componentsByTemplate[t.id] || []
+    }));
+    res.json(result);
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to fetch templates' });
+  }
+});
+
 const PORT = process.env.PORT || 5001;
 app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });

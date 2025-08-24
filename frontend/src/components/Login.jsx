@@ -29,7 +29,15 @@ function Login() {
       } else if (userObj && userObj.role === 'admin') {
         navigate('/admin');
       } else {
-        navigate('/dashboard');
+        // Redirect based on portfolio count
+        const portfolios = userObj?.portfolios || [];
+        if (portfolios.length === 0) {
+          // No portfolios, go to dashboard (modal will prompt creation)
+          navigate('/dashboard');
+        } else {
+          // Has portfolios, go to dashboard
+          navigate('/dashboard');
+        }
       }
     } catch (err) {
       setError(err.message || 'Login failed');

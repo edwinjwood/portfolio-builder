@@ -15,7 +15,7 @@ function Home() {
   };
 
   return (
-    <main className="w-full h-full grid place-items-center font-sans text-gray-900 dark:text-gray-100">
+    <main className="w-full h-full grid place-items-center font-sans text-gray-900 dark:text-gray-100 px-4 sm:px-8">
       <div className="text-center">
   <h1 className="text-5xl font-extrabold mb-4 tracking-tight text-brand-700 dark:text-brand-400">Faset</h1>
   <p className="text-xl text-gray-700 dark:text-gray-200 mb-4 font-semibold">Build your resume, portfolio, or team showcase—powered by Faset.</p>
