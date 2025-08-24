@@ -71,7 +71,7 @@ function Pricing() {
 					Simple, Transparent Pricing
 				</h1>
 				<p className="text-gray-600 dark:text-gray-300 mb-8 text-center text-lg max-w-2xl mx-auto">
-					Facet makes it easy to build and share your professional story. Start
+					Faset makes it easy to build and share your professional story. Start
 					for free, upgrade for more features, and publish your portfolio with
 					confidence. No hidden fees, no surprises—just powerful tools to help you
 					stand out.
