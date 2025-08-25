@@ -52,11 +52,11 @@ function Login() {
         <h1 className="text-2xl font-bold mb-4">Login</h1>
         {error && <div className="mb-3 text-sm text-red-600">{error}</div>}
         <div className="mb-4 flex flex-wrap gap-2">
-          <button type="button" className="px-2 py-1 rounded bg-gray-200 dark:bg-gray-700 text-xs" onClick={()=>{ setEmail('superadmin@platform.io'); setPassword('password'); }}>Platform Superadmin (All Tenants)</button>
+          {/* <button type="button" className="px-2 py-1 rounded bg-gray-200 dark:bg-gray-700 text-xs" onClick={()=>{ setEmail('superadmin@platform.io'); setPassword('password'); }}>Platform Superadmin (All Tenants)</button>
           <button type="button" className="px-2 py-1 rounded bg-gray-200 dark:bg-gray-700 text-xs" onClick={()=>{ setEmail('admin@bootcamp.io'); setPassword('password'); }}>Bootcamp Admin (Tenant Admin, tenant-002)</button>
           <button type="button" className="px-2 py-1 rounded bg-gray-200 dark:bg-gray-700 text-xs" onClick={()=>{ setEmail('demo@example.com'); setPassword('password'); }}>Demo Admin (Tenant Admin, tenant-001)</button>
           <button type="button" className="px-2 py-1 rounded bg-gray-200 dark:bg-gray-700 text-xs" onClick={()=>{ setEmail('pro@example.com'); setPassword('password'); }}>Pro User (Tenant User, tenant-001)</button>
-          <button type="button" className="px-2 py-1 rounded bg-gray-200 dark:bg-gray-700 text-xs" onClick={()=>{ setEmail('elite@example.com'); setPassword('password'); }}>Elite User (Tenant User, tenant-002)</button>
+          <button type="button" className="px-2 py-1 rounded bg-gray-200 dark:bg-gray-700 text-xs" onClick={()=>{ setEmail('elite@example.com'); setPassword('password'); }}>Elite User (Tenant User, tenant-002)</button> */}
           <button type="button" className="px-2 py-1 rounded bg-gray-200 dark:bg-gray-700 text-xs" onClick={()=>{ setEmail('individual@example.com'); setPassword('password'); }}>Individual User (No Tenant)</button>
         </div>
         <label className="block text-sm font-medium mb-1">Email</label>

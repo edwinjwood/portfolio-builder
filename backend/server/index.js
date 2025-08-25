@@ -24,7 +24,15 @@ const pool = new Pool({ connectionString: process.env.DATABASE_URL });
 app.get('/api/users', async (req, res) => {
   try {
     const result = await pool.query('SELECT * FROM users');
-    res.json(result.rows);
+    // Map users to include first_name and last_name
+    res.json(result.rows.map(u => ({
+      id: u.id,
+      email: u.email,
+      username: u.username,
+      role: u.role,
+      first_name: u.first_name,
+      last_name: u.last_name
+    })));
   } catch (err) {
     res.status(500).json({ error: 'Server error.' });
   }
@@ -48,7 +56,17 @@ app.post('/api/login', async (req, res) => {
     }
     // Create JWT
     const token = jwt.sign({ id: user.id, email: user.email, role: user.role }, JWT_SECRET, { expiresIn: '1h' });
-    res.json({ token, user: { id: user.id, email: user.email, name: user.username, role: user.role } });
+    res.json({
+      token,
+      user: {
+        id: user.id,
+        email: user.email,
+        username: user.username,
+        role: user.role,
+        first_name: user.first_name,
+        last_name: user.last_name
+      }
+    });
   } catch (err) {
     res.status(500).json({ error: 'Server error.' });
   }
@@ -68,7 +86,16 @@ app.post('/api/validate', async (req, res) => {
     if (!user) {
       return res.status(404).json({ error: 'User not found.' });
     }
-    res.json({ user: { id: user.id, email: user.email, name: user.username, role: user.role } });
+    res.json({
+      user: {
+        id: user.id,
+        email: user.email,
+        username: user.username,
+        role: user.role,
+        first_name: user.first_name,
+        last_name: user.last_name
+      }
+    });
   } catch (err) {
     res.status(401).json({ error: 'Invalid or expired token.' });
   }
@@ -149,6 +176,36 @@ app.post('/api/portfolios', async (req, res) => {
       [userId, name]
     );
     res.status(201).json(result.rows[0]);
+  } catch (err) {
+    res.status(500).json({ error: 'Server error.' });
+  }
+});
+
+// Delete portfolio route
+app.delete('/api/portfolios/:id', async (req, res) => {
+  const authHeader = req.headers['authorization'];
+  const token = authHeader && authHeader.split(' ')[1];
+  if (!token) {
+    return res.status(401).json({ error: 'No token provided.' });
+  }
+  let userId;
+  try {
+    const decoded = jwt.verify(token, JWT_SECRET);
+    userId = decoded.id;
+  } catch (err) {
+    return res.status(401).json({ error: 'Invalid or expired token.' });
+  }
+  const portfolioId = req.params.id;
+  try {
+    // Only delete if the portfolio belongs to the user
+    const result = await pool.query(
+      'DELETE FROM portfolios WHERE id = $1 AND user_id = $2 RETURNING *',
+      [portfolioId, userId]
+    );
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: 'Portfolio not found or not owned by user.' });
+    }
+    res.json({ success: true });
   } catch (err) {
     res.status(500).json({ error: 'Server error.' });
   }

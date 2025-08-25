@@ -71,3 +71,32 @@ html, body { background-color: #f9fafb; color: #111827; }
     transform: none;
   }
 }
+
+/* Thumbnail preview frame for Dashboard template cards */
+.template-preview-frame main { min-height: 0 !important; }
+.template-preview-frame main > div { margin: 0 !important; padding: 0 !important; width: 100% !important; min-height: 0 !important; box-sizing: border-box !important; }
+.template-preview-frame { display: block; position: relative; pointer-events: none; margin-top: 2px; width: 100%; max-width: 100%; transform-origin: top center; overflow: hidden; }
+
+/* Ensure inner elements don't add extra whitespace and keep the resume top-aligned */
+.template-preview-frame * { box-sizing: border-box; }
+
+/* Desktop wide: slightly reduce scale if screen is extremely wide to avoid overflow */
+/* We'll scale the inner resume container so we get precise control over document width/height */
+.template-preview-frame .resume-container--preview { width: 100% !important; max-width: 100% !important; margin: 0 !important; transform: none !important; pointer-events: none; }
+
+/* Make the resume content reflow inside the preview square like a small screen */
+.template-preview-frame .resume-container--preview h1 { font-size: 15px !important; margin-bottom: 4px !important; }
+.template-preview-frame .resume-container--preview h2 { font-size: 10.5px !important; margin-bottom: 4px !important; }
+.template-preview-frame .resume-container--preview h3 { font-size: 11.5px !important; margin-bottom: 4px !important; }
+.template-preview-frame .resume-container--preview p, .template-preview-frame .resume-container--preview li, .template-preview-frame .resume-container--preview span, .template-preview-frame .resume-container--preview div { font-size: 10.2px !important; margin-bottom: 4px !important; }
+.template-preview-frame .resume-container--preview { padding: 4px !important; }
+
+/* Resume preview-specific adjustments when rendered inside the template thumbnail */
+.resume--preview-root { align-items: flex-start !important; }
+.resume-container--preview { width: 100% !important; min-height: 760px !important; margin: 0 auto !important; padding: 12px !important; box-shadow: none !important; }
+.resume-container--preview h1 { font-size: 18px !important; line-height: 1.05 !important; }
+.resume-container--preview h2 { font-size: 12px !important; }
+.resume-container--preview h3 { font-size: 13px !important; }
+.resume-container--preview p, .resume-container--preview li, .resume-container--preview span, .resume-container--preview div { font-size: 11px !important; }
+.template-preview-frame .resume-container--preview { transform-origin: top center; }
+

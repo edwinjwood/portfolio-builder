@@ -1,32 +1,56 @@
 import React from 'react';
-import defaultResume from '../data/resume.json';
+import defaultResume from '../templates/classic/resume.json';
 import { useAuth } from '../features/user/context/AuthContext';
 
 export default function Resume({ data, hideActions, preview }) {
-  const r = data || defaultResume;
+  // Ensure nested fields exist when a partial `data` object is supplied.
+  const r = data
+    ? {
+        header: data.header || defaultResume.header,
+        summary: data.summary || defaultResume.summary,
+        competencies: data.competencies || defaultResume.competencies,
+        experience: data.experience || defaultResume.experience,
+        education: data.education || defaultResume.education,
+        // include any other top-level keys from data if needed
+        ...data,
+      }
+    : defaultResume;
+
   const { header, summary, competencies, experience, education } = r;
   const { currentUser } = useAuth();
 
   return (
-    <main id="content" className="bg-gray-50 dark:bg-gray-900 min-h-screen font-sans text-gray-900 dark:text-gray-100 transition-colors">
-    <div
-      className={`max-w-3xl w-full text-left${preview ? '' : ' px-4 py-6'}`}
-      style={preview ? { padding: '24px', margin: '0 auto' } : {}}
+    <main
+      id="content"
+      className={`${preview ? '' : 'min-h-screen'} bg-gray-50 dark:bg-gray-900 font-sans text-gray-900 dark:text-gray-100 transition-colors ${preview ? 'resume--preview-root' : ''}`}
     >
-      {/* Header */}
-      <header className="mb-8 border-b pb-6 text-left w-full">
-        <h1 className="text-3xl sm:text-4xl font-bold text-gray-800 dark:text-gray-100 mb-2 text-left">{header.name}</h1>
-        <h2 className="text-lg sm:text-xl text-gray-600 dark:text-gray-300 font-medium mb-2 text-left">{header.title}</h2>
-        <div className="flex flex-col gap-1 text-gray-500 text-sm text-left w-full">
-          {/* On small screens, stack contact info. On larger screens, show inline with separators and wrap if needed. */}
-          <div className="flex flex-row flex-wrap items-center gap-x-4 gap-y-1 w-full justify-start">
-            {header.location && <span className="min-w-0 truncate">{header.location}</span>}
-            {header.phone && <span className="min-w-0 truncate">{header.phone}</span>}
-            {header.email && <a href={`mailto:${header.email}`} className="min-w-0 truncate hover:underline">{header.email}</a>}
-            {header.linkedin && <a href={header.linkedin} target="_blank" rel="noopener noreferrer" className="min-w-0 truncate hover:underline">{header.linkedin.replace('https://','')}</a>}
+      <div className={preview ? 'resume-container--preview' : 'max-w-3xl mx-auto py-12 px-4'}>
+        {/* Header */}
+        <header className="mb-8 border-b pb-6">
+          <h1 className="text-3xl sm:text-4xl font-bold text-gray-800 dark:text-gray-100 mb-2">{header.name}</h1>
+          <h2 className="text-lg sm:text-xl text-gray-600 dark:text-gray-300 font-medium mb-2">{header.title}</h2>
+          <div className="flex flex-col sm:flex-row sm:items-center text-gray-500 text-sm gap-1">
+            {header.location && <span>{header.location}</span>}
+            {header.phone && (
+              <>
+                <span className="hidden sm:inline mx-2">•</span>
+                <span>{header.phone}</span>
+              </>
+            )}
+            {header.email && (
+              <>
+                <span className="hidden sm:inline mx-2">•</span>
+                <a href={`mailto:${header.email}`} className="hover:underline">{header.email}</a>
+              </>
+            )}
+            {header.linkedin && (
+              <>
+                <span className="hidden sm:inline mx-2">•</span>
+                <a href={header.linkedin} target="_blank" rel="noopener noreferrer" className="hover:underline">{header.linkedin.replace('https://','')}</a>
+              </>
+            )}
           </div>
-        </div>
-      </header>
+        </header>
 
         {/* Professional Summary */}
         <section className="mb-8">
@@ -54,7 +78,7 @@ export default function Resume({ data, hideActions, preview }) {
             <div key={idx} className="mb-6">
               <div className="mb-2">
                 <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-1">
-                  <span className="font-bold text-gray-800 dark:text-gray-100 tracking-tight">{exp.company}{exp.location ? `  ${exp.location}` : ''}</span>
+                  <span className="font-bold text-gray-800 dark:text-gray-100 tracking-tight">{exp.company}{exp.location ? ` • ${exp.location}` : ''}</span>
                   <span className="text-gray-500 dark:text-gray-400 text-xs sm:text-sm">{exp.period}</span>
                 </div>
                 {exp.roles?.map((r, i) => (
@@ -73,19 +97,14 @@ export default function Resume({ data, hideActions, preview }) {
           <h3 className="text-xl font-semibold text-gray-700 dark:text-gray-200 mb-2">Education</h3>
           {education?.map((ed, idx) => (
             <div key={idx} className="mb-3">
-              <span className="font-bold text-gray-800 dark:text-gray-100">{ed.institution}{ed.location ? `  ${ed.location}` : ''}</span>
+              <span className="font-bold text-gray-800 dark:text-gray-100">{ed.institution}{ed.location ? ` • ${ed.location}` : ''}</span>
               {ed.degree && <div className="text-gray-600 dark:text-gray-400 text-sm">{ed.degree}</div>}
               {ed.details && <div className="text-gray-700 dark:text-gray-300 text-sm">{ed.details}</div>}
             </div>
           ))}
         </section>
 
-        {/* Feature-gated actions removed for MVP */}
-        {!hideActions && (
-          <div className="mt-8 flex gap-4">
-            <button className="px-4 py-2 rounded bg-brand-600 text-white hover:bg-brand-700">Export PDF</button>
-          </div>
-        )}
+  {/* Feature-gated actions removed - export handled in nav */}
       </div>
     </main>
   );

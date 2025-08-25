@@ -40,10 +40,8 @@ export default function TemplatePreview() {
   }
 
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100">
-      <div className="mx-auto max-w-5xl px-4 py-6">
-        {content}
-      </div>
+    <div className="min-h-screen w-full h-full bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 flex items-stretch justify-stretch">
+      {content}
     </div>
   );
 }

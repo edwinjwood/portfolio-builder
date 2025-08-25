@@ -10,10 +10,7 @@ import { TenantProvider } from '../contexts/TenantContext';
 
 
 function App() {
-  useEffect(() => {
-    document.body.style.overflow = 'hidden';
-    return () => { document.body.style.overflow = ''; };
-  }, []);
+  // Remove global scroll lock; let each page/component control its own scrolling
 
   return (
     <Router>

@@ -1,8 +1,8 @@
 // Map template preview_component names to actual components
-import { ResumePreview } from './classic';
+import Resume from '../components/Resume';
 
 const previewComponents = {
-  ClassicPreview: ResumePreview,
+  ClassicPreview: Resume,
   // ModernPreview,
   // MinimalPreview,
 };

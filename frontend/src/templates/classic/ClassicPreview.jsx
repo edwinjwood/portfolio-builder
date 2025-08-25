@@ -1,13 +1,17 @@
 import React from 'react';
-import styles from './classic.module.css';
+import LandingCard from './LandingCard';
+import Resume from './Resume';
+import ProjectsSimple from './ProjectsSimple';
+import defaultLanding from './landing.json';
+import defaultResume from './resume.json';
+import defaultProjects from './projects.json';
 
-export default function ClassicPreview({ template }) {
-  // Render a compact preview for the modal
+export default function ClassicPreview() {
   return (
-    <div className={styles.classicPreview}>
-      <h2>{template.name}</h2>
-      <img src={template.preview_url} alt={template.name + ' preview'} style={{ width: '100%', borderRadius: 8 }} />
-      <p>{template.description}</p>
+    <div className="template-preview-container">
+      <LandingCard data={defaultLanding} preview scale={0.5} />
+      <Resume data={defaultResume} preview scale={0.5} />
+      <ProjectsSimple data={defaultProjects} preview scale={0.5} />
     </div>
   );
 }
