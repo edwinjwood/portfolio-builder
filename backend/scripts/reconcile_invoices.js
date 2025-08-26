@@ -19,6 +19,8 @@ const argv = require('minimist')(process.argv.slice(2));
 const APPLY = !!argv.apply || !!argv.a;
 const APPLY_HEUR = !!argv['apply-heuristic'] || !!argv.h;
 const TARGET = argv.invoice || argv.i || null; // single invoice id optional
+const LIMIT = argv.limit || argv.l || null;
+const FORCE = !!argv.force || !!argv.f;
 
 async function reconcileInvoiceRow(row, { apply, applyHeuristic }) {
   const invoiceId = row.stripe_invoice_id;
@@ -142,12 +144,28 @@ async function reconcileInvoiceRow(row, { apply, applyHeuristic }) {
 
 async function main() {
   try {
+    // Safety guard: prevent accidental destructive runs in production unless explicitly enabled
+    if (APPLY && process.env.RECONCILER_APPLY_ENABLED !== 'true' && !FORCE) {
+      console.error('RECONCILER_APPLY_ENABLED is not true. Destructive apply prevented. Set env RECONCILER_APPLY_ENABLED=true or pass --force to override.');
+      process.exit(3);
+    }
     const qText = `SELECT id, stripe_id, stripe_invoice_id, stripe_payment_intent_id, stripe_charge_id, amount FROM payments WHERE stripe_invoice_id IS NOT NULL AND (stripe_payment_intent_id IS NULL OR stripe_charge_id IS NULL)`;
     let q;
     if (TARGET) {
       q = await pool.query(qText + ' AND stripe_invoice_id = $1', [TARGET]);
     } else {
-      q = await pool.query(qText);
+      // apply optional limit to the number of invoice rows processed per run
+      if (LIMIT) {
+        // ensure LIMIT is an integer
+        const n = parseInt(LIMIT, 10);
+        if (isNaN(n) || n <= 0) {
+          console.error('Invalid --limit value, must be a positive integer');
+          process.exit(4);
+        }
+        q = await pool.query(qText + ' LIMIT ' + n);
+      } else {
+        q = await pool.query(qText);
+      }
     }
     const rows = q.rows || [];
     console.log('Found', rows.length, 'invoice rows to inspect');
