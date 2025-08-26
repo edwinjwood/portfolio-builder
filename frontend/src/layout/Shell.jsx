@@ -18,6 +18,8 @@ import NavBar from '../components/NavBar';
 import Pricing from '../components/Pricing';
 import Dashboard from '../components/Dashboard';
 import AdminDashboard from '../components/AdminDashboard';
+import Checkout from '../components/Checkout';
+import CheckoutSuccess from '../components/CheckoutSuccess';
 import { ProtectedRoute } from '../features/user/components';
 
 function Shell() {
@@ -50,6 +52,8 @@ function Shell() {
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/pricing" element={<Pricing />} />
+            <Route path="/checkout" element={<Checkout />} />
+            <Route path="/checkout-success" element={<CheckoutSuccess />} />
             {/* Standalone template preview route (unbranded) */}
             <Route path="/preview/:id" element={<TemplatePreview />} />
             {/* Full demo experience routes (unbranded, new-tab friendly) */}

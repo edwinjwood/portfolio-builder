@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useAuth } from '../features/user/context/AuthContext';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 
 function Signup() {
   const { signup } = useAuth();
@@ -10,14 +10,22 @@ function Signup() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const location = useLocation();
+  const search = new URLSearchParams(location.search);
+  const preselectedPlan = search.get('plan') || ''; 
+  // Ensure we always have a plan for signup so backend can create a Checkout session.
+  const planToUse = preselectedPlan || 'individual';
 
   const onSubmit = async (e) => {
     e.preventDefault();
     setError('');
     setLoading(true);
     try {
-      await signup({ name, email, password });
-      navigate('/');
+      const res = await signup({ name, email, password, plan: planToUse });
+      // If signup returned without a checkout redirect, navigate to dashboard
+      if (!res || !res.checkout) {
+        navigate('/dashboard');
+      }
     } catch (err) {
       setError(err.message || 'Signup failed');
     } finally {
@@ -36,7 +44,7 @@ function Signup() {
         <input type="email" value={email} onChange={e=>setEmail(e.target.value)} required className="w-full mb-3 px-3 py-2 rounded border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800" />
         <label className="block text-sm font-medium mb-1">Password</label>
         <input type="password" value={password} onChange={e=>setPassword(e.target.value)} required className="w-full mb-4 px-3 py-2 rounded border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800" />
-        <button type="submit" disabled={loading} className="w-full px-4 py-2 rounded bg-brand-600 text-white hover:bg-brand-700 disabled:opacity-60">{loading ? 'Creating…' : 'Create account'}</button>
+        <button type="submit" disabled={loading} className="w-full px-4 py-2 rounded bg-brand-600 text-white hover:bg-brand-700 disabled:opacity-60">{loading ? 'Creating…' : `Create account & ${planToUse ? 'Start' : 'Create account'}`}</button>
         <div className="mt-4 text-sm text-gray-600 dark:text-gray-300">Have an account? <Link to="/login" className="text-brand-600">Sign in</Link></div>
       </form>
     </main>

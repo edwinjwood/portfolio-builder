@@ -52,15 +52,49 @@ export function AuthProvider({ children }) {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
-	const signup = async ({ email, password, name }) => {
+	const signup = async ({ email, password, name, plan }) => {
 		const exists = users.some(u => u.email.toLowerCase() === email.toLowerCase());
-		if (exists) throw new Error('Email already registered');
-		const id = crypto.randomUUID();
-		const passwordHash = await sha256(password);
-		const user = { id, email, name: name || '', passwordHash, createdAt: new Date().toISOString() };
-		setUsers(prev => [...prev, user]);
-		setCurrentUser({ id, email, name: user.name });
-		return { id, email, name: user.name };
+				// Attempt server-side signup first
+				try {
+					const apiBase = import.meta.env.VITE_API_URL || 'http://localhost:5001';
+					const res = await fetch(`${apiBase}/api/users`, {
+						method: 'POST',
+						headers: { 'Content-Type': 'application/json' },
+						body: JSON.stringify({ name, email, password, plan }),
+					});
+					if (!res.ok) {
+						const err = await res.json().catch(() => ({}));
+						throw new Error(err.error || 'Signup failed');
+					}
+					const data = await res.json();
+					const { token, user, checkout } = data;
+					// Store JWT in the same storage key the rest of the app expects
+					storage.set('pb:token', token);
+					setCurrentUser({ ...user, token });
+					// If backend returned a Checkout session URL, redirect the browser to Stripe Checkout
+					if (checkout && checkout.url) {
+						window.location.href = checkout.url;
+						// Returning here as the redirect will take the user away; caller shouldn't proceed.
+						return { user, token, checkout };
+					}
+					return { user, token };
+				} catch (err) {
+					// Fallback to demo local signup if backend unavailable
+					console.warn('Server signup failed, falling back to local demo signup:', err.message);
+					const users = JSON.parse(localStorage.getItem('demo_users') || '[]');
+					const exists = users.find((u) => u.email === email);
+					if (exists) throw new Error('Email already registered');
+					const names = (name || '').split(' ');
+					const first_name = names.shift() || null;
+					const last_name = names.join(' ') || null;
+					const newUser = { id: Date.now(), email, first_name, last_name, role: 'user' };
+					users.push({ ...newUser, password });
+					localStorage.setItem('demo_users', JSON.stringify(users));
+					setCurrentUser(newUser);
+					const fakeToken = btoa(JSON.stringify({ id: newUser.id, email: newUser.email }));
+					storage.set('pb:token', fakeToken);
+					return { user: newUser, token: fakeToken };
+				}
 	};
 
 	const login = async ({ email, password }) => {

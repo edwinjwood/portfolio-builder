@@ -6,18 +6,57 @@ const express = require('express');
 const cors = require('cors');
 const logoUpload = require('./logoUpload');
 const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
 const fs = require('fs');
 const crypto = require('crypto');
 const { Pool } = require('pg');
-require('dotenv').config();
+const nodemailer = require('nodemailer');
+const rateLimit = require('express-rate-limit');
+const path = require('path');
+const dotenv = require('dotenv');
+// Load the canonical backend .env located at backend/.env (one source of truth)
+const backendEnv = path.resolve(__dirname, '..', '.env');
+dotenv.config({ path: backendEnv });
 
 const app = express();
 app.use(cors());
-app.use(express.json());
+// Parse JSON bodies but keep a copy of the raw buffer for webhook verification
+app.use(express.json({
+  verify: (req, res, buf) => {
+    // Save raw body buffer for routes that need the exact signed payload (Stripe webhooks)
+    req.rawBody = buf;
+  }
+}));
 app.use('/api', logoUpload);
 
 const JWT_SECRET = process.env.JWT_SECRET || 'your_jwt_secret';
 const pool = new Pool({ connectionString: process.env.DATABASE_URL });
+
+// Configure mailer (optional). Provide SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS in backend/.env
+let mailer = null;
+if (process.env.SMTP_HOST && process.env.SMTP_USER) {
+  mailer = nodemailer.createTransport({
+    host: process.env.SMTP_HOST,
+    port: parseInt(process.env.SMTP_PORT || '587', 10),
+    secure: process.env.SMTP_SECURE === 'true',
+    auth: {
+      user: process.env.SMTP_USER,
+      pass: process.env.SMTP_PASS,
+    },
+  });
+} else {
+  console.warn('SMTP not configured. Password reset emails will be logged to console.');
+}
+
+// Stripe setup (requires STRIPE_SECRET_KEY in env)
+let stripe;
+try {
+  const Stripe = require('stripe');
+  stripe = Stripe(process.env.STRIPE_SECRET_KEY || '');
+} catch (err) {
+  console.warn('Stripe package not available or not configured. Payments will be disabled.');
+  stripe = null;
+}
 
 
 // Get all users route
@@ -38,6 +77,217 @@ app.get('/api/users', async (req, res) => {
   }
 });
 
+// Create user (signup)
+app.post('/api/users', async (req, res) => {
+  const { name, email, password, plan } = req.body;
+  if (!email || !password) return res.status(400).json({ error: 'Email and password required.' });
+  try {
+    // Check existing
+    const exists = await pool.query('SELECT id FROM users WHERE email = $1', [email]);
+    if (exists.rows[0]) return res.status(409).json({ error: 'Email already registered.' });
+
+    const names = (name || '').split(' ');
+    const first_name = names.shift() || null;
+    const last_name = names.join(' ') || null;
+    // Derive a username: prefer provided name parts, fallback to email local-part
+    let username = (first_name && last_name) ? `${first_name}.${last_name}` : null;
+    if (!username) {
+      username = (email || '').split('@')[0];
+    }
+    // Sanitize username: allow letters, numbers, dot, underscore, hyphen; lowercase; trim to 30 chars
+    username = username.toString().toLowerCase().replace(/[^a-z0-9._-]/g, '').slice(0, 30) || null;
+
+    // Hash password before storing
+    const hashed = await bcrypt.hash(password, 10);
+    const result = await pool.query(`
+      INSERT INTO users (username, email, password, first_name, last_name, role)
+      VALUES ($1,$2,$3,$4,$5,'user')
+      RETURNING id, email, username, role, first_name, last_name
+    `, [username, email, hashed, first_name, last_name]);
+
+    const user = result.rows[0];
+    // Ensure every user has an initial subscription row. Default to 'individual' when not specified.
+    try {
+      const key = plan ? plan.toString().toLowerCase() : 'individual';
+      let priceId = null;
+      try {
+        const pm = await pool.query('SELECT price_id FROM plan_price_map WHERE plan_key = $1 AND active = true', [key]);
+        if (pm.rows[0]) priceId = pm.rows[0].price_id;
+      } catch (e) {
+        // ignore
+      }
+      await pool.query(`
+        INSERT INTO subscriptions (user_id, plan_key, price_id, status)
+        VALUES ($1,$2,$3,$4)
+      `, [user.id, key, priceId, 'pending']);
+    } catch (subErr) {
+      console.warn('Failed to create subscription row at signup:', subErr.message);
+    }
+    // Optionally create a Stripe Checkout session for the selected plan so the user can complete payment
+    let checkout = null;
+    try {
+      const key = plan ? plan.toString().toLowerCase() : null;
+      if (stripe && key) {
+        // try to resolve a priceId: prefer plan_price_map value we inserted/read above
+        let priceId = null;
+        try {
+          const pm = await pool.query('SELECT price_id FROM plan_price_map WHERE plan_key = $1 AND active = true', [key]);
+          if (pm.rows[0]) priceId = pm.rows[0].price_id;
+        } catch (e) {
+          // ignore
+        }
+
+        if (priceId) {
+          // determine mode (subscription vs payment) by inspecting the price object
+          let mode = 'payment';
+          try {
+            const priceObj = await stripe.prices.retrieve(priceId, { expand: ['product'] });
+            if (priceObj && priceObj.recurring) mode = 'subscription';
+          } catch (e) {
+            // if retrieving price fails, default to payment
+          }
+
+          try {
+            const successBase = process.env.FRONTEND_URL || 'http://localhost:5173';
+            // If the frontend is using a HashRouter, Stripe must redirect to a URL containing the hash
+            const hashPrefix = process.env.FRONTEND_USE_HASH === 'false' ? '' : '/#';
+            const session = await stripe.checkout.sessions.create({
+              mode,
+              payment_method_types: ['card'],
+              line_items: [{ price: priceId, quantity: 1 }],
+              success_url: `${successBase}${hashPrefix}/checkout-success?session_id={CHECKOUT_SESSION_ID}`,
+              cancel_url: `${successBase}${hashPrefix}/checkout-cancel`,
+              customer_email: user.email,
+              metadata: { userId: String(user.id), plan: key },
+            });
+            checkout = { url: session.url, id: session.id, mode };
+            console.log('Created Checkout session at signup:', session.id, session.url);
+          } catch (e) {
+            console.warn('Failed to create checkout session at signup:', e.message || e);
+          }
+        }
+      }
+    } catch (err) {
+      console.warn('Error while attempting to create checkout session at signup:', err.message || err);
+    }
+
+    // Sign JWT
+    const token = jwt.sign({ id: user.id, email: user.email, role: user.role }, JWT_SECRET, { expiresIn: '1h' });
+    const resp = { token, user: { id: user.id, email: user.email, username: user.username, role: user.role, first_name: user.first_name, last_name: user.last_name } };
+    if (checkout) resp.checkout = checkout;
+    res.json(resp);
+  } catch (err) {
+    console.error('Error creating user:', err);
+    res.status(500).json({ error: 'Failed to create user.' });
+  }
+});
+
+// Apply rate limiter middleware specifically to password reset requests
+const resetIpLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 6, // limit each IP to 6 requests per windowMs
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
+// Password reset request with IP limiter and per-account throttle
+app.post('/api/password-reset/request', resetIpLimiter, async (req, res) => {
+  const { email } = req.body;
+  if (!email) return res.status(400).json({ error: 'Email required.' });
+  try {
+  // captcha verification is progressive and will be applied later if thresholds are met
+    // Look up user once
+    const r = await pool.query('SELECT id, email, first_name FROM users WHERE email = $1', [email]);
+    if (!r.rows[0]) return res.status(200).json({ success: true }); // don't reveal existence
+    const user = r.rows[0];
+
+    // Per-account throttle: count recent tokens created for this user in last hour
+    const countRow = await pool.query("SELECT count(*) FROM password_resets WHERE user_id = $1 AND created_at > now() - interval '1 hour'", [user.id]);
+    const count = parseInt(countRow.rows[0].count || '0', 10);
+    if (count >= 3) {
+      // Too many requests for this account recently
+      return res.status(429).json({ error: 'Too many password reset requests for this account. Try again later.' });
+    }
+
+    // Progressive CAPTCHA: require captcha only after a small number of recent requests (e.g., >=2)
+    const captchaSecret = process.env.CAPTCHA_SECRET;
+    const captchaProvider = (process.env.CAPTCHA_PROVIDER || 'recaptcha').toLowerCase();
+    if (captchaSecret && count >= 2) {
+      const token = req.body.captchaToken;
+      if (!token) return res.status(400).json({ error: 'Captcha token required.' });
+      let verified = false;
+      try {
+        if (captchaProvider === 'hcaptcha') {
+          const resp = await fetch('https://hcaptcha.com/siteverify', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: `secret=${encodeURIComponent(captchaSecret)}&response=${encodeURIComponent(token)}`,
+          });
+          const j = await resp.json();
+          verified = !!j.success;
+        } else {
+          const resp = await fetch('https://www.google.com/recaptcha/api/siteverify', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: `secret=${encodeURIComponent(captchaSecret)}&response=${encodeURIComponent(token)}`,
+          });
+          const j = await resp.json();
+          verified = !!j.success;
+        }
+      } catch (e) {
+        console.warn('Captcha verification error:', e.message || e);
+        return res.status(400).json({ error: 'Captcha verification failed.' });
+      }
+      if (!verified) return res.status(400).json({ error: 'Captcha verification failed.' });
+    }
+
+  const token = crypto.randomBytes(24).toString('hex');
+  const tokenHash = crypto.createHash('sha256').update(token).digest('hex');
+  const expiresAt = new Date(Date.now() + 1000 * 60 * 60); // 1 hour
+  // Store only the token hash in DB for security
+  await pool.query('INSERT INTO password_resets (user_id, token, expires_at) VALUES ($1,$2,$3)', [user.id, tokenHash, expiresAt]);
+
+    const resetUrl = `${process.env.FRONTEND_URL || 'http://localhost:5173'}/reset-password?token=${token}`;
+    const subject = 'Password reset request';
+    const text = `Hi ${user.first_name || ''},\n\nWe received a request to reset your password. Click the link below to reset it (expires in 1 hour):\n\n${resetUrl}\n\nIf you didn't request this, you can ignore this message.`;
+
+    if (mailer) {
+      await mailer.sendMail({ from: process.env.SMTP_FROM || 'no-reply@example.com', to: user.email, subject, text });
+      return res.json({ success: true });
+    }
+
+  // If no SMTP configured, log the token for local debugging but do not return it to the client.
+  console.log('Password reset token (no SMTP):', token, 'for user', user.email);
+    return res.json({ success: true });
+  } catch (err) {
+    console.error('Password reset request failed:', err);
+    res.status(500).json({ error: 'Failed to create reset token.' });
+  }
+});
+
+// Confirm password reset: verifies token and sets new password
+app.post('/api/password-reset/confirm', async (req, res) => {
+  const { token, password } = req.body;
+  if (!token || !password) return res.status(400).json({ error: 'Token and new password required.' });
+  try {
+  // Hash incoming token to compare with stored hash
+  const tokenHash = crypto.createHash('sha256').update(token).digest('hex');
+  const r = await pool.query('SELECT id, user_id, expires_at FROM password_resets WHERE token = $1', [tokenHash]);
+    const row = r.rows[0];
+    if (!row) return res.status(400).json({ error: 'Invalid or expired token.' });
+    if (new Date(row.expires_at) < new Date()) return res.status(400).json({ error: 'Token expired.' });
+
+    const hashed = await bcrypt.hash(password, 10);
+    await pool.query('UPDATE users SET password = $1 WHERE id = $2', [hashed, row.user_id]);
+    // delete token
+    await pool.query('DELETE FROM password_resets WHERE id = $1', [row.id]);
+    return res.json({ success: true });
+  } catch (err) {
+    console.error('Password reset confirm failed:', err);
+    res.status(500).json({ error: 'Failed to reset password.' });
+  }
+});
+
 // Login route
 app.post('/api/login', async (req, res) => {
   const { email, password } = req.body;
@@ -50,8 +300,9 @@ app.post('/api/login', async (req, res) => {
     if (!user) {
       return res.status(401).json({ error: 'Invalid credentials.' });
     }
-    // For demo: compare plaintext password (replace with hash in production)
-    if (password !== user.password) {
+    // Compare hashed password
+    const match = await bcrypt.compare(password, user.password);
+    if (!match) {
       return res.status(401).json({ error: 'Invalid credentials.' });
     }
     // Create JWT
@@ -239,6 +490,353 @@ app.get('/api/templates', async (req, res) => {
   } catch (err) {
     res.status(500).json({ error: 'Failed to fetch templates' });
   }
+});
+
+// Return active Stripe prices with expanded product info
+app.get('/api/stripe/prices', async (req, res) => {
+  if (!stripe) return res.status(503).json({ error: 'Payments not configured.' });
+  try {
+    const prices = await stripe.prices.list({ limit: 100, active: true, expand: ['data.product'] });
+    const mapped = prices.data.map(p => ({
+      id: p.id,
+      unit_amount: p.unit_amount,
+      currency: p.currency,
+      recurring: p.recurring || null,
+      nickname: p.nickname || null,
+      product: p.product ? {
+        id: p.product.id,
+        name: p.product.name,
+        description: p.product.description,
+      } : null
+    }));
+
+    // Allow fallback price IDs set in backend/.env for development or when prices
+    // are managed outside Stripe listing. Configure these in backend/.env as:
+    // PRICE_ID_INDIVIDUAL=price_...
+    // PRICE_ID_TEAM=price_...
+    // PRICE_ID_ENTERPRISE=price_...
+    const fallbackEnvPrices = [];
+    if (process.env.PRICE_ID_INDIVIDUAL) {
+      fallbackEnvPrices.push({ id: process.env.PRICE_ID_INDIVIDUAL, unit_amount: null, currency: 'usd', recurring: null, nickname: null, product: { id: null, name: 'Individual' } });
+    }
+    if (process.env.PRICE_ID_TEAM) {
+      fallbackEnvPrices.push({ id: process.env.PRICE_ID_TEAM, unit_amount: null, currency: 'usd', recurring: null, nickname: null, product: { id: null, name: 'Team' } });
+    }
+    if (process.env.PRICE_ID_ENTERPRISE) {
+      fallbackEnvPrices.push({ id: process.env.PRICE_ID_ENTERPRISE, unit_amount: null, currency: 'usd', recurring: null, nickname: null, product: { id: null, name: 'Enterprise' } });
+    }
+
+    // Merge and dedupe
+    const merged = mapped.slice();
+    for (const fp of fallbackEnvPrices) {
+      if (!merged.find(m => m.id === fp.id)) merged.push(fp);
+    }
+
+    res.json(merged);
+  } catch (err) {
+    console.error('Failed to fetch Stripe prices', err);
+    res.status(500).json({ error: 'Failed to fetch prices' });
+  }
+});
+
+// Return a mapped set of price IDs for known plans (individual, team, enterprise)
+app.get('/api/stripe/price-map', async (req, res) => {
+  if (!stripe) return res.status(503).json({ error: 'Payments not configured.' });
+  try {
+    // First, attempt to read canonical mappings from DB table `plan_price_map`
+    // Expected rows: plan_key (text) PRIMARY KEY, price_id (text), active boolean
+    const dbMap = {};
+    try {
+      const r = await pool.query('SELECT plan_key, price_id FROM plan_price_map WHERE active = true');
+      r.rows.forEach(row => {
+        if (row.plan_key && row.price_id) dbMap[row.plan_key.toLowerCase()] = row.price_id;
+      });
+    } catch (dbErr) {
+      // If table doesn't exist or query fails, continue to Stripe lookup
+      console.warn('plan_price_map read failed or not present:', dbErr.message);
+    }
+
+    // If DB contains all required keys, return it immediately
+    const requiredKeys = ['individual', 'team', 'enterprise'];
+    const hasAll = requiredKeys.every(k => !!dbMap[k]);
+    if (hasAll) return res.json(dbMap);
+
+    // Otherwise, fetch Stripe prices and try to derive missing keys
+    const prices = await stripe.prices.list({ limit: 200, active: true, expand: ['data.product'] });
+    const data = prices.data || [];
+
+    const normalize = (s) => (s || '').toString().toLowerCase().trim();
+    const candidates = { individual: [], team: [], enterprise: [] };
+
+    data.forEach((p) => {
+      const prod = p.product || {};
+      const prodName = prod.name ? normalize(prod.name) : '';
+      const nick = p.nickname ? normalize(p.nickname) : '';
+      const planTag = prod.metadata && prod.metadata.plan ? normalize(prod.metadata.plan) : null;
+      const id = p.id;
+      const recurring = p.recurring || null;
+
+      const tests = [];
+      if (planTag) tests.push(planTag);
+      if (prodName) tests.push(prodName);
+      if (nick) tests.push(nick);
+
+      ['individual', 'team', 'enterprise'].forEach((key) => {
+        if (tests.some(t => t.includes(key))) candidates[key].push({ id, recurring, raw: p });
+      });
+    });
+
+    const choose = (list) => {
+      if (!list || list.length === 0) return null;
+      const monthly = list.find(l => l.recurring && l.recurring.interval === 'month');
+      if (monthly) return monthly.id;
+      const anyRec = list.find(l => l.recurring);
+      if (anyRec) return anyRec.id;
+      return list[0].id;
+    };
+
+    const stripeMap = {
+      individual: choose(candidates.individual) || null,
+      team: choose(candidates.team) || null,
+      enterprise: choose(candidates.enterprise) || null,
+    };
+
+    // Build final map: prefer DB values, then Stripe-derived, then env fallback
+    const finalMap = {};
+    for (const key of requiredKeys) {
+      finalMap[key] = dbMap[key] || stripeMap[key] || process.env[`PRICE_ID_${key.toUpperCase()}`] || null;
+    }
+
+    // Upsert any discovered Stripe-derived mappings into DB for caching
+    try {
+      for (const key of requiredKeys) {
+        const priceId = finalMap[key];
+        if (!priceId) continue;
+        // If DB already had it, skip
+        if (dbMap[key] && dbMap[key] === priceId) continue;
+        await pool.query(`
+          INSERT INTO plan_price_map (plan_key, price_id, active, updated_at)
+          VALUES ($1,$2,true,now())
+          ON CONFLICT (plan_key) DO UPDATE SET price_id = EXCLUDED.price_id, active = EXCLUDED.active, updated_at = now()
+        `, [key, priceId]);
+      }
+    } catch (upErr) {
+      console.warn('Failed to upsert plan_price_map entries:', upErr.message);
+    }
+
+    res.json(finalMap);
+  } catch (err) {
+    console.error('Failed to build price map', err);
+    res.status(500).json({ error: 'Failed to build price map' });
+  }
+});
+
+// Create PaymentIntent for authenticated users
+app.post('/api/payments/create-payment-intent', async (req, res) => {
+  if (!stripe) return res.status(503).json({ error: 'Payments not configured.' });
+  const authHeader = req.headers['authorization'];
+  const token = authHeader && authHeader.split(' ')[1];
+  if (!token) return res.status(401).json({ error: 'No token provided.' });
+  let userId;
+  try {
+    const decoded = jwt.verify(token, JWT_SECRET);
+    userId = decoded.id;
+  } catch (err) {
+    return res.status(401).json({ error: 'Invalid or expired token.' });
+  }
+  const { amount, currency = 'usd' } = req.body;
+  if (!amount || typeof amount !== 'number') {
+    return res.status(400).json({ error: 'Amount (in cents) required as a number.' });
+  }
+  try {
+    const paymentIntent = await stripe.paymentIntents.create({
+      amount,
+      currency,
+      metadata: { userId: String(userId) }
+    });
+    res.json({ clientSecret: paymentIntent.client_secret, id: paymentIntent.id });
+  } catch (err) {
+    console.error('Error creating PaymentIntent:', err);
+    res.status(500).json({ error: 'Payment creation failed.' });
+  }
+});
+
+// Create a Stripe Checkout Session for price-based purchases/subscriptions
+app.post('/api/checkout/create-session', async (req, res) => {
+  if (!stripe) return res.status(503).json({ error: 'Payments not configured.' });
+  const { priceId, mode = 'payment', successUrl, cancelUrl } = req.body;
+  if (!priceId) return res.status(400).json({ error: 'priceId is required.' });
+
+  // Try to identify user from JWT if present
+  const authHeader = req.headers['authorization'];
+  const token = authHeader && authHeader.split(' ')[1];
+  let userId = null;
+  let customerEmail = null;
+  if (token) {
+    try {
+      const decoded = jwt.verify(token, JWT_SECRET);
+      userId = decoded.id;
+      const u = await pool.query('SELECT email FROM users WHERE id = $1', [userId]);
+      if (u.rows[0]) customerEmail = u.rows[0].email;
+    } catch (err) {
+      // ignore token errors; session can be created without user
+      userId = null;
+    }
+  }
+
+  try {
+    const session = await stripe.checkout.sessions.create({
+      mode: mode, // 'payment' or 'subscription'
+      payment_method_types: ['card'],
+      line_items: [{ price: priceId, quantity: 1 }],
+      success_url: successUrl || (process.env.CHECKOUT_SUCCESS_URL || 'http://localhost:3000/checkout?session_id={CHECKOUT_SESSION_ID}'),
+      cancel_url: cancelUrl || (process.env.CHECKOUT_CANCEL_URL || 'http://localhost:3000/checkout'),
+      customer_email: customerEmail || undefined,
+      metadata: { userId: userId ? String(userId) : null, priceId },
+    });
+
+    res.json({ url: session.url, id: session.id });
+  } catch (err) {
+    console.error('Error creating Checkout session:', err);
+    res.status(500).json({ error: 'Failed to create checkout session.' });
+  }
+});
+
+// Fetch a checkout session and return session metadata + user token if available
+app.get('/api/checkout/session', async (req, res) => {
+  const sessionId = req.query.session_id;
+  if (!sessionId) return res.status(400).json({ error: 'session_id required' });
+  if (!stripe) return res.status(503).json({ error: 'Payments not configured' });
+  try {
+    const session = await stripe.checkout.sessions.retrieve(sessionId, { expand: ['subscription', 'payment_intent'] });
+    const metadata = session.metadata || {};
+    let user = null;
+    let token = null;
+    if (metadata.userId) {
+      try {
+        const r = await pool.query('SELECT id, email, username, role, first_name, last_name FROM users WHERE id = $1', [metadata.userId]);
+        user = r.rows[0] || null;
+        if (user) {
+          token = jwt.sign({ id: user.id, email: user.email, role: user.role }, JWT_SECRET, { expiresIn: '1h' });
+        }
+      } catch (e) {
+        console.warn('Failed to load user for checkout session:', e.message || e);
+      }
+    }
+    res.json({ session, user, token });
+  } catch (err) {
+    console.error('Error fetching checkout session:', err.message || err);
+    res.status(500).json({ error: 'Failed to fetch session' });
+  }
+});
+
+// Stripe webhook endpoint - uses raw body for signature verification
+app.post('/webhooks/stripe', async (req, res) => {
+  if (!stripe) return res.status(503).send('Payments not configured.');
+  const sig = req.headers['stripe-signature'];
+  let event;
+  try {
+    const payload = req.rawBody || (req.body && JSON.stringify(req.body));
+    if (!payload) {
+      console.error('No raw payload available for webhook signature verification.');
+      return res.status(400).send('No payload for webhook verification.');
+    }
+    // Construct event using raw payload (Buffer or string)
+    event = stripe.webhooks.constructEvent(payload, sig, process.env.STRIPE_WEBHOOK_SECRET);
+  } catch (err) {
+    console.error('Webhook signature verification failed.', err.message);
+    return res.status(400).send(`Webhook Error: ${err.message}`);
+  }
+
+  // Handle the event types you care about
+  try {
+    switch (event.type) {
+      case 'payment_intent.succeeded': {
+        const pi = event.data.object;
+        console.log('PaymentIntent succeeded:', pi.id, 'amount:', pi.amount);
+        // Try to persist fuller payment info if payments table exists
+        try {
+          const raw = JSON.stringify(pi);
+          const metadata = pi.metadata || null;
+          // Try to find a payment method id from the PaymentIntent or its charges
+          const paymentMethod = pi.payment_method || (pi.charges && pi.charges.data && pi.charges.data[0] && (pi.charges.data[0].payment_method || (pi.charges.data[0].payment_method_details && pi.charges.data[0].payment_method_details.type))) || null;
+          const receiptEmail = pi.receipt_email || (pi.charges && pi.charges.data && pi.charges.data[0] && pi.charges.data[0].receipt_email) || null;
+          const description = pi.description || null;
+          await pool.query(`
+            INSERT INTO payments (stripe_id, user_id, amount, currency, status, payment_method, receipt_email, description, metadata, raw_event)
+            VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10)
+            ON CONFLICT (stripe_id) DO UPDATE SET
+              status = EXCLUDED.status,
+              payment_method = EXCLUDED.payment_method,
+              receipt_email = EXCLUDED.receipt_email,
+              description = EXCLUDED.description,
+              metadata = EXCLUDED.metadata,
+              raw_event = EXCLUDED.raw_event,
+              updated_at = now()
+          `, [pi.id, pi.metadata?.userId || null, pi.amount, pi.currency, pi.status, paymentMethod, receiptEmail, description, metadata, raw]);
+        } catch (e) {
+          console.warn('Could not persist payment to DB (table may not exist or insert failed):', e.message);
+        }
+        break;
+      }
+      case 'payment_intent.payment_failed': {
+        const pi = event.data.object;
+        console.log('PaymentIntent failed:', pi.id, pi.last_payment_error && pi.last_payment_error.message);
+        // Upsert a failed status record so failures are recorded
+        try {
+          const raw = JSON.stringify(pi);
+          const metadata = pi.metadata || null;
+          const paymentMethod = pi.payment_method || null;
+          const receiptEmail = pi.receipt_email || null;
+          const description = pi.description || null;
+          await pool.query(`
+            INSERT INTO payments (stripe_id, user_id, amount, currency, status, payment_method, receipt_email, description, metadata, raw_event)
+            VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10)
+            ON CONFLICT (stripe_id) DO UPDATE SET
+              status = EXCLUDED.status,
+              payment_method = EXCLUDED.payment_method,
+              receipt_email = EXCLUDED.receipt_email,
+              description = EXCLUDED.description,
+              metadata = EXCLUDED.metadata,
+              raw_event = EXCLUDED.raw_event,
+              updated_at = now()
+          `, [pi.id, pi.metadata?.userId || null, pi.amount || 0, pi.currency || 'usd', pi.status || 'failed', paymentMethod, receiptEmail, description, metadata, raw]);
+        } catch (e) {
+          console.warn('Could not persist failed payment to DB:', e.message);
+        }
+        break;
+      }
+      case 'checkout.session.completed': {
+        const session = event.data.object;
+        console.log('Checkout session completed:', session.id);
+        try {
+          const metadata = session.metadata || {};
+          const userId = metadata.userId || null;
+          const planKey = metadata.plan || null;
+          // If we have a user and plan, mark the matching subscription active
+          if (userId && planKey) {
+            await pool.query(`
+              UPDATE subscriptions
+              SET status = $1, stripe_subscription_id = $2, updated_at = now()
+              WHERE user_id = $3 AND plan_key = $4
+            `, ['active', session.subscription || null, userId, planKey]);
+          }
+        } catch (e) {
+          console.warn('Failed to activate subscription from checkout.session.completed:', e.message);
+        }
+        break;
+      }
+      default:
+        // Quiet by default: only emit unhandled event logs during development
+        if (process.env.NODE_ENV !== 'production' || process.env.DEBUG_STRIPE_EVENTS === 'true') {
+          console.debug(`Unhandled Stripe event type: ${event.type}`);
+        }
+    }
+  } catch (procErr) {
+    console.error('Error processing webhook event:', procErr);
+  }
+
+  res.json({ received: true });
 });
 
 const PORT = process.env.PORT || 5001;
