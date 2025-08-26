@@ -972,6 +972,12 @@ app.post('/webhooks/stripe', async (req, res) => {
 
   // Handle the event types you care about
   try {
+    // Surface every event so we can debug missing upserts in production
+    try {
+      if (event && event.type) {
+        console.log('Stripe webhook received:', event.type, event.id || '(no id)');
+      }
+    } catch (e) { /* ignore logging errors */ }
     switch (event.type) {
       case 'payment_intent.succeeded': {
         const pi = event.data.object;
@@ -1001,7 +1007,8 @@ app.post('/webhooks/stripe', async (req, res) => {
       }
       case 'checkout.session.completed': {
         const session = event.data.object;
-        console.log('Checkout session completed:', session.id);
+  console.log('Checkout session completed:', session.id);
+  try { console.log('  session.metadata:', session.metadata || {}); } catch(e){}
         try {
           const metadata = session.metadata || {};
           const userId = metadata.userId || null;
@@ -1021,7 +1028,8 @@ app.post('/webhooks/stripe', async (req, res) => {
       }
       case 'invoice.payment_succeeded': {
         const invoice = event.data.object;
-        console.log('Invoice payment succeeded:', invoice.id);
+  console.log('Invoice payment succeeded:', invoice.id);
+  try { console.log('  invoice.subscription:', invoice.subscription, 'invoice.metadata:', invoice.metadata || {}, 'amount_paid:', invoice.amount_paid); } catch(e){}
         try {
           const metadata = invoice.metadata || {};
           const userId = metadata.userId || null;
@@ -1049,7 +1057,8 @@ app.post('/webhooks/stripe', async (req, res) => {
   case 'invoice.paid': {
         // Some integrations emit invoice.paid; handle same as invoice.payment_succeeded
         const invoice = event.data.object;
-        console.log('Invoice paid:', invoice.id);
+  console.log('Invoice paid:', invoice.id);
+  try { console.log('  invoice.subscription:', invoice.subscription, 'invoice.metadata:', invoice.metadata || {}, 'amount_paid:', invoice.amount_paid); } catch(e){}
         try {
           const metadata = invoice.metadata || {};
           const userId = metadata.userId || null;
