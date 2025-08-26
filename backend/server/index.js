@@ -117,8 +117,8 @@ app.post('/api/users', async (req, res) => {
         // ignore
       }
       await pool.query(`
-        INSERT INTO subscriptions (user_id, plan_key, price_id, status)
-        VALUES ($1,$2,$3,$4)
+        INSERT INTO subscriptions (user_id, plan_key, price_id, status, created_at, updated_at)
+        VALUES ($1,$2,$3,$4, now(), now())
       `, [user.id, key, priceId, 'pending']);
     } catch (subErr) {
       console.warn('Failed to create subscription row at signup:', subErr.message);
@@ -148,7 +148,7 @@ app.post('/api/users', async (req, res) => {
           }
 
           try {
-            const successBase = process.env.FRONTEND_URL || 'http://localhost:5173';
+            const successBase = process.env.CHECKOUT_BASE_URL || process.env.FRONTEND_URL || 'http://localhost:5173';
             // If the frontend is using a HashRouter, Stripe must redirect to a URL containing the hash
             const hashPrefix = process.env.FRONTEND_USE_HASH === 'false' ? '' : '/#';
             const session = await stripe.checkout.sessions.create({
@@ -217,26 +217,33 @@ app.post('/api/password-reset/request', resetIpLimiter, async (req, res) => {
       if (!token) return res.status(400).json({ error: 'Captcha token required.' });
       let verified = false;
       try {
+        let resp;
         if (captchaProvider === 'hcaptcha') {
-          const resp = await fetch('https://hcaptcha.com/siteverify', {
+          resp = await fetch('https://hcaptcha.com/siteverify', {
             method: 'POST',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
             body: `secret=${encodeURIComponent(captchaSecret)}&response=${encodeURIComponent(token)}`,
           });
-          const j = await resp.json();
-          verified = !!j.success;
         } else {
-          const resp = await fetch('https://www.google.com/recaptcha/api/siteverify', {
+          resp = await fetch('https://www.google.com/recaptcha/api/siteverify', {
             method: 'POST',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
             body: `secret=${encodeURIComponent(captchaSecret)}&response=${encodeURIComponent(token)}`,
           });
-          const j = await resp.json();
-          verified = !!j.success;
+        }
+        const j = await resp.json().catch(() => null);
+        if (!resp.ok) {
+          console.warn('Captcha provider returned non-OK status', resp.status, j || '(no json)');
+          return res.status(401).json({ error: 'Captcha provider rejected the verification request.', details: j });
+        }
+        verified = !!(j && j.success);
+        if (!verified) {
+          console.warn('Captcha verification failed', j);
+          return res.status(401).json({ error: 'Captcha verification failed.', details: j });
         }
       } catch (e) {
         console.warn('Captcha verification error:', e.message || e);
-        return res.status(400).json({ error: 'Captcha verification failed.' });
+        return res.status(400).json({ error: 'Captcha verification failed (exception).' });
       }
       if (!verified) return res.status(400).json({ error: 'Captcha verification failed.' });
     }
@@ -247,7 +254,7 @@ app.post('/api/password-reset/request', resetIpLimiter, async (req, res) => {
   // Store only the token hash in DB for security
   await pool.query('INSERT INTO password_resets (user_id, token, expires_at) VALUES ($1,$2,$3)', [user.id, tokenHash, expiresAt]);
 
-    const resetUrl = `${process.env.FRONTEND_URL || 'http://localhost:5173'}/reset-password?token=${token}`;
+  const resetUrl = `${process.env.FRONTEND_URL || process.env.CHECKOUT_BASE_URL || 'http://localhost:5173'}/reset-password?token=${token}`;
     const subject = 'Password reset request';
     const text = `Hi ${user.first_name || ''},\n\nWe received a request to reset your password. Click the link below to reset it (expires in 1 hour):\n\n${resetUrl}\n\nIf you didn't request this, you can ignore this message.`;
 
@@ -661,6 +668,121 @@ app.post('/api/payments/create-payment-intent', async (req, res) => {
   }
 });
 
+// Admin: grouped payments view (non-destructive). Shows logical payment groups by
+// stripe_canonical_id / payment_intent / charge / invoice and a heuristic fallback.
+// In production this endpoint requires an admin JWT; in non-production it's open for convenience.
+app.get('/admin/payments/grouped', async (req, res) => {
+  try {
+    // Simple admin guard: require role=admin in production
+    if (process.env.NODE_ENV === 'production') {
+      const auth = req.headers['authorization'];
+      const token = auth && auth.split(' ')[1];
+      if (!token) return res.status(401).json({ error: 'Unauthorized' });
+      try {
+        const decoded = jwt.verify(token, JWT_SECRET);
+        if (!decoded || decoded.role !== 'admin') return res.status(403).json({ error: 'Forbidden' });
+      } catch (e) {
+        return res.status(401).json({ error: 'Invalid token' });
+      }
+    }
+
+    const q = await pool.query(`SELECT id, stripe_id, stripe_canonical_id, stripe_payment_intent_id, stripe_charge_id, stripe_invoice_id, amount, status, metadata, raw_event, created_at, updated_at, user_id FROM payments ORDER BY updated_at DESC`);
+    const rows = q.rows || [];
+
+    // Initial grouping by explicit ids or heuristic
+    const groups = new Map();
+    const addToGroup = (key, reason, row) => {
+      if (!groups.has(key)) groups.set(key, { key, reasons: new Set([reason]), payments: [], ids: new Set() });
+      const g = groups.get(key);
+      g.reasons.add(reason);
+      g.payments.push(row);
+      ['stripe_canonical_id','stripe_payment_intent_id','stripe_charge_id','stripe_invoice_id','stripe_id'].forEach(f => { if (row[f]) g.ids.add(row[f]); });
+    };
+
+    for (const r of rows) {
+      if (r.stripe_canonical_id) {
+        addToGroup(`canonical:${r.stripe_canonical_id}`, 'canonical', r);
+        continue;
+      }
+      if (r.stripe_payment_intent_id) {
+        addToGroup(`pi:${r.stripe_payment_intent_id}`, 'payment_intent', r);
+        continue;
+      }
+      if (r.stripe_charge_id) {
+        addToGroup(`ch:${r.stripe_charge_id}`, 'charge', r);
+        continue;
+      }
+      if (r.stripe_invoice_id) {
+        addToGroup(`in:${r.stripe_invoice_id}`, 'invoice', r);
+        continue;
+      }
+      // heuristic: customer + amount + 5-min bucket
+      let customer = null;
+      try { customer = (r.raw_event && r.raw_event.customer) || (r.metadata && (r.metadata.userId || r.metadata.customer)) || null; } catch(e) { customer = null; }
+      const ts = r.created_at ? Math.floor(new Date(r.created_at).getTime() / 1000 / 300) : 'no_ts';
+      const hkey = `heur:${customer||'anon'}:${r.amount || 0}:${ts}`;
+      addToGroup(hkey, 'heuristic', r);
+    }
+
+    // Merge groups that share any stripe ids (connected components)
+    const groupKeys = Array.from(groups.keys());
+    const adj = new Map();
+    // build adjacency
+    for (let i=0;i<groupKeys.length;i++) {
+      const a = groupKeys[i];
+      const aids = groups.get(a).ids;
+      for (let j=i+1;j<groupKeys.length;j++) {
+        const b = groupKeys[j];
+        const bids = groups.get(b).ids;
+        // check intersection
+        let intersect = false;
+        for (const id of aids) { if (bids.has(id)) { intersect = true; break; } }
+        if (intersect) {
+          if (!adj.has(a)) adj.set(a, new Set());
+          if (!adj.has(b)) adj.set(b, new Set());
+          adj.get(a).add(b); adj.get(b).add(a);
+        }
+      }
+    }
+
+    // find connected components
+    const visited = new Set();
+    const merged = [];
+    for (const start of groupKeys) {
+      if (visited.has(start)) continue;
+      const stack = [start];
+      const comp = new Set();
+      while (stack.length) {
+        const k = stack.pop();
+        if (visited.has(k)) continue;
+        visited.add(k); comp.add(k);
+        const neighbors = adj.get(k);
+        if (neighbors) for (const n of neighbors) if (!visited.has(n)) stack.push(n);
+      }
+      // merge component groups
+      const mergedGroup = { keys: Array.from(comp), reasons: new Set(), payments: [], ids: new Set() };
+      for (const k of comp) {
+        const g = groups.get(k);
+        if (!g) continue;
+        g.reasons.forEach(r => mergedGroup.reasons.add(r));
+        for (const p of g.payments) mergedGroup.payments.push(p);
+        for (const id of g.ids) mergedGroup.ids.add(id);
+      }
+      // aggregate
+      const total_amount = mergedGroup.payments.reduce((s,p)=>s + (p.amount||0), 0);
+      const count = mergedGroup.payments.length;
+      const users = Array.from(new Set(mergedGroup.payments.map(p=>p.user_id).filter(Boolean)));
+      const statuses = Array.from(new Set(mergedGroup.payments.map(p=>p.status).filter(Boolean)));
+      merged.push({ keys: mergedGroup.keys, reasons: Array.from(mergedGroup.reasons), count, total_amount, users, statuses, payments: mergedGroup.payments });
+    }
+
+    res.json({ groups: merged, total_payments: rows.length });
+  } catch (err) {
+    console.error('Failed to build grouped payments:', err);
+    res.status(500).json({ error: 'Failed to build grouped payments' });
+  }
+});
+
 // Create a Stripe Checkout Session for price-based purchases/subscriptions
 app.post('/api/checkout/create-session', async (req, res) => {
   if (!stripe) return res.status(503).json({ error: 'Payments not configured.' });
@@ -685,14 +807,32 @@ app.post('/api/checkout/create-session', async (req, res) => {
   }
 
   try {
+    // Determine base URL for frontend callbacks. Prefer explicit CHECKOUT_BASE_URL, then FRONTEND_URL,
+    // fallback to localhost for local development.
+    const successBase = process.env.CHECKOUT_BASE_URL || process.env.FRONTEND_URL || 'http://localhost:5173';
+    const hashPrefix = process.env.FRONTEND_USE_HASH === 'false' ? '' : '/#';
+    const defaultSuccess = `${successBase}${hashPrefix}/checkout?session_id={CHECKOUT_SESSION_ID}`;
+    const defaultCancel = `${successBase}${hashPrefix}/checkout`;
+
+    // Try to resolve a canonical plan_key for this priceId so webhooks can update subscriptions
+    let planKey = null;
+    try {
+      const pmRes = await pool.query('SELECT plan_key FROM plan_price_map WHERE price_id = $1 AND active = true', [priceId]);
+      if (pmRes.rows[0]) planKey = pmRes.rows[0].plan_key;
+    } catch (e) {
+      // ignore lookup errors
+    }
+
     const session = await stripe.checkout.sessions.create({
       mode: mode, // 'payment' or 'subscription'
       payment_method_types: ['card'],
       line_items: [{ price: priceId, quantity: 1 }],
-      success_url: successUrl || (process.env.CHECKOUT_SUCCESS_URL || 'http://localhost:3000/checkout?session_id={CHECKOUT_SESSION_ID}'),
-      cancel_url: cancelUrl || (process.env.CHECKOUT_CANCEL_URL || 'http://localhost:3000/checkout'),
+      // Force a stable locale to avoid dynamic locale module resolution on Stripe's side
+      locale: 'en',
+      success_url: successUrl || process.env.CHECKOUT_SUCCESS_URL || defaultSuccess,
+      cancel_url: cancelUrl || process.env.CHECKOUT_CANCEL_URL || defaultCancel,
       customer_email: customerEmail || undefined,
-      metadata: { userId: userId ? String(userId) : null, priceId },
+  metadata: { userId: userId ? String(userId) : null, priceId, plan: planKey },
     });
 
     res.json({ url: session.url, id: session.id });
@@ -748,62 +888,106 @@ app.post('/webhooks/stripe', async (req, res) => {
     return res.status(400).send(`Webhook Error: ${err.message}`);
   }
 
+  // Helper: compute a canonical id for related Stripe objects so different events map to the same payment row
+  // Extract Stripe ids from an event object and compute a canonical id
+  const extractStripeIds = (obj) => {
+    if (!obj) return { canonicalId: null, paymentIntentId: null, chargeId: null, invoiceId: null };
+    let paymentIntentId = null;
+    let chargeId = null;
+    let invoiceId = null;
+
+    // top-level shapes
+    if (typeof obj.id === 'string') {
+      const id = obj.id;
+      if (id.startsWith('pi_')) paymentIntentId = id;
+      if (id.startsWith('ch_')) chargeId = id;
+      if (id.startsWith('in_')) invoiceId = id;
+    }
+
+    // common fields
+    if (!paymentIntentId && obj.payment_intent) {
+      if (typeof obj.payment_intent === 'string') paymentIntentId = obj.payment_intent;
+      else if (obj.payment_intent && obj.payment_intent.id) paymentIntentId = obj.payment_intent.id;
+    }
+    if (!chargeId && obj.charge) chargeId = obj.charge;
+    if (!invoiceId && obj.invoice) invoiceId = obj.invoice;
+
+    // nested charges array
+    try {
+      if (!chargeId && obj.charges && obj.charges.data && obj.charges.data[0]) {
+        const c = obj.charges.data[0];
+        if (c && c.id) chargeId = c.id;
+        if (c && c.payment_intent) paymentIntentId = paymentIntentId || c.payment_intent;
+        if (c && c.invoice) invoiceId = invoiceId || c.invoice;
+      }
+    } catch (e) {
+      // ignore
+    }
+
+    // invoice objects sometimes embed a charge in different fields
+    if (!chargeId && obj.charge) chargeId = obj.charge;
+
+    // Determine canonical: prefer invoice -> payment_intent -> charge -> fallback to top-level id
+    const canonicalId = invoiceId || paymentIntentId || chargeId || (obj && obj.id ? obj.id : null);
+    return { canonicalId, paymentIntentId, chargeId, invoiceId };
+  };
+
+  // Helper: upsert a payment record using a canonical id to avoid duplicates
+  const upsertPayment = async ({ canonicalId, stripeId, stripePaymentIntentId = null, stripeChargeId = null, stripeInvoiceId = null, userId = null, amount = 0, currency = 'usd', status = null, paymentMethod = null, receiptEmail = null, description = null, metadata = null, raw = null }) => {
+    if (!canonicalId) canonicalId = stripeId || null;
+    if (!canonicalId) return;
+    try {
+      await pool.query(`
+        INSERT INTO payments (stripe_id, stripe_canonical_id, stripe_payment_intent_id, stripe_charge_id, stripe_invoice_id, user_id, amount, currency, status, payment_method, receipt_email, description, metadata, raw_event, created_at, updated_at)
+        VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14, now(), now())
+        ON CONFLICT (stripe_canonical_id) DO UPDATE SET
+          stripe_id = COALESCE(payments.stripe_id, EXCLUDED.stripe_id),
+          stripe_payment_intent_id = COALESCE(payments.stripe_payment_intent_id, EXCLUDED.stripe_payment_intent_id),
+          stripe_charge_id = COALESCE(payments.stripe_charge_id, EXCLUDED.stripe_charge_id),
+          stripe_invoice_id = COALESCE(payments.stripe_invoice_id, EXCLUDED.stripe_invoice_id),
+          user_id = COALESCE(EXCLUDED.user_id, payments.user_id),
+          amount = EXCLUDED.amount,
+          currency = EXCLUDED.currency,
+          status = EXCLUDED.status,
+          payment_method = COALESCE(EXCLUDED.payment_method, payments.payment_method),
+          receipt_email = COALESCE(EXCLUDED.receipt_email, payments.receipt_email),
+          description = COALESCE(EXCLUDED.description, payments.description),
+          metadata = COALESCE(EXCLUDED.metadata, payments.metadata),
+          raw_event = EXCLUDED.raw_event,
+          updated_at = now()
+      `, [stripeId, canonicalId, stripePaymentIntentId, stripeChargeId, stripeInvoiceId, userId, amount, currency, status, paymentMethod, receiptEmail, description, metadata, raw]);
+    } catch (e) {
+      console.warn('Failed to upsert payment by canonical id:', e.message || e);
+    }
+  };
+
   // Handle the event types you care about
   try {
     switch (event.type) {
       case 'payment_intent.succeeded': {
         const pi = event.data.object;
         console.log('PaymentIntent succeeded:', pi.id, 'amount:', pi.amount);
-        // Try to persist fuller payment info if payments table exists
-        try {
-          const raw = JSON.stringify(pi);
-          const metadata = pi.metadata || null;
-          // Try to find a payment method id from the PaymentIntent or its charges
-          const paymentMethod = pi.payment_method || (pi.charges && pi.charges.data && pi.charges.data[0] && (pi.charges.data[0].payment_method || (pi.charges.data[0].payment_method_details && pi.charges.data[0].payment_method_details.type))) || null;
-          const receiptEmail = pi.receipt_email || (pi.charges && pi.charges.data && pi.charges.data[0] && pi.charges.data[0].receipt_email) || null;
-          const description = pi.description || null;
-          await pool.query(`
-            INSERT INTO payments (stripe_id, user_id, amount, currency, status, payment_method, receipt_email, description, metadata, raw_event)
-            VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10)
-            ON CONFLICT (stripe_id) DO UPDATE SET
-              status = EXCLUDED.status,
-              payment_method = EXCLUDED.payment_method,
-              receipt_email = EXCLUDED.receipt_email,
-              description = EXCLUDED.description,
-              metadata = EXCLUDED.metadata,
-              raw_event = EXCLUDED.raw_event,
-              updated_at = now()
-          `, [pi.id, pi.metadata?.userId || null, pi.amount, pi.currency, pi.status, paymentMethod, receiptEmail, description, metadata, raw]);
-        } catch (e) {
-          console.warn('Could not persist payment to DB (table may not exist or insert failed):', e.message);
-        }
+        const raw = JSON.stringify(pi);
+        const metadata = pi.metadata || null;
+        const paymentMethod = pi.payment_method || (pi.charges && pi.charges.data && pi.charges.data[0] && (pi.charges.data[0].payment_method || (pi.charges.data[0].payment_method_details && pi.charges.data[0].payment_method_details.type))) || null;
+        const receiptEmail = pi.receipt_email || (pi.charges && pi.charges.data && pi.charges.data[0] && pi.charges.data[0].receipt_email) || null;
+        const description = pi.description || null;
+  const ids = extractStripeIds(pi);
+  const canonicalId = ids.canonicalId || pi.id;
+  await upsertPayment({ canonicalId, stripeId: pi.id, stripePaymentIntentId: ids.paymentIntentId, stripeChargeId: ids.chargeId, stripeInvoiceId: ids.invoiceId, userId: pi.metadata?.userId || null, amount: pi.amount, currency: pi.currency, status: pi.status, paymentMethod, receiptEmail, description, metadata, raw });
         break;
       }
       case 'payment_intent.payment_failed': {
         const pi = event.data.object;
         console.log('PaymentIntent failed:', pi.id, pi.last_payment_error && pi.last_payment_error.message);
-        // Upsert a failed status record so failures are recorded
-        try {
-          const raw = JSON.stringify(pi);
-          const metadata = pi.metadata || null;
-          const paymentMethod = pi.payment_method || null;
-          const receiptEmail = pi.receipt_email || null;
-          const description = pi.description || null;
-          await pool.query(`
-            INSERT INTO payments (stripe_id, user_id, amount, currency, status, payment_method, receipt_email, description, metadata, raw_event)
-            VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10)
-            ON CONFLICT (stripe_id) DO UPDATE SET
-              status = EXCLUDED.status,
-              payment_method = EXCLUDED.payment_method,
-              receipt_email = EXCLUDED.receipt_email,
-              description = EXCLUDED.description,
-              metadata = EXCLUDED.metadata,
-              raw_event = EXCLUDED.raw_event,
-              updated_at = now()
-          `, [pi.id, pi.metadata?.userId || null, pi.amount || 0, pi.currency || 'usd', pi.status || 'failed', paymentMethod, receiptEmail, description, metadata, raw]);
-        } catch (e) {
-          console.warn('Could not persist failed payment to DB:', e.message);
-        }
+        const raw = JSON.stringify(pi);
+        const metadata = pi.metadata || null;
+        const paymentMethod = pi.payment_method || null;
+        const receiptEmail = pi.receipt_email || null;
+        const description = pi.description || null;
+  const ids = extractStripeIds(pi);
+  const canonicalId = ids.canonicalId || pi.id;
+  await upsertPayment({ canonicalId, stripeId: pi.id, stripePaymentIntentId: ids.paymentIntentId, stripeChargeId: ids.chargeId, stripeInvoiceId: ids.invoiceId, userId: pi.metadata?.userId || null, amount: pi.amount || 0, currency: pi.currency || 'usd', status: pi.status || 'failed', paymentMethod, receiptEmail, description, metadata, raw });
         break;
       }
       case 'checkout.session.completed': {
@@ -823,6 +1007,123 @@ app.post('/webhooks/stripe', async (req, res) => {
           }
         } catch (e) {
           console.warn('Failed to activate subscription from checkout.session.completed:', e.message);
+        }
+        break;
+      }
+      case 'invoice.payment_succeeded': {
+        const invoice = event.data.object;
+        console.log('Invoice payment succeeded:', invoice.id);
+        try {
+          const metadata = invoice.metadata || {};
+          const userId = metadata.userId || null;
+          const planKey = metadata.plan || null;
+          // If subscription id is present, try to activate subscription rows matching subscription id
+          const subId = invoice.subscription || null;
+          if (userId && planKey) {
+            await pool.query(`
+              UPDATE subscriptions
+              SET status = $1, updated_at = now(), stripe_subscription_id = COALESCE(stripe_subscription_id, $2)
+              WHERE user_id = $3 AND plan_key = $4
+            `, ['active', subId, userId, planKey]);
+          } else if (subId) {
+            await pool.query(`
+              UPDATE subscriptions
+              SET status = $1, updated_at = now()
+              WHERE stripe_subscription_id = $2
+            `, ['active', subId]);
+          }
+        } catch (e) {
+          console.warn('Failed to activate subscription from invoice.payment_succeeded:', e.message);
+        }
+        break;
+      }
+  case 'invoice.paid': {
+        // Some integrations emit invoice.paid; handle same as invoice.payment_succeeded
+        const invoice = event.data.object;
+        console.log('Invoice paid:', invoice.id);
+        try {
+          const metadata = invoice.metadata || {};
+          const userId = metadata.userId || null;
+          const planKey = metadata.plan || null;
+          const subId = invoice.subscription || null;
+          const raw = JSON.stringify(invoice);
+          const amount = invoice.amount_paid || invoice.total || 0;
+          const currency = invoice.currency || 'usd';
+          const ids = extractStripeIds(invoice);
+          const canonicalId = ids.canonicalId || invoice.id;
+          await upsertPayment({ canonicalId, stripeId: invoice.id, stripePaymentIntentId: ids.paymentIntentId, stripeChargeId: ids.chargeId, stripeInvoiceId: ids.invoiceId, userId, amount, currency, status: invoice.paid ? 'succeeded' : 'pending', description: invoice.description || null, metadata, raw });
+
+          if (userId && planKey) {
+            await pool.query(`
+              UPDATE subscriptions
+              SET status = $1, updated_at = now(), stripe_subscription_id = COALESCE(stripe_subscription_id, $2)
+              WHERE user_id = $3 AND plan_key = $4
+            `, ['active', subId, userId, planKey]);
+          } else if (subId) {
+            await pool.query(`
+              UPDATE subscriptions
+              SET status = $1, updated_at = now()
+              WHERE stripe_subscription_id = $2
+            `, ['active', subId]);
+          }
+        } catch (e) {
+          console.warn('Failed to persist invoice.paid:', e.message || e);
+        }
+        break;
+      }
+      case 'charge.succeeded': {
+        const charge = event.data.object;
+        console.log('Charge succeeded:', charge.id, 'amount:', charge.amount);
+        try {
+          const raw = JSON.stringify(charge);
+          const metadata = charge.metadata || null;
+          const receiptEmail = charge.receipt_email || null;
+          const paymentMethod = charge.payment_method || (charge.payment_method_details && charge.payment_method_details.type) || null;
+          const ids = extractStripeIds(charge);
+          const canonicalId = ids.canonicalId || charge.id;
+          await upsertPayment({ canonicalId, stripeId: charge.id, stripePaymentIntentId: ids.paymentIntentId, stripeChargeId: ids.chargeId, stripeInvoiceId: ids.invoiceId, userId: charge.metadata?.userId || null, amount: charge.amount, currency: charge.currency, status: charge.status || 'succeeded', paymentMethod, receiptEmail, description: charge.description || null, metadata, raw });
+        } catch (e) {
+          console.warn('Failed to persist charge.succeeded:', e.message || e);
+        }
+        break;
+      }
+      case 'charge.refunded': {
+        const charge = event.data.object;
+        console.log('Charge refunded:', charge.id);
+        try {
+          const raw = JSON.stringify(charge);
+          const metadata = charge.metadata || null;
+          const ids = extractStripeIds(charge);
+          const canonicalId = ids.canonicalId || charge.id;
+          await upsertPayment({ canonicalId, stripeId: charge.id, stripePaymentIntentId: ids.paymentIntentId, stripeChargeId: ids.chargeId, stripeInvoiceId: ids.invoiceId, userId: charge.metadata?.userId || null, amount: charge.amount || 0, currency: charge.currency || 'usd', status: 'refunded', description: charge.description || null, metadata, raw });
+        } catch (e) {
+          console.warn('Failed to persist charge.refunded:', e.message || e);
+        }
+        break;
+      }
+      case 'customer.subscription.created': {
+        const sub = event.data.object;
+        console.log('Customer subscription created:', sub.id);
+        try {
+          const metadata = sub.metadata || {};
+          const userId = metadata.userId || null;
+          const planKey = metadata.plan || null;
+          if (userId && planKey) {
+            await pool.query(`
+              UPDATE subscriptions
+              SET status = $1, updated_at = now(), stripe_subscription_id = $2
+              WHERE user_id = $3 AND plan_key = $4
+            `, ['active', sub.id, userId, planKey]);
+          } else {
+            // Fallback: mark any subscription with matching stripe id active
+            await pool.query(`
+              UPDATE subscriptions
+              SET status = $1, updated_at = now()
+              WHERE stripe_subscription_id = $2
+            `, ['active', sub.id]);
+          }
+        } catch (e) {
+          console.warn('Failed to activate subscription from customer.subscription.created:', e.message);
         }
         break;
       }

@@ -23,7 +23,7 @@ export default function ResetPasswordWithCaptcha() {
       const body = { email };
       if (captchaToken) body.captchaToken = captchaToken;
 
-      const apiBase = import.meta.env.VITE_API_URL || 'http://localhost:5001';
+  const apiBase = import.meta.env.VITE_API_URL || (typeof process !== 'undefined' && process.env.API_URL) || 'http://localhost:5001';
       const res = await fetch(`${apiBase}/api/password-reset/request`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

@@ -35,7 +35,7 @@ export function AuthProvider({ children }) {
 		// Helper to seed from API
 		const seedFromApi = async () => {
 			try {
-		const apiUrl = import.meta.env.VITE_API_URL || '';
+		const apiUrl = import.meta.env.VITE_API_URL || (typeof process !== 'undefined' && process.env.API_URL) || '';
 		const res = await fetch(`${apiUrl}/api/users`);
 				const data = await res.json();
 				if (Array.isArray(data)) return data;
@@ -56,7 +56,7 @@ export function AuthProvider({ children }) {
 		const exists = users.some(u => u.email.toLowerCase() === email.toLowerCase());
 				// Attempt server-side signup first
 				try {
-					const apiBase = import.meta.env.VITE_API_URL || 'http://localhost:5001';
+					const apiBase = import.meta.env.VITE_API_URL || (typeof process !== 'undefined' && process.env.API_URL) || 'http://localhost:5001';
 					const res = await fetch(`${apiBase}/api/users`, {
 						method: 'POST',
 						headers: { 'Content-Type': 'application/json' },

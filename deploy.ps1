@@ -15,6 +15,16 @@ This script will NOT push, merge, or modify branches. It's purely a local helper
 
 Set-StrictMode -Version Latest
 
+# Ensure boolean switches referenced earlier are defined when this script is run
+# (the param() block appears later in the file; under StrictMode an unset variable
+# raises an error — define safe defaults here so the early checks work).
+if (-not (Get-Variable -Name SkipPull -Scope Script -ErrorAction SilentlyContinue)) {
+	Set-Variable -Name SkipPull -Value $false -Scope Script
+}
+if (-not (Get-Variable -Name AutoCommit -Scope Script -ErrorAction SilentlyContinue)) {
+	Set-Variable -Name AutoCommit -Value $false -Scope Script
+}
+
 function ExitWith($code, $msg) {
     if ($msg) { Write-Error $msg }
     exit $code
