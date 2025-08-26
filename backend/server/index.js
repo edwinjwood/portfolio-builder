@@ -937,6 +937,11 @@ app.post('/webhooks/stripe', async (req, res) => {
     if (!canonicalId) canonicalId = stripeId || null;
     if (!canonicalId) return;
     try {
+      // Debug: log intent to upsert so production logs surface inputs when something fails
+      if (process.env.DEBUG_STRIPE_EVENTS === 'true') {
+        try { console.log('upsertPayment params:', { canonicalId, stripeId, stripePaymentIntentId, stripeChargeId, stripeInvoiceId, userId, amount, currency, status }); } catch(e) { /* ignore logging errors */ }
+      }
+
       await pool.query(`
         INSERT INTO payments (stripe_id, stripe_canonical_id, stripe_payment_intent_id, stripe_charge_id, stripe_invoice_id, user_id, amount, currency, status, payment_method, receipt_email, description, metadata, raw_event, created_at, updated_at)
         VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14, now(), now())
@@ -956,8 +961,12 @@ app.post('/webhooks/stripe', async (req, res) => {
           raw_event = EXCLUDED.raw_event,
           updated_at = now()
       `, [stripeId, canonicalId, stripePaymentIntentId, stripeChargeId, stripeInvoiceId, userId, amount, currency, status, paymentMethod, receiptEmail, description, metadata, raw]);
+      if (process.env.DEBUG_STRIPE_EVENTS === 'true') {
+        try { console.log('upsertPayment succeeded for canonicalId:', canonicalId); } catch(e){ }
+      }
     } catch (e) {
-      console.warn('Failed to upsert payment by canonical id:', e.message || e);
+      // Log full error with stack so Railway logs capture DB constraint/permission errors
+      console.error('Failed to upsert payment by canonical id:', canonicalId, 'error:', e && (e.stack || e.message || e));
     }
   };
 
