@@ -990,8 +990,8 @@ app.post('/webhooks/stripe', async (req, res) => {
     // invoice objects sometimes embed a charge in different fields
     if (!chargeId && obj.charge) chargeId = obj.charge;
 
-    // Determine canonical: prefer invoice -> payment_intent -> charge -> fallback to top-level id
-    const canonicalId = invoiceId || paymentIntentId || chargeId || (obj && obj.id ? obj.id : null);
+  // Determine canonical: prefer payment_intent -> charge -> invoice -> fallback to top-level id
+  const canonicalId = paymentIntentId || chargeId || invoiceId || (obj && obj.id ? obj.id : null);
     return { canonicalId, paymentIntentId, chargeId, invoiceId };
   };
 
@@ -999,13 +999,16 @@ app.post('/webhooks/stripe', async (req, res) => {
   const upsertPayment = async ({ canonicalId, stripeId, stripePaymentIntentId = null, stripeChargeId = null, stripeInvoiceId = null, userId = null, amount = 0, currency = 'usd', status = null, paymentMethod = null, receiptEmail = null, description = null, metadata = null, raw = null }) => {
     if (!canonicalId) canonicalId = stripeId || null;
     if (!canonicalId) return;
-    try {
-      // Debug: log intent to upsert so production logs surface inputs when something fails
-      if (process.env.DEBUG_STRIPE_EVENTS === 'true') {
-        try { console.log('upsertPayment params:', { canonicalId, stripeId, stripePaymentIntentId, stripeChargeId, stripeInvoiceId, userId, amount, currency, status }); } catch(e) { /* ignore logging errors */ }
-      }
+    // Debug: log intent to upsert so production logs surface inputs when something fails
+    if (process.env.DEBUG_STRIPE_EVENTS === 'true') {
+      try { console.log('upsertPayment params:', { canonicalId, stripeId, stripePaymentIntentId, stripeChargeId, stripeInvoiceId, userId, amount, currency, status }); } catch(e) { /* ignore logging errors */ }
+    }
 
-      await pool.query(`
+    const client = await pool.connect();
+    try {
+      await client.query('BEGIN');
+      // Insert or update the canonical row
+      await client.query(`
         INSERT INTO payments (stripe_id, stripe_canonical_id, stripe_payment_intent_id, stripe_charge_id, stripe_invoice_id, user_id, amount, currency, status, payment_method, receipt_email, description, metadata, raw_event, created_at, updated_at)
         VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14, now(), now())
         ON CONFLICT (stripe_canonical_id) DO UPDATE SET
@@ -1024,12 +1027,28 @@ app.post('/webhooks/stripe', async (req, res) => {
           raw_event = EXCLUDED.raw_event,
           updated_at = now()
       `, [stripeId, canonicalId, stripePaymentIntentId, stripeChargeId, stripeInvoiceId, userId, amount, currency, status, paymentMethod, receiptEmail, description, metadata, raw]);
+
+      // Consolidate any rows that reference the same PI/charge/invoice to this canonical id
+      await client.query(`
+        UPDATE payments
+        SET stripe_canonical_id = $1,
+            stripe_payment_intent_id = COALESCE(stripe_payment_intent_id, $2),
+            stripe_charge_id = COALESCE(stripe_charge_id, $3),
+            stripe_invoice_id = COALESCE(stripe_invoice_id, $4),
+            updated_at = now()
+        WHERE (stripe_payment_intent_id = $2 OR stripe_charge_id = $3 OR stripe_invoice_id = $4)
+          AND COALESCE(stripe_canonical_id, '') <> COALESCE($1, '')
+      `, [canonicalId, stripePaymentIntentId, stripeChargeId, stripeInvoiceId]);
+
+      await client.query('COMMIT');
       if (process.env.DEBUG_STRIPE_EVENTS === 'true') {
-        try { console.log('upsertPayment succeeded for canonicalId:', canonicalId); } catch(e){ }
+        try { console.log('upsertPayment succeeded for canonicalId:', canonicalId); console.log('Merged duplicate payment rows into canonicalId:', canonicalId); } catch(e){}
       }
-    } catch (e) {
-      // Log full error with stack so Railway logs capture DB constraint/permission errors
-      console.error('Failed to upsert payment by canonical id:', canonicalId, 'error:', e && (e.stack || e.message || e));
+    } catch (err) {
+      try { await client.query('ROLLBACK'); } catch (rbErr) { /* ignore rollback errors */ }
+      console.error('Failed to upsert/merge payment by canonical id:', canonicalId, 'error:', err && (err.stack || err.message || err));
+    } finally {
+      client.release();
     }
   };
 
@@ -1052,7 +1071,23 @@ app.post('/webhooks/stripe', async (req, res) => {
         const description = pi.description || null;
   const ids = extractStripeIds(pi);
   const canonicalId = ids.canonicalId || pi.id;
-  await upsertPayment({ canonicalId, stripeId: pi.id, stripePaymentIntentId: ids.paymentIntentId, stripeChargeId: ids.chargeId, stripeInvoiceId: ids.invoiceId, userId: pi.metadata?.userId || null, amount: pi.amount, currency: pi.currency, status: pi.status, paymentMethod, receiptEmail, description, metadata, raw });
+  // Try to populate userId from metadata, or fallback to customer or checkout session metadata
+  let userIdForPi = pi.metadata?.userId || null;
+  if (!userIdForPi) {
+    try {
+      if (pi.customer) {
+        const cust = await stripe.customers.retrieve(pi.customer);
+        userIdForPi = cust && cust.metadata && cust.metadata.userId ? cust.metadata.userId : userIdForPi;
+      }
+      if (!userIdForPi) {
+        try {
+          const sessions = await stripe.checkout.sessions.list({ limit: 1, payment_intent: pi.id });
+          if (sessions && sessions.data && sessions.data[0]) userIdForPi = sessions.data[0].metadata?.userId || userIdForPi;
+        } catch (e) { /* ignore session lookup failure */ }
+      }
+    } catch (e) { /* ignore customer lookup failure */ }
+  }
+  await upsertPayment({ canonicalId, stripeId: pi.id, stripePaymentIntentId: ids.paymentIntentId, stripeChargeId: ids.chargeId, stripeInvoiceId: ids.invoiceId, userId: userIdForPi, amount: pi.amount, currency: pi.currency, status: pi.status, paymentMethod, receiptEmail, description, metadata, raw });
         break;
       }
       case 'payment_intent.payment_failed': {
@@ -1083,6 +1118,30 @@ app.post('/webhooks/stripe', async (req, res) => {
               SET status = $1, stripe_subscription_id = $2, updated_at = now()
               WHERE user_id = $3 AND plan_key = $4
             `, ['active', session.subscription || null, userId, planKey]);
+          }
+          // If the session includes a payment_intent, proactively upsert a payment row
+          // using the session metadata so payments will be linked to the user immediately.
+          try {
+            if (session.payment_intent) {
+              let pi = session.payment_intent;
+              try {
+                if (typeof pi === 'string') {
+                  pi = await stripe.paymentIntents.retrieve(pi, { expand: ['charges.data'] });
+                }
+              } catch (e) {
+                // ignore retrieval failures
+              }
+              const ids = extractStripeIds(pi);
+              const canonicalId = ids.canonicalId || (pi && pi.id) || session.payment_intent;
+              const chargeId = ids.chargeId || (pi && pi.charges && pi.charges.data && pi.charges.data[0] && pi.charges.data[0].id) || null;
+              const amount = (pi && pi.amount) || (pi && pi.charges && pi.charges.data && pi.charges.data[0] && pi.charges.data[0].amount) || 0;
+              const currency = (pi && pi.currency) || 'usd';
+              const status = (pi && pi.status) || 'succeeded';
+              const userForPayment = metadata.userId || (pi && pi.metadata && pi.metadata.userId) || null;
+              await upsertPayment({ canonicalId, stripeId: (pi && pi.id) || session.payment_intent, stripePaymentIntentId: ids.paymentIntentId || (pi && pi.id) || null, stripeChargeId: chargeId, stripeInvoiceId: ids.invoiceId || null, userId: userForPayment, amount, currency, status, paymentMethod: (pi && pi.payment_method) || null, receiptEmail: (pi && pi.receipt_email) || null, description: (pi && pi.description) || null, metadata: metadata || (pi && pi.metadata) || null, raw: JSON.stringify(pi || session) });
+            }
+          } catch (e) {
+            console.warn('Failed to upsert payment from checkout.session.completed:', e && (e.stack || e.message || e));
           }
         } catch (e) {
           console.warn('Failed to activate subscription from checkout.session.completed:', e.message);
@@ -1162,7 +1221,25 @@ app.post('/webhooks/stripe', async (req, res) => {
           const paymentMethod = charge.payment_method || (charge.payment_method_details && charge.payment_method_details.type) || null;
           const ids = extractStripeIds(charge);
           const canonicalId = ids.canonicalId || charge.id;
-          await upsertPayment({ canonicalId, stripeId: charge.id, stripePaymentIntentId: ids.paymentIntentId, stripeChargeId: ids.chargeId, stripeInvoiceId: ids.invoiceId, userId: charge.metadata?.userId || null, amount: charge.amount, currency: charge.currency, status: charge.status || 'succeeded', paymentMethod, receiptEmail, description: charge.description || null, metadata, raw });
+          // Attempt to derive userId from charge metadata, related payment_intent, or customer
+          let userIdForCharge = charge.metadata?.userId || null;
+          if (!userIdForCharge) {
+            try {
+              if (ids.paymentIntentId || charge.payment_intent) {
+                const piId = ids.paymentIntentId || charge.payment_intent;
+                const piObj = await stripe.paymentIntents.retrieve(piId);
+                userIdForCharge = piObj && piObj.metadata && piObj.metadata.userId ? piObj.metadata.userId : userIdForCharge;
+                if (!userIdForCharge && piObj && piObj.customer) {
+                  const cust = await stripe.customers.retrieve(piObj.customer);
+                  userIdForCharge = cust && cust.metadata && cust.metadata.userId ? cust.metadata.userId : userIdForCharge;
+                }
+              } else if (charge.customer) {
+                const cust = await stripe.customers.retrieve(charge.customer);
+                userIdForCharge = cust && cust.metadata && cust.metadata.userId ? cust.metadata.userId : userIdForCharge;
+              }
+            } catch (e) { /* ignore lookup failures */ }
+          }
+          await upsertPayment({ canonicalId, stripeId: charge.id, stripePaymentIntentId: ids.paymentIntentId, stripeChargeId: ids.chargeId, stripeInvoiceId: ids.invoiceId, userId: userIdForCharge, amount: charge.amount, currency: charge.currency, status: charge.status || 'succeeded', paymentMethod, receiptEmail, description: charge.description || null, metadata, raw });
         } catch (e) {
           console.warn('Failed to persist charge.succeeded:', e.message || e);
         }
