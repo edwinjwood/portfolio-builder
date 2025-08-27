@@ -84,7 +84,25 @@ async function reconcileInvoiceRow(row, { apply, applyHeuristic }) {
       return res;
     }
   } catch (e) {
-    res.error = e && (e.message || e.stack || String(e));
+    // Preserve the message for the summary, but also emit detailed logs so
+    // Railway cron output contains the Stripe error fields (statusCode, code,
+    // requestId, etc.) for debugging network/auth issues.
+    const errMsg = e && (e.message || e.stack || String(e));
+    res.error = errMsg;
+    try {
+      console.error('Stripe error details:', {
+        message: e && e.message,
+        type: e && e.type,
+        code: e && e.code,
+        statusCode: e && e.statusCode,
+        requestId: e && e.requestId,
+        raw: e && e.raw,
+        stack: e && e.stack
+      });
+    } catch (logErr) {
+      // Fallback to simple logging if structured logging fails
+      console.error('Stripe error (string):', String(e));
+    }
     return res;
   }
 
