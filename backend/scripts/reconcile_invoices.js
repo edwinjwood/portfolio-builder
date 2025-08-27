@@ -13,6 +13,43 @@ if (!stripeKey) {
 }
 const stripe = Stripe(stripeKey);
 
+// Lightweight connectivity check helpers so cron logs can show whether the
+// failure is network/DNS/TLS vs an auth error from Stripe.
+const https = require('https');
+function maskSecret(s) {
+  if (!s) return null;
+  if (s.length <= 8) return '****';
+  return s.slice(0, 4) + '...' + s.slice(-4);
+}
+function checkStripeConnectivity(key, timeout = 5000) {
+  return new Promise((resolve) => {
+    const opts = {
+      hostname: 'api.stripe.com',
+      port: 443,
+      path: '/v1/charges?limit=1',
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${key}`
+      },
+      timeout
+    };
+    const req = https.request(opts, (res) => {
+      // We only need status and headers to know if the host is reachable and
+      // whether Stripe accepted the auth (401) or returned another code.
+      const result = { statusCode: res.statusCode, headers: res.headers };
+      // consume and discard body to allow socket reuse
+      res.on('data', () => {});
+      res.on('end', () => resolve(result));
+    });
+    req.on('timeout', () => {
+      req.destroy();
+      resolve({ error: 'timeout' });
+    });
+    req.on('error', (err) => resolve({ error: err && err.message }));
+    req.end();
+  });
+}
+
 const pool = new Pool({ connectionString: process.env.DATABASE_URL });
 
 const argv = require('minimist')(process.argv.slice(2));
