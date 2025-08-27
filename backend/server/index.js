@@ -7,7 +7,6 @@ const cors = require('cors');
 const logoUpload = require('./logoUpload');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
-const fs = require('fs');
 const crypto = require('crypto');
 const { Pool } = require('pg');
 const nodemailer = require('nodemailer');
@@ -57,6 +56,109 @@ try {
   console.warn('Stripe package not available or not configured. Payments will be disabled.');
   stripe = null;
 }
+
+// Helper: compute a canonical id for related Stripe objects so different events map to the same payment row
+// Extract Stripe ids from an event object and compute a canonical id
+const extractStripeIds = (obj) => {
+  if (!obj) return { canonicalId: null, paymentIntentId: null, chargeId: null, invoiceId: null };
+  // If this is a Stripe event wrapper, unwrap to the actual object
+  if (obj.data && obj.data.object) obj = obj.data.object;
+  let paymentIntentId = null;
+  let chargeId = null;
+  let invoiceId = null;
+
+  // top-level shapes
+  if (typeof obj.id === 'string') {
+    const id = obj.id;
+    if (id.startsWith('pi_')) paymentIntentId = id;
+    if (id.startsWith('ch_')) chargeId = id;
+    if (id.startsWith('in_')) invoiceId = id;
+  }
+
+  // common fields
+  if (!paymentIntentId && obj.payment_intent) {
+    if (typeof obj.payment_intent === 'string') paymentIntentId = obj.payment_intent;
+    else if (obj.payment_intent && obj.payment_intent.id) paymentIntentId = obj.payment_intent.id;
+  }
+  if (!chargeId && obj.charge) chargeId = obj.charge;
+  if (!invoiceId && obj.invoice) invoiceId = obj.invoice;
+
+  // nested charges array
+  try {
+    if (!chargeId && obj.charges && obj.charges.data && obj.charges.data[0]) {
+      const c = obj.charges.data[0];
+      if (c && c.id) chargeId = c.id;
+      if (c && c.payment_intent) paymentIntentId = paymentIntentId || c.payment_intent;
+      if (c && c.invoice) invoiceId = invoiceId || c.invoice;
+    }
+  } catch (e) {
+    // ignore
+  }
+
+  // invoice objects sometimes embed a charge in different fields
+  if (!chargeId && obj.charge) chargeId = obj.charge;
+
+  // Determine canonical: prefer payment_intent -> charge -> invoice -> fallback to top-level id
+  const canonicalId = paymentIntentId || chargeId || invoiceId || (obj && obj.id ? obj.id : null);
+  return { canonicalId, paymentIntentId, chargeId, invoiceId };
+};
+
+// Helper: upsert a payment record using a canonical id to avoid duplicates
+const upsertPayment = async ({ canonicalId, stripeId, stripePaymentIntentId = null, stripeChargeId = null, stripeInvoiceId = null, userId = null, amount = 0, currency = 'usd', status = null, paymentMethod = null, receiptEmail = null, description = null, metadata = null, raw = null }) => {
+  if (!canonicalId) canonicalId = stripeId || null;
+  if (!canonicalId) return;
+  // Debug: log intent to upsert so production logs surface inputs when something fails
+  if (process.env.DEBUG_STRIPE_EVENTS === 'true') {
+    try { console.log('upsertPayment params:', { canonicalId, stripeId, stripePaymentIntentId, stripeChargeId, stripeInvoiceId, userId, amount, currency, status }); } catch(e) { /* ignore logging errors */ }
+  }
+
+  const client = await pool.connect();
+  try {
+    await client.query('BEGIN');
+    // Insert or update the canonical row
+    await client.query(`
+      INSERT INTO payments (stripe_id, stripe_canonical_id, stripe_payment_intent_id, stripe_charge_id, stripe_invoice_id, user_id, amount, currency, status, payment_method, receipt_email, description, metadata, raw_event, created_at, updated_at)
+      VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14, now(), now())
+      ON CONFLICT (stripe_canonical_id) DO UPDATE SET
+        stripe_id = COALESCE(payments.stripe_id, EXCLUDED.stripe_id),
+        stripe_payment_intent_id = COALESCE(payments.stripe_payment_intent_id, EXCLUDED.stripe_payment_intent_id),
+        stripe_charge_id = COALESCE(payments.stripe_charge_id, EXCLUDED.stripe_charge_id),
+        stripe_invoice_id = COALESCE(payments.stripe_invoice_id, EXCLUDED.stripe_invoice_id),
+        user_id = COALESCE(EXCLUDED.user_id, payments.user_id),
+        amount = EXCLUDED.amount,
+        currency = EXCLUDED.currency,
+        status = EXCLUDED.status,
+        payment_method = COALESCE(EXCLUDED.payment_method, payments.payment_method),
+        receipt_email = COALESCE(EXCLUDED.receipt_email, payments.receipt_email),
+        description = COALESCE(EXCLUDED.description, payments.description),
+        metadata = COALESCE(EXCLUDED.metadata, payments.metadata),
+        raw_event = EXCLUDED.raw_event,
+        updated_at = now()
+    `, [stripeId, canonicalId, stripePaymentIntentId, stripeChargeId, stripeInvoiceId, userId, amount, currency, status, paymentMethod, receiptEmail, description, metadata, raw]);
+
+    // Consolidate any rows that reference the same PI/charge/invoice to this canonical id
+    await client.query(`
+      UPDATE payments
+      SET stripe_canonical_id = $1,
+          stripe_payment_intent_id = COALESCE(stripe_payment_intent_id, $2),
+          stripe_charge_id = COALESCE(stripe_charge_id, $3),
+          stripe_invoice_id = COALESCE(stripe_invoice_id, $4),
+          updated_at = now()
+      WHERE (stripe_payment_intent_id = $2 OR stripe_charge_id = $3 OR stripe_invoice_id = $4)
+        AND COALESCE(stripe_canonical_id, '') <> COALESCE($1, '')
+    `, [canonicalId, stripePaymentIntentId, stripeChargeId, stripeInvoiceId]);
+
+    await client.query('COMMIT');
+    if (process.env.DEBUG_STRIPE_EVENTS === 'true') {
+      try { console.log('upsertPayment succeeded for canonicalId:', canonicalId); console.log('Merged duplicate payment rows into canonicalId:', canonicalId); } catch(e){}
+    }
+  } catch (err) {
+    try { await client.query('ROLLBACK'); } catch (rbErr) { /* ignore rollback errors */ }
+    console.error('Failed to upsert/merge payment by canonical id:', canonicalId, 'error:', err && (err.stack || err.message || err));
+  } finally {
+    client.release();
+  }
+};
 
 
 // Get all users route
@@ -1298,7 +1400,14 @@ app.post('/webhooks/stripe', async (req, res) => {
   res.json({ received: true });
 });
 
-const PORT = process.env.PORT || 5001;
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+// Export app and pool for testing
+// Export app, pool, and helpers for testing
+module.exports = { app, pool, extractStripeIds, upsertPayment };
+
+// Only start listening if this file is the main module
+if (require.main === module) {
+  const PORT = process.env.PORT || 5001;
+  app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+  });
+}
