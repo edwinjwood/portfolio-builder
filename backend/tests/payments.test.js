@@ -1,26 +1,27 @@
 const request = require('supertest');
 
 jest.mock('pg', () => ({ Pool: jest.fn() }));
-jest.mock('stripe');
 
-const Stripe = require('stripe');
+// Mock the stripeClient provider so controllers calling getStripe() receive our fake
+let stripeMock = null;
 
 describe('Payments routes', () => {
   let app;
   let poolMock;
 
   beforeAll(() => {
+  // Install the stripeClient mock here so it can reference the stripeMock variable
+  jest.doMock('../server/services/stripeClient', () => ({ getStripe: () => stripeMock }));
     poolMock = { query: jest.fn() };
     const { Pool } = require('pg');
     Pool.mockImplementation(() => poolMock);
 
     // Mock stripe.paymentIntents.create
-    const stripeMock = {
+    stripeMock = {
       paymentIntents: {
         create: jest.fn().mockResolvedValue({ client_secret: 'secret_abc', id: 'pi_123' })
       }
     };
-    Stripe.mockImplementation(() => stripeMock);
 
     const server = require('../server/index.js');
     app = server.app;

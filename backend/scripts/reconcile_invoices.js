@@ -5,13 +5,12 @@ const { Pool } = require('pg');
 // Load backend .env by default so DATABASE_URL and STRIPE_SECRET_KEY are available
 dotenv.config({ path: path.resolve(__dirname, '..', '.env') });
 
-const Stripe = require('stripe');
-const stripeKey = process.env.STRIPE_SECRET_KEY;
-if (!stripeKey) {
-  console.error('STRIPE_SECRET_KEY not set in backend/.env. Aborting.');
+const stripeClient = require('../server/services/stripeClient');
+const stripe = stripeClient.getStripe();
+if (!stripe) {
+  console.error('Stripe client not configured. Aborting.');
   process.exit(1);
 }
-const stripe = Stripe(stripeKey);
 
 
 const pool = new Pool({ connectionString: process.env.DATABASE_URL });

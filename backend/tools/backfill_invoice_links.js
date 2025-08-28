@@ -7,8 +7,12 @@ if (!process.env.STRIPE_SECRET_KEY) {
   console.error('No STRIPE_SECRET_KEY in backend/.env. Aborting backfill.');
   process.exit(1);
 }
-const Stripe = require('stripe');
-const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
+const stripeClient = require('../server/services/stripeClient');
+const stripe = stripeClient.getStripe();
+if (!stripe) {
+  console.error('Stripe client could not be initialized. Aborting backfill.');
+  process.exit(1);
+}
 
 const pool = new Pool({ connectionString: process.env.DATABASE_URL });
 
