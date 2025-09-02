@@ -8,8 +8,8 @@ Faset helps people and organizations create, publish, and manage professional re
 
 Root docs are intentionally concise; subsystem details are in their respective READMEs:
 
-- [backend/](backend/) — server, scripts, tests, and how to run the backend.
-- [frontend/](frontend/) — Vite/React app, build, and local dev instructions.
+- `backend/README.md` — server, scripts, tests, and how to run the backend.
+- `frontend/README.md` — Vite/React app, build, and local dev instructions.
 
 ## Technologies
 
