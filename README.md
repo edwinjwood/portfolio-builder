@@ -2,13 +2,31 @@
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-yellow.svg)](./LICENSE)
 
-Faset helps people and organizations create, publish, and manage professional resumés and digital portfolios. This repository contains the internal full-stack app: a React + Vite frontend, a Node.js + Postgres backend, Stripe billing, and background jobs for reconciliation and integrations.
+Faset helps people and organizations create, publish, and manage professional resumés and digital portfolios. This repository contains the full-stack application: a React + Vite frontend, a Node.js + Postgres backend, Stripe billing, and maintenance scripts.
 
-## Quick internal developer start (no secrets)
+## Overview
+
+Root docs are intentionally concise; subsystem details are in their respective READMEs:
+
+- [backend/](backend/) — server, scripts, tests, and how to run the backend.
+- [frontend/](frontend/) — Vite/React app, build, and local dev instructions.
+
+## Technologies
+
+- Frontend: React, Vite, Tailwind CSS
+- Backend: Node.js, Express, PostgreSQL (pg)
+- Payments: Stripe (server SDK and Checkout)
+- Testing: Jest, Supertest
+- Infra/hosting: Railway (deployment), optional static hosts for frontend
+
+Purpose: provide a small SaaS for building and publishing resumés and portfolios with subscription billing and simple templates.
+
+
+## Quick start (developer)
 
 > This project is private. Request access from the project owner before running locally.
 
-1. Install dependencies (from repository root):
+1. Install repository-level dependencies and subsystem dependencies:
 
 ```powershell
 npm install
@@ -16,136 +34,27 @@ cd backend && npm install
 cd ../frontend && npm install
 ```
 
-2. Provide environment variables for the backend (example placeholders):
+2. Configure backend environment variables in `backend/.env` (examples):
 
-Create `backend/.env` with at least:
-
-```
+```text
 DATABASE_URL=postgres://user:pass@localhost:5432/dbname
 STRIPE_SECRET_KEY=sk_test_xxx
 ```
 
-3. Start development (concurrently runs frontend + backend):
+3. For subsystem-specific run/build/test commands see the respective README files listed above.
 
-```powershell
-npm run dev
-```
+## Repository layout
 
-4. Run backend tests:
+- `backend/` — Express app, DB client, scripts, tests. See `backend/README.md`.
+- `frontend/` — Vite + React app and static assets. See `frontend/README.md`.
+- `migrations/` and `server/scripts/` — SQL migrations and maintenance scripts.
+- `wiki/` — Project documentation and decision log.
 
-```powershell
-cd backend
-npm test
-```
+## Contributing & license
 
-## What Faset does
-
-- Guided resume builder and resume upload
-- Digital portfolio pages combining resume, projects, and media
-- One-click publish to a hosted URL and exportable static output
-- AI features (planned): resume scanning, keyword optimization, and interactive chat assistant
-- QR code generation and downloadable share cards
-- Multiple templates, color themes, and simple styling controls
-- Individual plans and tenant (white-label) deployments for universities and bootcamps
-
-## Architecture (high level)
-
-- Frontend: React + Vite + Tailwind CSS
-- Backend: Node.js, Express, PostgreSQL
-- Payments: Stripe (billing, subscriptions, invoices)
-- Background jobs: cron scripts and workers for reconciliation and webhooks
-- Optional integrations: SSO, LMS, placement systems
-
-## Running a single maintenance script
-
-To run the invoice reconciler locally (inspect only):
-
-```powershell
-node backend/scripts/reconcile_invoices.js --limit 10
-```
-
-Add `--apply` to modify DB rows only after verifying behaviour and setting `RECONCILER_APPLY_ENABLED=true` in your backend env.
-
-# Faset — Resume & Portfolio SaaS
-
-[![License: MIT](https://img.shields.io/badge/license-MIT-yellow.svg)](./LICENSE)
-
-Faset helps people and organizations create, publish, and manage professional resumés and digital portfolios. This repository contains the internal full-stack app: a React + Vite frontend, a Node.js + Postgres backend, Stripe billing, and background jobs for reconciliation and integrations.
-
-## Quick internal developer start (no secrets)
-
-> This project is private. Request access from the project owner before running locally.
-
-1. Install dependencies (from repository root):
-
-```powershell
-npm install
-cd backend && npm install
-cd ../frontend && npm install
-```
-
-1. Provide environment variables for the backend (example placeholders):
-
-Create `backend/.env` with at least:
-
-```bash
-DATABASE_URL=postgres://user:pass@localhost:5432/dbname
-STRIPE_SECRET_KEY=sk_test_xxx
-```
-
-1. Start development (concurrently runs frontend + backend):
-
-```powershell
-npm run dev
-```
-
-1. Run backend tests:
-
-```powershell
-cd backend
-npm test
-```
-
-## What Faset does
-
-- Guided resume builder and resume upload
-- Digital portfolio pages combining resume, projects, and media
-- One-click publish to a hosted URL and exportable static output
-- AI features (planned): resume scanning, keyword optimization, and interactive chat assistant
-- QR code generation and downloadable share cards
-- Multiple templates, color themes, and simple styling controls
-- Individual plans and tenant (white-label) deployments for universities and bootcamps
-
-## Architecture (high level)
-
-- Frontend: React + Vite + Tailwind CSS
-- Backend: Node.js, Express, PostgreSQL
-- Payments: Stripe (billing, subscriptions, invoices)
-- Background jobs: cron scripts and workers for reconciliation and webhooks
-- Optional integrations: SSO, LMS, placement systems
-
-## Running a single maintenance script
-
-To run the invoice reconciler locally (inspect only):
-
-```powershell
-node backend/scripts/reconcile_invoices.js --limit 10
-```
-
-Add `--apply` to modify DB rows only after verifying behaviour and setting `RECONCILER_APPLY_ENABLED=true` in your backend env.
-
-## Contributing & Code of Conduct
-
-See `CONTRIBUTING.md` and `CODE_OF_CONDUCT.md` for contribution guidelines and expected behavior.
-
-## License
-
-This project is licensed under the MIT License — see the `LICENSE` file for details.
+See `CONTRIBUTING.md` and `CODE_OF_CONDUCT.md` for contribution guidelines. The project is licensed under MIT — see `LICENSE`.
 
 ## Contact
 
-For access, questions, or operational runbooks, contact the project owner.
+For access or operational questions contact the project owner.
 
----
-
-Would you like a README badge for build/test status (CI), or a short developer troubleshooting section (common env vars, database migrations)?
