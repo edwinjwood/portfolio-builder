@@ -52,7 +52,7 @@ STRIPE_SECRET_KEY=sk_test_xxx
 
 ## Contributing & license
 
-See `CONTRIBUTING.md` and `CODE_OF_CONDUCT.md` for contribution guidelines. The project is licensed under MIT — see `LICENSE`.
+See [CONTRIBUTING.md](CONTRIBUTING.md) and [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) for contribution guidelines. The project is licensed under MIT — see [LICENSE](LICENSE).
 
 ## Contact
 
