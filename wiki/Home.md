@@ -21,7 +21,8 @@ Maintenance
 - Each milestone page should include an owner who is responsible for progress updates.
 - Before major releases, ensure Runbook and Architecture pages reflect the latest production configuration.
 
-If you want, I can:
-- Commit these wiki files to the `dev` branch for you, or
-- Push them directly to the GitHub Wiki repo (requires your credentials), or
+Publishing options:
+
+- Commit these wiki files to the `dev` branch.
+- Push the files to the GitHub Wiki repository (requires repo write access).
 - Add a link from the top-level `README.md` to this wiki home page.

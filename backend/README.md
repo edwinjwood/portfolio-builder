@@ -60,5 +60,24 @@ npm install
 npm test -- --runInBand
 ```
 
+## Run the server
+
+- Install dependencies and start the server (from the repo root or the `backend/` folder):
+
+```powershell
+cd "backend"
+npm install
+npm start
+```
+
+- The `npm start` script runs `node server/index.js`. Configure required environment variables before starting (for local development you can use a `.env` file). Common env vars used by the server include:
+
+- `DATABASE_URL` — Postgres connection string (trim trailing whitespace).
+- `JWT_SECRET` — Secret for signing JWTs used by auth endpoints.
+- `STRIPE_SECRET_KEY` — Server Stripe key (used by payments and webhooks).
+- `STRIPE_WEBHOOK_SECRET` — Stripe webhook signing secret (used to verify incoming webhooks).
+
+- If your database provider requires SSL, ensure `DATABASE_URL` and SSL settings are configured; the server attempts to detect hosted DBs and enable `rejectUnauthorized: false` where necessary.
+
 
 
