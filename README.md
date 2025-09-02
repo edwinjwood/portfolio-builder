@@ -8,8 +8,8 @@ Faset helps people and organizations create, publish, and manage professional re
 
 Root docs are intentionally concise; subsystem details are in their respective READMEs:
 
-- `backend/README.md` — server, scripts, tests, and how to run the backend.
-- `frontend/README.md` — Vite/React app, build, and local dev instructions.
+- [backend/README.md](backend/README.md) — server, scripts, tests, and how to run the backend.
+- [frontend/README.md](frontend/README.md) — Vite/React app, build, and local dev instructions.
 
 ## Technologies
 
@@ -45,8 +45,8 @@ STRIPE_SECRET_KEY=sk_test_xxx
 
 ## Repository layout
 
-- `backend/` — Express app, DB client, scripts, tests. See `backend/README.md`.
-- `frontend/` — Vite + React app and static assets. See `frontend/README.md`.
+- [backend/](backend/) — Express app, DB client, scripts, tests. See [backend/README.md](backend/README.md).
+- [frontend/](frontend/) — Vite + React app and static assets. See [frontend/README.md](frontend/README.md).
 - `migrations/` and `server/scripts/` — SQL migrations and maintenance scripts.
 - `wiki/` — Project documentation and decision log.
 
