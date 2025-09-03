@@ -56,22 +56,27 @@ exports.createUser = async (req, res) => {
     // Try to create checkout session (best-effort) — the original index.js logged warnings on failure
     let checkout = null;
     try {
-      const stripe = require('../services/stripeClient').getStripe();
-      const key = plan ? plan.toString().toLowerCase() : null;
-      if (key) {
-        let priceId = null;
-        try { const pm = await pool.query('SELECT price_id FROM plan_price_map WHERE plan_key = $1 AND active = true', [key]); if (pm.rows[0]) priceId = pm.rows[0].price_id; } catch (e) {}
-        if (priceId) {
-          let mode = 'payment';
-          try { const priceObj = await stripe.prices.retrieve(priceId, { expand: ['product'] }); if (priceObj && priceObj.recurring) mode = 'subscription'; } catch (e) {}
-          try {
-            const successBase = process.env.CHECKOUT_BASE_URL || process.env.FRONTEND_URL || 'http://localhost:5173';
-            const hashPrefix = process.env.FRONTEND_USE_HASH === 'false' ? '' : '/#';
-            const session = await stripe.checkout.sessions.create({ mode, payment_method_types: ['card'], line_items: [{ price: priceId, quantity: 1 }], success_url: `${successBase}${hashPrefix}/checkout-success?session_id={CHECKOUT_SESSION_ID}`, cancel_url: `${successBase}${hashPrefix}/checkout-cancel`, customer_email: user.email, metadata: { userId: String(user.id), plan: key } });
-            checkout = { url: session.url, id: session.id, mode };
-            console.log('Created Checkout session at signup:', session.id, session.url);
-          } catch (e) { console.warn('Failed to create checkout session at signup:', e.message || e); }
+      const skipStripe = ((process.env.SKIP_STRIPE || '').toString().toLowerCase() === 'true') || (process.env.SKIP_STRIPE === '1');
+      if (!skipStripe) {
+        const stripe = require('../services/stripeClient').getStripe();
+        const key = plan ? plan.toString().toLowerCase() : null;
+        if (key) {
+          let priceId = null;
+          try { const pm = await pool.query('SELECT price_id FROM plan_price_map WHERE plan_key = $1 AND active = true', [key]); if (pm.rows[0]) priceId = pm.rows[0].price_id; } catch (e) {}
+          if (priceId) {
+            let mode = 'payment';
+            try { const priceObj = await stripe.prices.retrieve(priceId, { expand: ['product'] }); if (priceObj && priceObj.recurring) mode = 'subscription'; } catch (e) {}
+            try {
+              const successBase = process.env.CHECKOUT_BASE_URL || process.env.FRONTEND_URL || 'http://localhost:5173';
+              const hashPrefix = process.env.FRONTEND_USE_HASH === 'false' ? '' : '/#';
+              const session = await stripe.checkout.sessions.create({ mode, payment_method_types: ['card'], line_items: [{ price: priceId, quantity: 1 }], success_url: `${successBase}${hashPrefix}/checkout-success?session_id={CHECKOUT_SESSION_ID}`, cancel_url: `${successBase}${hashPrefix}/checkout-cancel`, customer_email: user.email, metadata: { userId: String(user.id), plan: key } });
+              checkout = { url: session.url, id: session.id, mode };
+              console.log('Created Checkout session at signup:', session.id, session.url);
+            } catch (e) { console.warn('Failed to create checkout session at signup:', e.message || e); }
+          }
         }
+      } else {
+        console.log('SKIP_STRIPE enabled: skipping Stripe checkout session creation at signup');
       }
     } catch (err) { console.warn('Error while attempting to create checkout session at signup:', err.message || err); }
 

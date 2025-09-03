@@ -43,6 +43,23 @@ STRIPE_SECRET_KEY=sk_test_xxx
 
 3. For subsystem-specific run/build/test commands see the respective README files listed above.
 
+### Local dev & Stripe
+
+- From the repository root start both frontend and backend in development mode:
+
+```powershell
+npm run dev
+```
+
+- To fully test payments and webhooks locally, run the Stripe CLI and forward events to the backend webhook endpoint (the backend typically listens on port 5001):
+
+```powershell
+# login first: stripe login
+stripe listen --forward-to http://localhost:5001/webhooks/stripe
+```
+
+- Ensure your local backend env contains your Stripe secret key (`STRIPE_SECRET_KEY`) and, after running `stripe listen`, update `STRIPE_WEBHOOK_SECRET` with the webhook signing secret the CLI prints so webhook signature verification works locally.
+
 ## Repository layout
 
 - [backend/](backend/) — Express app, DB client, scripts, tests. See [backend/README.md](backend/README.md).
