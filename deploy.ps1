@@ -1,4 +1,108 @@
 <#
+deploy.ps1
+
+Interactive deploy helper for staging workflow.
+
+What it does (interactive):
+- Verifies you're in a git repo and shows current branch (will warn on main).
+- Lists unstaged changes and offers to stage them.
+- Prompts for a commit message and commits staged changes (optional).
+- Optionally creates a new migration skeleton using backend/scripts/new_migration.js.
+- Runs the migration runner: node backend/scripts/apply_migrations.js (applies unapplied migrations).
+
+This script will NOT push, merge, or modify branches. It's purely a local helper.
+#>
+
+Set-StrictMode -Version Latest
+
+# Ensure boolean switches referenced earlier are defined when this script is run
+# (the param() block appears later in the file; under StrictMode an unset variable
+# raises an error — define safe defaults here so the early checks work).
+if (-not (Get-Variable -Name SkipPull -Scope Script -ErrorAction SilentlyContinue)) {
+	Set-Variable -Name SkipPull -Value $false -Scope Script
+}
+if (-not (Get-Variable -Name AutoCommit -Scope Script -ErrorAction SilentlyContinue)) {
+	Set-Variable -Name AutoCommit -Value $false -Scope Script
+}
+
+function ExitWith($code, $msg) {
+    if ($msg) { Write-Error $msg }
+    exit $code
+}
+
+Write-Host "Starting deploy helper..." -ForegroundColor Cyan
+
+# Ensure we're inside a git repo
+$inRepo = (git rev-parse --is-inside-work-tree 2>$null) -eq 'true'
+if (-not $inRepo) { ExitWith 2 "Not a git repository. Run this from the repo root." }
+
+# Show current branch
+$branch = git rev-parse --abbrev-ref HEAD 2>$null
+Write-Host "Current git branch: $branch"
+if ($branch -eq 'main') {
+    $ok = Read-Host "You are on 'main'. This script is intended for staging/dev workflows; continue? (y/n)"
+    if ($ok -ne 'y' -and $ok -ne 'Y') { ExitWith 0 "Aborted by user." }
+}
+
+# Show unstaged/uncommitted changes
+$status = git status --porcelain
+if ($status) {
+    Write-Host "Uncommitted changes found:" -ForegroundColor Yellow
+    git status --short
+    $stage = Read-Host "Stage all changes now? (y/n)"
+    if ($stage -eq 'y' -or $stage -eq 'Y') {
+        git add -A
+        Write-Host "All changes staged."
+    } else {
+        Write-Host "No changes were staged. If you want to commit, stage files manually and re-run this script." -ForegroundColor Yellow
+    }
+} else {
+    Write-Host "Working tree clean."
+}
+
+# If there are staged changes, optionally commit
+$staged = git diff --cached --name-only
+if ($staged) {
+    Write-Host "Staged files:"
+    git diff --cached --name-only | ForEach-Object { Write-Host " - $_" }
+    $commitMsg = Read-Host "Enter commit message (leave blank to skip commit)"
+    if ($commitMsg -and $commitMsg.Trim().Length -gt 0) {
+        git commit -m $commitMsg
+        if ($LASTEXITCODE -ne 0) { ExitWith 3 "git commit failed." }
+        Write-Host "Committed staged changes." -ForegroundColor Green
+    } else {
+        Write-Host "Skipping commit as no message provided." -ForegroundColor Yellow
+    }
+} else {
+    Write-Host "No staged files to commit." -ForegroundColor Yellow
+}
+
+# Optionally create a new migration skeleton
+$createMigration = Read-Host "Create a new migration skeleton? (y/n)"
+if ($createMigration -eq 'y' -or $createMigration -eq 'Y') {
+    $desc = Read-Host "Short description for migration (e.g. add_users_table)"
+    if (-not $desc -or $desc.Trim().Length -eq 0) { Write-Host "No description provided, skipping migration creation." -ForegroundColor Yellow }
+    else {
+        Write-Host "Creating migration..."
+        node backend\scripts\new_migration.js $desc
+        if ($LASTEXITCODE -ne 0) { ExitWith 4 "Failed to create migration file." }
+        Write-Host "Migration skeleton created. Edit the file under backend/migrations and re-run this script when ready." -ForegroundColor Green
+    }
+}
+
+# Run migration runner
+Write-Host "Running migrations against DATABASE_URL from backend/.env..." -ForegroundColor Cyan
+Push-Location "backend"
+try {
+    node .\scripts\apply_migrations.js
+    if ($LASTEXITCODE -ne 0) { ExitWith 5 "Migration runner failed. Check output above." }
+    Write-Host "Migrations applied successfully." -ForegroundColor Green
+} finally {
+    Pop-Location
+}
+
+Write-Host "Local deploy helper finished. Remember: pushing/merging to main is manual and not performed by this script." -ForegroundColor Cyan
+<#
 Deploy script for Vite + React (GitHub Pages user site)
 
 Workflow:

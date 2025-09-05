@@ -9,7 +9,8 @@ export default defineConfig({
   },
   server: {
     proxy: {
-      '/api': 'http://localhost:5001'
+      // Use an env-set API backend if provided; fallback to localhost for local dev
+      '/api': process.env.VITE_API_PROXY || 'http://localhost:5001'
     }
   }
 })

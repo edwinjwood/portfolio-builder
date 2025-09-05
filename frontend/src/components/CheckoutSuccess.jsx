@@ -37,7 +37,7 @@ export default function CheckoutSuccess() {
 
     (async () => {
       try {
-        const apiBase = import.meta.env.VITE_API_URL || 'http://localhost:5001';
+  const apiBase = import.meta.env.VITE_API_URL || (typeof process !== 'undefined' && process.env.API_URL) || 'http://localhost:5001';
         const res = await fetch(`${apiBase}/api/checkout/session?session_id=${encodeURIComponent(sessionId)}`);
         const json = await res.json();
         if (!res.ok) throw new Error(json.error || 'Failed to verify session');

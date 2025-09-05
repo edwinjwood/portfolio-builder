@@ -59,7 +59,7 @@ function Pricing() {
 		let mounted = true;
 		const apiBase = typeof import.meta !== 'undefined' && import.meta.env && import.meta.env.VITE_API_URL
 			? import.meta.env.VITE_API_URL.replace(/\/$/, '')
-			: 'http://localhost:5001';
+			: (typeof process !== 'undefined' && process.env.API_URL) || 'http://localhost:5001';
 
 		// Fetch full price list (for display) and a canonical price map for plan keys
 		Promise.all([

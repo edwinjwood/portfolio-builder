@@ -1,0 +1,1835 @@
+{
+  "scannedFiles": [
+    "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\jest.config.js",
+    "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\apply_migrations.js",
+    "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\check_subscription.js",
+    "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\ensure_payments_pk.js",
+    "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\inspect_payments_constraints.js",
+    "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\new_migration.js",
+    "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\reconcile_invoices.js",
+    "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\run_migration.js",
+    "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\run_migration_file.js",
+    "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\sync_price_map.js",
+    "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js",
+    "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\logoUpload.js",
+    "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\tests\\auth.test.js",
+    "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\tests\\extractStripeIds.test.js",
+    "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\tests\\payments.test.js",
+    "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\tools\\backfill_invoice_links.js",
+    "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\tools\\backfill_subscriptions.js",
+    "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\tools\\check_payments.js",
+    "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\tools\\find_unused_decls.js",
+    "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\tools\\inspect_db.js",
+    "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\tools\\print_payments.js",
+    "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\tools\\print_price_map.js",
+    "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\tools\\signup_e2e_test.js",
+    "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\tools\\signup_test.js",
+    "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\tools\\temp_signup_test.js"
+  ],
+  "declared": [
+    {
+      "name": "a",
+      "count": 37,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    },
+    {
+      "name": "addToGroup",
+      "count": 6,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    },
+    {
+      "name": "adj",
+      "count": 8,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    },
+    {
+      "name": "aids",
+      "count": 2,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    },
+    {
+      "name": "allDecls",
+      "count": 6,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\tools\\find_unused_decls.js"
+      ]
+    },
+    {
+      "name": "amount",
+      "count": 39,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    },
+    {
+      "name": "anyRec",
+      "count": 6,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\sync_price_map.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    },
+    {
+      "name": "api",
+      "count": 10,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\tools\\signup_e2e_test.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\tools\\signup_test.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\tools\\temp_signup_test.js"
+      ]
+    },
+    {
+      "name": "app",
+      "count": 28,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    },
+    {
+      "name": "applied",
+      "count": 4,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\apply_migrations.js"
+      ]
+    },
+    {
+      "name": "APPLY",
+      "count": 3,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\reconcile_invoices.js"
+      ]
+    },
+    {
+      "name": "APPLY_HEUR",
+      "count": 2,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\reconcile_invoices.js"
+      ]
+    },
+    {
+      "name": "applyMigration",
+      "count": 2,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\apply_migrations.js"
+      ]
+    },
+    {
+      "name": "argv",
+      "count": 12,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\reconcile_invoices.js"
+      ]
+    },
+    {
+      "name": "auth",
+      "count": 10,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    },
+    {
+      "name": "authHeader",
+      "count": 21,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    },
+    {
+      "name": "b",
+      "count": 6,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    },
+    {
+      "name": "backendEnv",
+      "count": 12,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\apply_migrations.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\check_subscription.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\run_migration.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\run_migration_file.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\tools\\backfill_subscriptions.js"
+      ]
+    },
+    {
+      "name": "backendRoot",
+      "count": 3,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\tools\\find_unused_decls.js"
+      ]
+    },
+    {
+      "name": "bcrypt",
+      "count": 7,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\tests\\auth.test.js"
+      ]
+    },
+    {
+      "name": "bids",
+      "count": 2,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    },
+    {
+      "name": "body",
+      "count": 3,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\tools\\signup_e2e_test.js"
+      ]
+    },
+    {
+      "name": "c",
+      "count": 31,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\reconcile_invoices.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    },
+    {
+      "name": "candId",
+      "count": 4,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\reconcile_invoices.js"
+      ]
+    },
+    {
+      "name": "candidates",
+      "count": 16,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\reconcile_invoices.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\sync_price_map.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    },
+    {
+      "name": "candQ",
+      "count": 5,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\reconcile_invoices.js"
+      ]
+    },
+    {
+      "name": "canonicalId",
+      "count": 48,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    },
+    {
+      "name": "captchaProvider",
+      "count": 2,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    },
+    {
+      "name": "captchaSecret",
+      "count": 4,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    },
+    {
+      "name": "charge",
+      "count": 72,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\tools\\backfill_invoice_links.js"
+      ]
+    },
+    {
+      "name": "chargeId",
+      "count": 34,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\reconcile_invoices.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    },
+    {
+      "name": "checkout",
+      "count": 25,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    },
+    {
+      "name": "choose",
+      "count": 8,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\sync_price_map.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    },
+    {
+      "name": "client",
+      "count": 52,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\apply_migrations.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\check_subscription.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\reconcile_invoices.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\run_migration.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\run_migration_file.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\tools\\backfill_subscriptions.js"
+      ]
+    },
+    {
+      "name": "cols",
+      "count": 4,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\inspect_payments_constraints.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\tools\\check_payments.js"
+      ]
+    },
+    {
+      "name": "colsSubs",
+      "count": 2,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\tools\\inspect_db.js"
+      ]
+    },
+    {
+      "name": "colsUsers",
+      "count": 2,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\tools\\inspect_db.js"
+      ]
+    },
+    {
+      "name": "comp",
+      "count": 4,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    },
+    {
+      "name": "components",
+      "count": 9,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    },
+    {
+      "name": "componentsByTemplate",
+      "count": 5,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    },
+    {
+      "name": "compResult",
+      "count": 2,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    },
+    {
+      "name": "conn",
+      "count": 16,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\apply_migrations.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\run_migration.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\run_migration_file.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\tools\\inspect_db.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\tools\\print_payments.js"
+      ]
+    },
+    {
+      "name": "cors",
+      "count": 3,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    },
+    {
+      "name": "count",
+      "count": 21,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\tools\\find_unused_decls.js"
+      ]
+    },
+    {
+      "name": "countRow",
+      "count": 2,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    },
+    {
+      "name": "counts",
+      "count": 2,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\tools\\inspect_db.js"
+      ]
+    },
+    {
+      "name": "crypto",
+      "count": 5,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    },
+    {
+      "name": "currency",
+      "count": 33,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    },
+    {
+      "name": "cust",
+      "count": 15,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    },
+    {
+      "name": "customer",
+      "count": 18,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    },
+    {
+      "name": "customerEmail",
+      "count": 3,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    },
+    {
+      "name": "cwd",
+      "count": 2,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    },
+    {
+      "name": "data",
+      "count": 51,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\sync_price_map.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\tools\\signup_e2e_test.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\tools\\signup_test.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\tools\\temp_signup_test.js"
+      ]
+    },
+    {
+      "name": "dbMap",
+      "count": 7,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    },
+    {
+      "name": "declared",
+      "count": 5,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\tools\\find_unused_decls.js"
+      ]
+    },
+    {
+      "name": "decls",
+      "count": 4,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\tools\\find_unused_decls.js"
+      ]
+    },
+    {
+      "name": "decoded",
+      "count": 23,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    },
+    {
+      "name": "defaultCancel",
+      "count": 2,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    },
+    {
+      "name": "defaultSuccess",
+      "count": 2,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    },
+    {
+      "name": "description",
+      "count": 28,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    },
+    {
+      "name": "dir",
+      "count": 4,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\logoUpload.js"
+      ]
+    },
+    {
+      "name": "dotenv",
+      "count": 48,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\apply_migrations.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\check_subscription.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\ensure_payments_pk.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\inspect_payments_constraints.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\reconcile_invoices.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\run_migration.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\run_migration_file.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\sync_price_map.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\tools\\backfill_invoice_links.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\tools\\backfill_subscriptions.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\tools\\check_payments.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\tools\\inspect_db.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\tools\\print_payments.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\tools\\print_price_map.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\tools\\signup_e2e_test.js"
+      ]
+    },
+    {
+      "name": "dup",
+      "count": 5,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\ensure_payments_pk.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\tools\\check_payments.js"
+      ]
+    },
+    {
+      "name": "email",
+      "count": 12,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\check_subscription.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\tools\\signup_e2e_test.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\tools\\temp_signup_test.js"
+      ]
+    },
+    {
+      "name": "ensureMigrationsTable",
+      "count": 2,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\apply_migrations.js"
+      ]
+    },
+    {
+      "name": "entries",
+      "count": 2,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\tools\\find_unused_decls.js"
+      ]
+    },
+    {
+      "name": "exists",
+      "count": 2,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    },
+    {
+      "name": "expiresAt",
+      "count": 2,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    },
+    {
+      "name": "express",
+      "count": 8,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\logoUpload.js"
+      ]
+    },
+    {
+      "name": "extractStripeIds",
+      "count": 9,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    },
+    {
+      "name": "fakeUser",
+      "count": 2,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\tests\\auth.test.js"
+      ]
+    },
+    {
+      "name": "fallbackEnvPrices",
+      "count": 5,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    },
+    {
+      "name": "fetch",
+      "count": 7,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\tools\\signup_e2e_test.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\tools\\signup_test.js"
+      ]
+    },
+    {
+      "name": "fileName",
+      "count": 3,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\new_migration.js"
+      ]
+    },
+    {
+      "name": "filePath",
+      "count": 3,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\new_migration.js"
+      ]
+    },
+    {
+      "name": "files",
+      "count": 12,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\apply_migrations.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\tools\\find_unused_decls.js"
+      ]
+    },
+    {
+      "name": "final",
+      "count": 4,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\tools\\backfill_invoice_links.js"
+      ]
+    },
+    {
+      "name": "finalMap",
+      "count": 4,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    },
+    {
+      "name": "first",
+      "count": 5,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\tools\\backfill_invoice_links.js"
+      ]
+    },
+    {
+      "name": "first_name",
+      "count": 18,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    },
+    {
+      "name": "fks",
+      "count": 2,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\inspect_payments_constraints.js"
+      ]
+    },
+    {
+      "name": "foo",
+      "count": 2,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\tools\\find_unused_decls.js"
+      ]
+    },
+    {
+      "name": "FORCE",
+      "count": 2,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\reconcile_invoices.js"
+      ]
+    },
+    {
+      "name": "fs",
+      "count": 31,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\apply_migrations.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\new_migration.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\run_migration.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\run_migration_file.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\logoUpload.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\tools\\find_unused_decls.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\tools\\signup_e2e_test.js"
+      ]
+    },
+    {
+      "name": "full",
+      "count": 4,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\tools\\find_unused_decls.js"
+      ]
+    },
+    {
+      "name": "funcRe",
+      "count": 2,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\tools\\find_unused_decls.js"
+      ]
+    },
+    {
+      "name": "g",
+      "count": 11,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    },
+    {
+      "name": "getApplied",
+      "count": 2,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\apply_migrations.js"
+      ]
+    },
+    {
+      "name": "groupKeys",
+      "count": 6,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    },
+    {
+      "name": "groups",
+      "count": 12,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    },
+    {
+      "name": "hasAll",
+      "count": 2,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    },
+    {
+      "name": "hashed",
+      "count": 5,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    },
+    {
+      "name": "hashPrefix",
+      "count": 6,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    },
+    {
+      "name": "hkey",
+      "count": 2,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    },
+    {
+      "name": "id",
+      "count": 155,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\sync_price_map.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    },
+    {
+      "name": "ids",
+      "count": 60,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\tests\\extractStripeIds.test.js"
+      ]
+    },
+    {
+      "name": "incoming",
+      "count": 3,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\inspect_payments_constraints.js"
+      ]
+    },
+    {
+      "name": "indexes",
+      "count": 2,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\inspect_payments_constraints.js"
+      ]
+    },
+    {
+      "name": "intersect",
+      "count": 3,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    },
+    {
+      "name": "inv",
+      "count": 4,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\reconcile_invoices.js"
+      ]
+    },
+    {
+      "name": "invoice",
+      "count": 62,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\tools\\backfill_invoice_links.js"
+      ]
+    },
+    {
+      "name": "invoiceId",
+      "count": 27,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\reconcile_invoices.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    },
+    {
+      "name": "j",
+      "count": 13,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\tools\\signup_test.js"
+      ]
+    },
+    {
+      "name": "jwt",
+      "count": 19,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\tests\\auth.test.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\tests\\payments.test.js"
+      ]
+    },
+    {
+      "name": "JWT_SECRET",
+      "count": 15,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    },
+    {
+      "name": "k",
+      "count": 9,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    },
+    {
+      "name": "key",
+      "count": 25,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    },
+    {
+      "name": "last_name",
+      "count": 16,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    },
+    {
+      "name": "LIMIT",
+      "count": 7,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\reconcile_invoices.js"
+      ]
+    },
+    {
+      "name": "listJsFiles",
+      "count": 3,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\tools\\find_unused_decls.js"
+      ]
+    },
+    {
+      "name": "logoPath",
+      "count": 2,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\logoUpload.js"
+      ]
+    },
+    {
+      "name": "logoUpload",
+      "count": 3,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    },
+    {
+      "name": "mailer",
+      "count": 5,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    },
+    {
+      "name": "main",
+      "count": 5,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\reconcile_invoices.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\sync_price_map.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\tools\\backfill_invoice_links.js"
+      ]
+    },
+    {
+      "name": "mapped",
+      "count": 3,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    },
+    {
+      "name": "match",
+      "count": 2,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    },
+    {
+      "name": "merged",
+      "count": 7,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    },
+    {
+      "name": "mergedGroup",
+      "count": 11,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    },
+    {
+      "name": "metadata",
+      "count": 89,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    },
+    {
+      "name": "migrationArg",
+      "count": 3,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\run_migration_file.js"
+      ]
+    },
+    {
+      "name": "migrationFile",
+      "count": 10,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\run_migration.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\run_migration_file.js"
+      ]
+    },
+    {
+      "name": "migrationsDir",
+      "count": 9,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\apply_migrations.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\new_migration.js"
+      ]
+    },
+    {
+      "name": "mode",
+      "count": 8,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    },
+    {
+      "name": "monthly",
+      "count": 6,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\sync_price_map.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    },
+    {
+      "name": "multer",
+      "count": 4,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\logoUpload.js"
+      ]
+    },
+    {
+      "name": "n",
+      "count": 4,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\reconcile_invoices.js"
+      ]
+    },
+    {
+      "name": "name",
+      "count": 2,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\new_migration.js"
+      ]
+    },
+    {
+      "name": "names",
+      "count": 3,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    },
+    {
+      "name": "neighbors",
+      "count": 3,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    },
+    {
+      "name": "nick",
+      "count": 6,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\sync_price_map.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    },
+    {
+      "name": "nodemailer",
+      "count": 3,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    },
+    {
+      "name": "normalize",
+      "count": 8,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\sync_price_map.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    },
+    {
+      "name": "nulls",
+      "count": 5,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\ensure_payments_pk.js"
+      ]
+    },
+    {
+      "name": "obj",
+      "count": 10,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\tests\\extractStripeIds.test.js"
+      ]
+    },
+    {
+      "name": "out",
+      "count": 7,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\reconcile_invoices.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\tools\\find_unused_decls.js"
+      ]
+    },
+    {
+      "name": "outPath",
+      "count": 3,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\tools\\find_unused_decls.js"
+      ]
+    },
+    {
+      "name": "p",
+      "count": 2,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\apply_migrations.js"
+      ]
+    },
+    {
+      "name": "path",
+      "count": 86,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\apply_migrations.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\check_subscription.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\ensure_payments_pk.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\inspect_payments_constraints.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\new_migration.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\reconcile_invoices.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\run_migration.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\run_migration_file.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\sync_price_map.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\logoUpload.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\tools\\backfill_invoice_links.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\tools\\backfill_subscriptions.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\tools\\check_payments.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\tools\\find_unused_decls.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\tools\\inspect_db.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\tools\\print_payments.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\tools\\print_price_map.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\tools\\signup_e2e_test.js"
+      ]
+    },
+    {
+      "name": "payload",
+      "count": 7,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    },
+    {
+      "name": "paymentIntent",
+      "count": 3,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    },
+    {
+      "name": "paymentIntentId",
+      "count": 28,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    },
+    {
+      "name": "paymentMethod",
+      "count": 11,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    },
+    {
+      "name": "payments",
+      "count": 4,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\tools\\print_payments.js"
+      ]
+    },
+    {
+      "name": "paymentsCountR",
+      "count": 2,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    },
+    {
+      "name": "pi",
+      "count": 112,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\reconcile_invoices.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\tools\\backfill_invoice_links.js"
+      ]
+    },
+    {
+      "name": "piId",
+      "count": 2,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    },
+    {
+      "name": "piObj",
+      "count": 20,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\tools\\backfill_invoice_links.js"
+      ]
+    },
+    {
+      "name": "pk",
+      "count": 5,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\ensure_payments_pk.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\inspect_payments_constraints.js"
+      ]
+    },
+    {
+      "name": "planKey",
+      "count": 15,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    },
+    {
+      "name": "planTag",
+      "count": 6,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\sync_price_map.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    },
+    {
+      "name": "pm",
+      "count": 6,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    },
+    {
+      "name": "pmRes",
+      "count": 3,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    },
+    {
+      "name": "pool",
+      "count": 113,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\apply_migrations.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\check_subscription.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\ensure_payments_pk.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\inspect_payments_constraints.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\reconcile_invoices.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\run_migration.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\run_migration_file.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\sync_price_map.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\tools\\backfill_invoice_links.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\tools\\backfill_subscriptions.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\tools\\check_payments.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\tools\\inspect_db.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\tools\\print_payments.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\tools\\print_price_map.js"
+      ]
+    },
+    {
+      "name": "PORT",
+      "count": 4,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    },
+    {
+      "name": "portfolioId",
+      "count": 4,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    },
+    {
+      "name": "priceId",
+      "count": 24,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\sync_price_map.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    },
+    {
+      "name": "priceObj",
+      "count": 3,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    },
+    {
+      "name": "prices",
+      "count": 18,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\sync_price_map.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    },
+    {
+      "name": "prod",
+      "count": 12,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\sync_price_map.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    },
+    {
+      "name": "prodName",
+      "count": 6,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\sync_price_map.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    },
+    {
+      "name": "q",
+      "count": 2,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    },
+    {
+      "name": "qText",
+      "count": 4,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\reconcile_invoices.js"
+      ]
+    },
+    {
+      "name": "r",
+      "count": 42,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\sync_price_map.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\tools\\find_unused_decls.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\tools\\print_price_map.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\tools\\signup_test.js"
+      ]
+    },
+    {
+      "name": "rateLimit",
+      "count": 2,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    },
+    {
+      "name": "raw",
+      "count": 21,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    },
+    {
+      "name": "receiptEmail",
+      "count": 11,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    },
+    {
+      "name": "recentPayments",
+      "count": 3,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    },
+    {
+      "name": "recentSubs",
+      "count": 2,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    },
+    {
+      "name": "reconcileInvoiceRow",
+      "count": 2,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\reconcile_invoices.js"
+      ]
+    },
+    {
+      "name": "recurring",
+      "count": 18,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\sync_price_map.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    },
+    {
+      "name": "regex",
+      "count": 2,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\tools\\find_unused_decls.js"
+      ]
+    },
+    {
+      "name": "request",
+      "count": 8,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\tests\\auth.test.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\tests\\payments.test.js"
+      ]
+    },
+    {
+      "name": "requiredKeys",
+      "count": 6,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\sync_price_map.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    },
+    {
+      "name": "res",
+      "count": 47,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\apply_migrations.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\reconcile_invoices.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\tests\\auth.test.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\tests\\payments.test.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\tools\\backfill_invoice_links.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\tools\\backfill_subscriptions.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\tools\\signup_e2e_test.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\tools\\temp_signup_test.js"
+      ]
+    },
+    {
+      "name": "resetIpLimiter",
+      "count": 2,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    },
+    {
+      "name": "resetUrl",
+      "count": 2,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    },
+    {
+      "name": "resp",
+      "count": 9,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    },
+    {
+      "name": "result",
+      "count": 19,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    },
+    {
+      "name": "results",
+      "count": 6,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\reconcile_invoices.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\tools\\find_unused_decls.js"
+      ]
+    },
+    {
+      "name": "router",
+      "count": 3,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\logoUpload.js"
+      ]
+    },
+    {
+      "name": "row",
+      "count": 21,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    },
+    {
+      "name": "rows",
+      "count": 60,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\reconcile_invoices.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\tools\\backfill_invoice_links.js"
+      ]
+    },
+    {
+      "name": "sample",
+      "count": 2,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\tools\\check_payments.js"
+      ]
+    },
+    {
+      "name": "scanFile",
+      "count": 2,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\tools\\find_unused_decls.js"
+      ]
+    },
+    {
+      "name": "server",
+      "count": 7,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\tests\\auth.test.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\tests\\payments.test.js"
+      ]
+    },
+    {
+      "name": "session",
+      "count": 44,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    },
+    {
+      "name": "sessionId",
+      "count": 3,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    },
+    {
+      "name": "sessions",
+      "count": 9,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    },
+    {
+      "name": "sig",
+      "count": 2,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    },
+    {
+      "name": "sql",
+      "count": 9,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\apply_migrations.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\run_migration.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\run_migration_file.js"
+      ]
+    },
+    {
+      "name": "src",
+      "count": 4,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\tools\\find_unused_decls.js"
+      ]
+    },
+    {
+      "name": "stack",
+      "count": 10,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    },
+    {
+      "name": "status",
+      "count": 114,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    },
+    {
+      "name": "statuses",
+      "count": 2,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    },
+    {
+      "name": "storage",
+      "count": 2,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\logoUpload.js"
+      ]
+    },
+    {
+      "name": "stripe",
+      "count": 10,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\reconcile_invoices.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\sync_price_map.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\tools\\backfill_invoice_links.js"
+      ]
+    },
+    {
+      "name": "Stripe",
+      "count": 35,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\reconcile_invoices.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\sync_price_map.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\tests\\payments.test.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\tools\\backfill_invoice_links.js"
+      ]
+    },
+    {
+      "name": "stripeKey",
+      "count": 6,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\reconcile_invoices.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\sync_price_map.js"
+      ]
+    },
+    {
+      "name": "stripeMap",
+      "count": 5,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\sync_price_map.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    },
+    {
+      "name": "stripeMock",
+      "count": 2,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\tests\\payments.test.js"
+      ]
+    },
+    {
+      "name": "sub",
+      "count": 5,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    },
+    {
+      "name": "subId",
+      "count": 8,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    },
+    {
+      "name": "subject",
+      "count": 2,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    },
+    {
+      "name": "subs",
+      "count": 6,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\check_subscription.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\tools\\inspect_db.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\tools\\print_payments.js"
+      ]
+    },
+    {
+      "name": "subsCountR",
+      "count": 2,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    },
+    {
+      "name": "successBase",
+      "count": 6,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    },
+    {
+      "name": "TARGET",
+      "count": 3,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\reconcile_invoices.js"
+      ]
+    },
+    {
+      "name": "template",
+      "count": 2,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\new_migration.js"
+      ]
+    },
+    {
+      "name": "templateIds",
+      "count": 3,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    },
+    {
+      "name": "templates",
+      "count": 8,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    },
+    {
+      "name": "tenantId",
+      "count": 11,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\logoUpload.js"
+      ]
+    },
+    {
+      "name": "tests",
+      "count": 10,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\sync_price_map.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    },
+    {
+      "name": "text",
+      "count": 4,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    },
+    {
+      "name": "token",
+      "count": 77,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    },
+    {
+      "name": "tokenHash",
+      "count": 4,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    },
+    {
+      "name": "total",
+      "count": 7,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\ensure_payments_pk.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\tools\\check_payments.js"
+      ]
+    },
+    {
+      "name": "total_amount",
+      "count": 2,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    },
+    {
+      "name": "tried",
+      "count": 3,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\sync_price_map.js"
+      ]
+    },
+    {
+      "name": "tryLoad",
+      "count": 2,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\sync_price_map.js"
+      ]
+    },
+    {
+      "name": "ts",
+      "count": 4,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\new_migration.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    },
+    {
+      "name": "u",
+      "count": 13,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\check_subscription.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    },
+    {
+      "name": "unused",
+      "count": 4,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\tools\\find_unused_decls.js"
+      ]
+    },
+    {
+      "name": "upd",
+      "count": 4,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\tools\\backfill_invoice_links.js"
+      ]
+    },
+    {
+      "name": "updated",
+      "count": 3,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\tools\\backfill_invoice_links.js"
+      ]
+    },
+    {
+      "name": "upload",
+      "count": 3,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\logoUpload.js"
+      ]
+    },
+    {
+      "name": "upsertPayment",
+      "count": 13,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    },
+    {
+      "name": "user",
+      "count": 74,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\scripts\\check_subscription.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    },
+    {
+      "name": "userForPayment",
+      "count": 2,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    },
+    {
+      "name": "userId",
+      "count": 72,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    },
+    {
+      "name": "userIdForCharge",
+      "count": 10,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    },
+    {
+      "name": "userIdForPi",
+      "count": 8,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    },
+    {
+      "name": "username",
+      "count": 19,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    },
+    {
+      "name": "users",
+      "count": 22,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js",
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\tools\\inspect_db.js"
+      ]
+    },
+    {
+      "name": "varRe",
+      "count": 2,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\tools\\find_unused_decls.js"
+      ]
+    },
+    {
+      "name": "verified",
+      "count": 4,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    },
+    {
+      "name": "visited",
+      "count": 5,
+      "files": [
+        "c:\\VS Projects\\Portfolio Builder\\portfolio-builder\\backend\\server\\index.js"
+      ]
+    }
+  ],
+  "unused": []
+}

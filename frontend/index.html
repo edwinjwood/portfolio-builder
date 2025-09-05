@@ -3,6 +3,38 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Faset – Portfolio Builder SaaS</title>
+    <meta name="description" content="Faset is a modern SaaS app for building, customizing, and sharing professional portfolios." />
+    <meta property="og:title" content="Faset – Portfolio Builder SaaS" />
+    <meta property="og:description" content="Create, customize, and share your professional portfolio with Faset." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://faset.app" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Faset – Portfolio Builder SaaS" />
+    <meta name="twitter:description" content="Create, customize, and share your professional portfolio with Faset." />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="theme-color" content="#0ea5a4" />
+    <script>
+      // Persist dark mode early
+      try { const d = localStorage.getItem('dark'); if (d === 'true') { document.documentElement.classList.add('dark'); } } catch (e) {}
+    </script>
+    <script type="application/ld+json">
+      { "@context": "https://schema.org", "@type": "WebApplication", "name": "Faset", "url": "https://faset.app", "applicationCategory": "Portfolio Builder", "description": "Faset is a modern SaaS app for building, customizing, and sharing professional portfolios." }
+    </script>
+  <!-- In dev Vite serves source files from /src; in production the build outputs to /assets -->
+  <script type="module" src="/src/main.jsx"></script>
+  <!-- The built CSS will be injected by Vite during build; keeping a fallback link is optional -->
+  <link rel="stylesheet" href="/src/styles/index.css">
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Faset – Portfolio Builder SaaS</title>
   <meta name="description" content="Faset is a modern SaaS app for building, customizing, and sharing professional portfolios." />
   <meta property="og:title" content="Faset – Portfolio Builder SaaS" />

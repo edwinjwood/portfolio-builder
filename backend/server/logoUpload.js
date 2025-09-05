@@ -7,7 +7,6 @@ const router = express.Router();
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    const tenantId = req.body.tenantId;
     const dir = path.join(__dirname, '../assets/tenant-logos');
     if (!fs.existsSync(dir)) {
       fs.mkdirSync(dir, { recursive: true });
