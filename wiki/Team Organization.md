@@ -4,7 +4,7 @@ This page records team decisions and operational guidance for the Portfolio Buil
 
 Decisions (questions 2–4)
 
-- Question 2 (team meeting time): We will meet Fridays @ ....
+- Question 2 (team meeting time): We will meet Fridays @ 1:30PM
 - Question 3 (chat service): Discord — use Discord for informal/organizational discussion; important technical or product decisions must be recorded in GitHub Issues.
 - Question 4 (message frequency): Everyone should check messages at least once per day and reply within 24 hours for routine questions.
 

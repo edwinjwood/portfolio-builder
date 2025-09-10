@@ -34,7 +34,7 @@ const NavBar = () => {
     >
       <div className="max-w-7xl mx-auto flex px-6 items-center justify-between">
         {/* Logo on the left, show tenant logo if available */}
-  <NavLink to={currentUser ? "/dashboard" : "/"} end className="flex items-center gap-2 select-none" aria-label="Faset Home">
+  <NavLink to={currentUser ? "/dashboard" : "/"} end className="flex items-center gap-2 select-none" aria-label="Facet Home">
           {tenant && tenant.theme && tenant.theme.logoUrl && currentUser ? (
             <img src={tenant.theme.logoUrl.startsWith('/') ? tenant.theme.logoUrl : `/${tenant.theme.logoUrl}`} alt={tenant.name} className="h-8 w-8 mr-2" />
           ) : null}
@@ -46,7 +46,7 @@ const NavBar = () => {
                 : (currentUser && tenant?.theme?.secondaryColor ? tenant.theme.secondaryColor : undefined)
             }}
           >
-            {currentUser && tenant ? tenant.name : 'Faset'}
+            {currentUser && tenant ? tenant.name : 'Facet'}
           </span>
         </NavLink>
         {/* Desktop menu right aligned */}
