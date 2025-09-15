@@ -23,71 +23,13 @@ Jordan is a motivated student who has built small coding projects during interns
 
 - Overwhelmed by complex website builders like WordPress.  
 - Doesn’t have the time or money to hire a designer.  
-- Wants something easy but still customizable.  
+- Wants something easy but still customizable.
 
 ---
 
 ---
 
-## Persona 2: Maria Alvarez
-
-![Maria Alvarez](https://github.com/SCCapstone/Hotboyz/blob/main/images/personas/Maria.png?raw=true)
-
-- **Age:** 34  
-- **Occupation:** Marketing Manager at a mid-sized company  
-- **Education:** Bachelor’s in Business, MBA in Marketing  
-- **Income:** ~$75k/year  
-- **Location:** Charlotte, NC  
-
-**Backstory:**  
-Maria has worked in marketing for over 10 years. She leads campaigns, manages a team, and consults on the side. She wants a portfolio that highlights her marketing campaigns, analytics reports, and client testimonials. She’s looking for something polished and modern that appeals to potential freelance clients.  
-
-**Goals:**
-
-- Organize case studies into a professional portfolio.
-- Use Faset’s templates to keep her site visually consistent with minimal effort.
-- Monetize consulting services by linking Stripe payment checkout.
-
-**Frustrations:**
-
-- Current portfolio is a cluttered Google Drive folder.
-- Doesn’t know how to code.
-- Time-strapped, needs quick setup.
-
----
-
----
-
-## Persona 3: Chris Johnson
-
-![Chris Johnson](https://github.com/SCCapstone/Hotboyz/blob/main/images/personas/Chris.png?raw=true)
-
-- **Age:** 28  
-- **Occupation:** Freelance Photographer & Content Creator  
-- **Education:** Associate’s degree in Fine Arts  
-- **Income:** ~$40k/year (variable)  
-- **Location:** Atlanta, GA  
-
-**Backstory:**  
-Chris shoots events, portraits, and small brand campaigns. He is active on Instagram and TikTok but wants a central hub for clients to view his portfolio and book shoots. He wants something visually appealing with social media integration and SEO support so he can attract new clients through search engines.  
-
-**Goals:**
-
-- Build a visually stunning digital portfolio with photo galleries.
-- Share the portfolio link easily across social media.
-- Increase visibility with SEO metadata and social card previews.
-
-**Frustrations:**
-
-- Existing Instagram feed doesn’t feel professional enough.
-- Hasn’t been able to get traction with personal website templates.
-- Wants simple tools without expensive web design services.
-
----
-
----
-
-## Persona 4: Tenant Admin (Business Owner)
+## Persona 2: Tenant Admin (Business Owner)
 
 ![Tenant Admin](https://github.com/SCCapstone/Hotboyz/blob/main/images/personas/TenantAdmin.png?raw=true)
 
@@ -117,7 +59,7 @@ Taylor runs operations for a growing local business recently onboarded to Facet 
 
 ---
 
-## Persona 5: Super Admin
+## Persona 3: Super Admin
 
 ![Super Admin](https://github.com/SCCapstone/Hotboyz/blob/main/images/personas/SuperAdmin.png?raw=true)
 
@@ -142,3 +84,61 @@ Morgan is the owner and product manager of Facet, responsible for onboarding new
 - Needs clear visibility into tenant activity and platform status
 - Wants robust tools for troubleshooting and managing access securely
 - Dislikes fragmented support workflows and lack of audit trails
+
+---
+
+---
+
+## Persona 4: Maria Alvarez (future state)
+
+![Maria Alvarez](https://github.com/SCCapstone/Hotboyz/blob/main/images/personas/Maria.png?raw=true)
+
+- **Age:** 34  
+- **Occupation:** Marketing Manager at a mid-sized company  
+- **Education:** Bachelor’s in Business, MBA in Marketing  
+- **Income:** ~$75k/year  
+- **Location:** Charlotte, NC  
+
+**Backstory:**  
+Maria has worked in marketing for over 10 years. She leads campaigns, manages a team, and consults on the side. She wants a portfolio that highlights her marketing campaigns, analytics reports, and client testimonials. She’s looking for something polished and modern that appeals to potential freelance clients.  
+
+**Goals:**
+
+- Organize case studies into a professional portfolio.
+- Use Faset’s templates to keep her site visually consistent with minimal effort.
+- Monetize consulting services by linking Stripe payment checkout.
+
+**Frustrations:**
+
+- Current portfolio is a cluttered Google Drive folder.
+- Doesn’t know how to code.
+- Time-strapped, needs quick setup.
+
+---
+
+---
+
+## Persona 5: Chris Johnson (future state)
+
+![Chris Johnson](https://github.com/SCCapstone/Hotboyz/blob/main/images/personas/Chris.png?raw=true)
+
+- **Age:** 28  
+- **Occupation:** Freelance Photographer & Content Creator  
+- **Education:** Associate’s degree in Fine Arts  
+- **Income:** ~$40k/year (variable)  
+- **Location:** Atlanta, GA  
+
+**Backstory:**  
+Chris shoots events, portraits, and small brand campaigns. He is active on Instagram and TikTok but wants a central hub for clients to view his portfolio and book shoots. He wants something visually appealing with social media integration and SEO support so he can attract new clients through search engines.  
+
+**Goals:**
+
+- Build a visually stunning digital portfolio with photo galleries.
+- Share the portfolio link easily across social media.
+- Increase visibility with SEO metadata and social card previews.
+
+**Frustrations:**
+
+- Existing Instagram feed doesn’t feel professional enough.
+- Hasn’t been able to get traction with personal website templates.
+- Wants simple tools without expensive web design services.

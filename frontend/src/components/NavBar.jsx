@@ -39,14 +39,14 @@ const NavBar = () => {
             <img src={tenant.theme.logoUrl.startsWith('/') ? tenant.theme.logoUrl : `/${tenant.theme.logoUrl}`} alt={tenant.name} className="h-8 w-8 mr-2" />
           ) : null}
           <span
-            className="text-2xl font-extrabold tracking-tight"
+            className="text-2xl font-extrabold tracking-tight facet-wordmark"
             style={{
               color: currentUser && tenant?.theme?.primaryColor
                 ? getContrastText(tenant.theme.primaryColor)
                 : (currentUser && tenant?.theme?.secondaryColor ? tenant.theme.secondaryColor : undefined)
             }}
           >
-            {currentUser && tenant ? tenant.name : 'Facet'}
+            {currentUser && tenant ? tenant.name : 'facet'}
           </span>
         </NavLink>
         {/* Desktop menu right aligned */}
