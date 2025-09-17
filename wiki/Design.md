@@ -11,12 +11,14 @@ This page collects the primary UI screens and design assets for Portfolio Builde
 
 A welcoming landing page that presents the "facet" wordmark, short value proposition ("There's more to you than a resume"), and CTAs to create a portfolio or explore templates. The left card area highlights featured projects; the right column contains social proof and quick start actions.
 
-### Dashboard
+### Login
 
 ![Dashboard - desktop](./design/screenshots/dashboard-desktop.png)
 ![Dashboard - mobile](./design/screenshots/dashboard-mobile.png)
 
 The Dashboard gives users quick access to templates, recent activity, billing, and quick actions (create new portfolio, invite team). The left rail contains navigation and template shortcuts; the main area shows recent projects and activity.
+
+> Note: the current `dashboard` screenshots were captured from an unauthenticated session and show the login screen. To capture the real Dashboard you must export with an authenticated session (see `scripts/README-EXPORT.md` for an example of how to add login steps to the Playwright exporter) or manually sign-in in a browser and capture the page.
 
 ### Editor
 
@@ -32,12 +34,6 @@ The Editor is a WYSIWYG-like interface for adding and reordering content blocks 
 
 The public profile displays the user's projects, bio, and contact information. It supports social sharing metadata and a simple purchase/donation button powered by Stripe Checkout when enabled.
 
-## Notes
-
-- These screenshots are captured from the running app and represent the current UI at the time of export. They are suitable for visual review, QA, and annotating design changes.
-- If you want editable vectors in Figma, export or rebuild the components as SVGs and import them manually into Figma (screenshots are raster images and not directly editable as vector nodes).
-- To link design files from a Figma prototype, add the Figma share link under each screen's subsection.
-
 ## Related pages
 
 - `Personas.md` — user profiles and goals that informed these designs
@@ -50,7 +46,7 @@ The public profile displays the user's projects, bio, and contact information. I
 - Muted gray: `#6b7280` — secondary text and helper copy.
 - White: `#ffffff` — cards and iconography foreground.
 
-These colors are used in the mock SVGs under `wiki/design/`. If you'd like, I can create a small `colors.md` page with accessible contrast checks and hex/swatches.
+These colors are used in the mock SVGs under `wiki/design/`.
 
 ## Navigation & flows
 
@@ -71,6 +67,3 @@ These flows correspond to the screens above and are the most frequently used pat
 - Share / Copy link (Public profile)
 - Billing / Subscription controls (Dashboard)
 - Invite / Team management (Dashboard)
-
-If you'd like I can expand each widget into its own subpage with states (empty, filled, loading, error) and keyboard accessibility notes.
-
