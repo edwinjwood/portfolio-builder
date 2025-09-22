@@ -42,7 +42,7 @@ function validatePassword(password) {
 }
 
 exports.createUser = async (req, res) => {
-  const { name, email, password, plan } = req.body;
+  const { name, email, password, plan, username: requestedUsername } = req.body;
   if (!email || !password) return res.status(400).json({ error: 'Email and password required.' });
   const pwErrors = validatePassword(password);
   if (pwErrors.length) return res.status(400).json({ error: 'Password does not meet requirements.', details: pwErrors });
@@ -53,13 +53,64 @@ exports.createUser = async (req, res) => {
     const names = (name || '').split(' ');
     const first_name = names.shift() || null;
     const last_name = names.join(' ') || null;
-    let username = (first_name && last_name) ? `${first_name}.${last_name}` : null;
-    if (!username) username = (email || '').split('@')[0];
-    username = username.toString().toLowerCase().replace(/[^a-z0-9._-]/g, '').slice(0, 30) || null;
+    // If client provided a desired username, validate and use it (or return 409 if taken).
+    let username = null;
+    if (requestedUsername && typeof requestedUsername === 'string' && requestedUsername.trim()) {
+      const cand = requestedUsername.toString().trim().toLowerCase().replace(/[^a-z0-9._-]/g, '').slice(0, 30);
+      if (cand.length < 3) return res.status(400).json({ error: 'Username too short.' });
+      const check = await pool.query('SELECT id FROM users WHERE username = $1', [cand]);
+      if (check.rows[0]) {
+        // Suggest alternatives
+        const suggestions = [];
+        for (let i = 1; suggestions.length < 5 && i < 50; i++) {
+          const s = (cand + i).slice(0, 30);
+          const rr = await pool.query('SELECT id FROM users WHERE username = $1', [s]);
+          if (!rr.rows[0]) suggestions.push(s);
+        }
+        return res.status(409).json({ error: 'Username already taken.', suggestions });
+      }
+      username = cand;
+    } else {
+      username = (first_name && last_name) ? `${first_name}.${last_name}` : null;
+      if (!username) username = (email || '').split('@')[0];
+      username = username.toString().toLowerCase().replace(/[^a-z0-9._-]/g, '').slice(0, 30) || null;
+    }
 
     const hashed = await bcrypt.hash(password, 10);
-    const result = await pool.query(`INSERT INTO users (username, email, password, first_name, last_name, role) VALUES ($1,$2,$3,$4,$5,'user') RETURNING id, email, username, role, first_name, last_name`, [username, email, hashed, first_name, last_name]);
-    const user = result.rows[0];
+    // Try insert; if username unique constraint fails, retry with numeric suffixes up to a limit
+    let user = null;
+    const maxAttempts = 10;
+    let attempt = 0;
+    let baseUsername = username;
+    while (attempt < maxAttempts) {
+      try {
+        const result = await pool.query(`INSERT INTO users (username, email, password, first_name, last_name, role) VALUES ($1,$2,$3,$4,$5,'user') RETURNING id, email, username, role, first_name, last_name`, [username, email, hashed, first_name, last_name]);
+        user = result.rows[0];
+        break;
+      } catch (e) {
+        // If the error is a unique-violation on username, try a new username with a numeric suffix
+        if (e && e.code === '23505' && e.constraint && e.constraint.toString().includes('username')) {
+          attempt += 1;
+          // Append suffix; keep under 30 chars
+          const suffix = String(attempt);
+          const maxBase = Math.max(0, 30 - suffix.length);
+          username = (baseUsername || '').slice(0, maxBase) + suffix;
+          username = username.replace(/[^a-z0-9._-]/g, '').toLowerCase();
+          // continue loop to retry insert
+          continue;
+        }
+        // If the error is a unique-violation on email (race), return a 409
+        if (e && e.code === '23505' && ((e.constraint && e.constraint.toString().includes('email')) || (e.detail && e.detail.includes('(email)')))) {
+          return res.status(409).json({ error: 'Email already registered.' });
+        }
+        // rethrow other DB errors
+        throw e;
+      }
+    }
+    if (!user) {
+      // If we couldn't create a unique username after retries, return explicit 409
+      return res.status(409).json({ error: 'Username already taken. Please choose a different name.' });
+    }
 
     // Create initial subscription row (best-effort)
     try {
@@ -103,6 +154,34 @@ exports.createUser = async (req, res) => {
   } catch (err) {
     console.error('Error creating user:', err);
     res.status(500).json({ error: 'Failed to create user.' });
+  }
+};
+
+// Check username availability and suggest alternatives
+exports.checkUsernameAvailable = async (req, res) => {
+  try {
+    const q = (req.query.username || '').toString().trim().toLowerCase();
+    if (!q) return res.status(400).json({ error: 'username query required' });
+    // validate shape
+    if (q.length < 3 || q.length > 30) return res.status(400).json({ error: 'username must be 3-30 characters' });
+    if (!/^[a-z0-9._-]+$/.test(q)) return res.status(400).json({ error: 'username contains invalid characters' });
+
+    const r = await pool.query('SELECT id FROM users WHERE username = $1', [q]);
+    const available = !r.rows[0];
+
+    const suggestions = [];
+    if (!available) {
+      // produce up to 5 suggestions by appending numbers
+      for (let i = 1; suggestions.length < 5 && i < 50; i++) {
+        const cand = (q + i).slice(0, 30);
+        const rr = await pool.query('SELECT id FROM users WHERE username = $1', [cand]);
+        if (!rr.rows[0]) suggestions.push(cand);
+      }
+    }
+    res.json({ available, suggestions });
+  } catch (err) {
+    console.error('checkUsernameAvailable error:', err && (err.stack || err.message || err));
+    res.status(500).json({ error: 'Server error' });
   }
 };
 

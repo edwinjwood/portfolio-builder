@@ -8,6 +8,7 @@ require('./bootstrap');
 const express = require('express');
 const cors = require('cors');
 const pool = require('./db');
+const { extractStripeIds, upsertPayment } = require('./services/stripeHelpers');
 
 // Create Express app and common middleware
 const app = express();
@@ -27,7 +28,7 @@ app.use('/webhooks', require('./routes/webhooks'));
 app.use('/admin', require('./routes/admin'));
 
 // Export app and pool for testing
-module.exports = { app, pool };
+module.exports = { app, pool, extractStripeIds, upsertPayment };
 
 // Only start listening if this file is the main module
 if (require.main === module) {

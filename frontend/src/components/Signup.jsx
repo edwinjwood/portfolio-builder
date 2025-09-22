@@ -11,6 +11,10 @@ function Signup() {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
+  const [usernamePreview, setUsernamePreview] = useState('');
+  const [usernameAvailable, setUsernameAvailable] = useState(null);
+  const [usernameSuggestions, setUsernameSuggestions] = useState([]);
+  const [selectedUsername, setSelectedUsername] = useState('');
   const [loading, setLoading] = useState(false);
   const [rules, setRules] = useState({
     length: false,
@@ -38,10 +42,17 @@ function Signup() {
       return;
     }
     setLoading(true);
-    try {
+  try {
     // Concatenate first + last to send as `name` so backend derives username and stores first/last names
     const fullName = `${(firstName || '').trim()} ${(lastName || '').trim()}`.trim();
-    const res = await signup({ name: fullName, email, password, plan: planToUse });
+  // Require an explicit username selection
+  if (!selectedUsername) {
+    setError('Please select a username before creating an account.');
+    setLoading(false);
+    return;
+  }
+  const usernameToSend = selectedUsername;
+  const res = await signup({ name: fullName, email, password, plan: planToUse, username: usernameToSend });
       // If signup returned without a checkout redirect, navigate to dashboard
       if (!res || !res.checkout) {
         navigate('/dashboard');
@@ -62,6 +73,41 @@ function Signup() {
     setRules({ length, lower, upper, number, special });
   };
 
+  // Build a slug-like preview from first + last name only (require both)
+  const buildPreview = () => {
+    const f = (firstName || '').trim();
+    const l = (lastName || '').trim();
+    if (!f || !l) return '';
+    let p = `${f}.${l}`;
+    p = p.toLowerCase().replace(/[^a-z0-9._-]/g, '').slice(0, 30);
+    return p;
+  };
+
+  // Debounced availability check
+  React.useEffect(() => {
+    const p = buildPreview();
+  setUsernamePreview(p);
+  // clear any previously selected username when names change
+  setSelectedUsername('');
+    setUsernameAvailable(null);
+    setUsernameSuggestions([]);
+    if (!p) return;
+    const id = setTimeout(async () => {
+      try {
+        const apiBase = import.meta.env.VITE_API_URL || '';
+        const res = await fetch(`${apiBase}/api/users/username-available?username=${encodeURIComponent(p)}`);
+        if (!res.ok) { setUsernameAvailable(null); return; }
+        const data = await res.json();
+        setUsernameAvailable(!!data.available);
+        setUsernameSuggestions(data.suggestions || []);
+      } catch (e) {
+        setUsernameAvailable(null);
+      }
+    }, 350);
+    return () => clearTimeout(id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [firstName, lastName]);
+
   return (
     <main className="w-full h-full grid place-items-center font-sans text-gray-900 dark:text-gray-100">
       <form onSubmit={onSubmit} className="w-full max-w-sm bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-lg p-6 shadow-sm">
@@ -80,6 +126,28 @@ function Signup() {
         <label className="block text-sm font-medium mb-1">Confirm password</label>
         <input type="password" value={confirmPassword} onChange={e=>setConfirmPassword(e.target.value)} required className="w-full mb-3 px-3 py-2 rounded border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800" />
         <div className="mb-3 text-sm">
+          <div className="mb-2 font-semibold">Your public username</div>
+          <div className="flex items-center gap-2 mb-2">
+            <div className="text-sm text-gray-700 dark:text-gray-300">{usernamePreview || '—'}</div>
+            {usernameAvailable === true && <div className="text-xs text-green-600">Available</div>}
+            {usernameAvailable === false && <div className="text-xs text-red-600">Taken</div>}
+            {usernamePreview && usernameAvailable && !selectedUsername && (
+              <button type="button" onClick={() => setSelectedUsername(usernamePreview)} className="ml-2 px-2 py-1 text-xs bg-brand-100 dark:bg-brand-800 rounded">Use</button>
+            )}
+          </div>
+          {usernameSuggestions && usernameSuggestions.length > 0 && (
+            <div className="text-xs text-gray-600">
+              <div className="mb-1">Suggestions:</div>
+              <div className="flex flex-wrap gap-2">
+                {usernameSuggestions.map(s => (
+                  <button type="button" key={s} onClick={() => { setUsernamePreview(s); setUsernameAvailable(true); setUsernameSuggestions([]); setSelectedUsername(s); }} className="px-3 py-1 bg-gray-100 dark:bg-gray-800 rounded text-xs hover:bg-gray-200 dark:hover:bg-gray-700">{s}</button>
+                ))}
+              </div>
+            </div>
+          )}
+          {!selectedUsername && (usernamePreview || (usernameSuggestions && usernameSuggestions.length > 0)) && (
+            <div className="mt-2 text-sm text-gray-700 dark:text-gray-300">Please select a username to continue.</div>
+          )}
           <div className="font-semibold mb-1">Password rules</div>
           <ul className="list-none pl-0 text-sm">
             <li className={`flex items-center gap-2 ${rules.length ? 'text-green-600' : 'text-gray-600'}`}><span className="w-4 h-4 inline-block" aria-hidden>{rules.length ? '✔' : '○'}</span>At least 8 characters</li>
@@ -89,7 +157,7 @@ function Signup() {
             <li className={`flex items-center gap-2 ${rules.special ? 'text-green-600' : 'text-gray-600'}`}><span className="w-4 h-4 inline-block" aria-hidden>{rules.special ? '✔' : '○'}</span>One special character (e.g. !@#$%)</li>
           </ul>
         </div>
-  <button type="submit" disabled={loading || !Object.values(rules).every(Boolean) || password !== confirmPassword} className="w-full px-4 py-2 rounded bg-brand-600 text-white hover:bg-brand-700 disabled:opacity-60">{loading ? 'Creating…' : `Create account & ${planToUse ? 'Start' : 'Create account'}`}</button>
+  <button type="submit" disabled={loading || !Object.values(rules).every(Boolean) || password !== confirmPassword || !selectedUsername} className="w-full px-4 py-2 rounded bg-brand-600 text-white hover:bg-brand-700 disabled:opacity-60">{loading ? 'Creating…' : `Create account & ${planToUse ? 'Start' : 'Create account'}`}</button>
         <div className="mt-4 text-sm text-gray-600 dark:text-gray-300">Have an account? <Link to="/login" className="text-brand-600">Sign in</Link></div>
       </form>
     </main>
