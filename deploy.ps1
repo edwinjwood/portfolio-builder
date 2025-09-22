@@ -118,11 +118,6 @@ Notes:
  - Uses HashRouter so 404.html is mostly a safeguard.
 #>
 
-param(
-	[switch] $SkipPull,
-	[switch] $AutoCommit  # still supported but now optional; default interactive prompt will handle commits
-)
-
 function Assert-Success($Message) {
 	if ($LASTEXITCODE -ne 0) { Write-Error $Message; exit 1 }
 }
