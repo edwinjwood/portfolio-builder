@@ -3,27 +3,39 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Faset – Portfolio Builder SaaS</title>
-  <meta name="description" content="Faset is a modern SaaS app for building, customizing, and sharing professional portfolios." />
-  <meta property="og:title" content="Faset – Portfolio Builder SaaS" />
-  <meta property="og:description" content="Create, customize, and share your professional portfolio with Faset." />
+  <title>facet – Portfolio Builder</title>
+  <meta name="description" content="There's more to you than just a resume. Show your many facets by creating a digital portfolio with Facet." />
+  <meta property="og:title" content="facet – Portfolio Builder" />
+  <meta property="og:description" content="There's more to you than just a resume — show your many facets with a digital portfolio." />
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://faset.app" />
+  <meta property="og:url" content="https://facet.app" />
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Faset – Portfolio Builder SaaS" />
-  <meta name="twitter:description" content="Create, customize, and share your professional portfolio with Faset." />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <meta name="twitter:title" content="facet – Portfolio Builder" />
+  <meta name="twitter:description" content="There's more to you than a resume — show your many facets with a digital portfolio." />
+  <!-- Use a lowercase 'f' favicon that may become the logo (cache-bust to force reload) -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=5" />
+  <!-- PNG fallbacks (rasterize from favicon.svg if needed). If you want me to generate these, I can create them from the SVG. -->
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon-180.png?v=5" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png?v=5" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png?v=5" />
+    <meta name="theme-color" content="#0ea5a4" />
+  <!-- Load Playfair Display for an elegant, attention-grabbing serif wordmark -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     <script>
       // Persist dark mode early
-      try { const d = localStorage.getItem('dark'); if(d==='true'){ document.documentElement.classList.add('dark'); } } catch(e){}
+      try { const d = localStorage.getItem('dark'); if (d === 'true') { document.documentElement.classList.add('dark'); } } catch (e) {}
     </script>
-  <script type="application/ld+json">
-{ "@context": "https://schema.org", "@type": "WebApplication", "name": "Faset", "url": "https://faset.app", "applicationCategory": "Portfolio Builder", "description": "Faset is a modern SaaS app for building, customizing, and sharing professional portfolios." }
-  </script>
-  <script type="module" src="/src/main.jsx"></script>
+    <script type="application/ld+json">
+      { "@context": "https://schema.org", "@type": "WebApplication", "name": "facet", "url": "https://facet.app", "applicationCategory": "Portfolio Builder", "description": "There's more to you than just a resume. Show your many facets by creating a digital portfolio with Facet." }
+    </script>
+    <!-- In dev Vite serves source files from /src; in production the build outputs to /assets -->
+    <script type="module" src="/src/main.jsx"></script>
+    <!-- The built CSS will be injected by Vite during build; keeping a fallback link is optional -->
+    <link rel="stylesheet" href="/src/styles/index.css">
   </head>
   <body>
     <div id="root"></div>
-
   </body>
 </html>

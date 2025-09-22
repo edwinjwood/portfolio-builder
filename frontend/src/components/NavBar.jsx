@@ -7,8 +7,7 @@ import { useTenant } from '../contexts/TenantContext';
 // Minimal nav: Home on the left, Login and theme icon on the right
 const NavBar = () => {
   const { currentUser, logout } = useAuth();
-  const { tenant, user } = useTenant();
-  const navigate = typeof window !== 'undefined' && window.location ? (window.__REACT_ROUTER_NAVIGATE__ || null) : null;
+  const { tenant } = useTenant();
   const { dark, toggle } = useTheme();
   const [menuOpen, setMenuOpen] = useState(false);
   function getContrastText(bgColor) {
@@ -34,24 +33,24 @@ const NavBar = () => {
     >
       <div className="max-w-7xl mx-auto flex px-6 items-center justify-between">
         {/* Logo on the left, show tenant logo if available */}
-  <NavLink to={currentUser ? "/dashboard" : "/"} end className="flex items-center gap-2 select-none" aria-label="Faset Home">
+  <NavLink to={currentUser ? "/dashboard" : "/"} end className="flex items-center gap-2 select-none" aria-label="Facet Home">
           {tenant && tenant.theme && tenant.theme.logoUrl && currentUser ? (
             <img src={tenant.theme.logoUrl.startsWith('/') ? tenant.theme.logoUrl : `/${tenant.theme.logoUrl}`} alt={tenant.name} className="h-8 w-8 mr-2" />
           ) : null}
           <span
-            className="text-2xl font-extrabold tracking-tight"
+            className="text-2xl font-extrabold tracking-tight facet-wordmark"
             style={{
               color: currentUser && tenant?.theme?.primaryColor
                 ? getContrastText(tenant.theme.primaryColor)
                 : (currentUser && tenant?.theme?.secondaryColor ? tenant.theme.secondaryColor : undefined)
             }}
           >
-            {currentUser && tenant ? tenant.name : 'Faset'}
+            {currentUser && tenant ? tenant.name : 'facet'}
           </span>
         </NavLink>
         {/* Desktop menu right aligned */}
         <div className="hidden md:flex items-center gap-8 ml-auto">
-          {['/dashboard','/admin'].map((route, idx) => (
+          {['/dashboard','/admin'].map((route) => (
             currentUser && (
               <NavLink
                 key={route}
@@ -72,11 +71,15 @@ const NavBar = () => {
           {!currentUser && (
             <NavLink to="/login" className={({isActive}) => `font-semibold transition ${isActive ? 'text-brand-600 dark:text-brand-500' : 'text-gray-700 dark:text-gray-300 hover:text-brand-600'}`} aria-current={({isActive}) => isActive ? 'page' : undefined}>Login</NavLink>
           )}
-          {!currentUser && (
-            <NavLink to="/signup" className={({isActive}) => `font-semibold transition ${isActive ? 'text-brand-600 dark:text-brand-500' : 'text-gray-700 dark:text-gray-300 hover:text-brand-600'}`} aria-current={({isActive}) => isActive ? 'page' : undefined}>Sign up</NavLink>
-          )}
+          {/* Sign up link intentionally removed from the global nav; available only on the login page */}
           {currentUser && (
-            <span style={{ color: currentUser && tenant?.theme?.primaryColor ? getContrastText(tenant.theme.primaryColor) : (dark ? '#fff' : '#222') }} className="text-sm">Hi, {currentUser.name || currentUser.email}</span>
+            <span style={{ color: currentUser && tenant?.theme?.primaryColor ? getContrastText(tenant.theme.primaryColor) : (dark ? '#fff' : '#222') }} className="text-sm">
+              Hi, {(
+                currentUser.first_name
+                || (currentUser.name && currentUser.name.split(' ')[0])
+                || (currentUser.email && currentUser.email.split('@')[0])
+              )}
+            </span>
           )}
           {currentUser && (
             <button
@@ -151,7 +154,7 @@ const NavBar = () => {
                 <NavLink to="/portfolio-preview" className={({isActive}) => `font-semibold transition block py-2 px-4 rounded ${isActive ? 'bg-brand-100 text-brand-700 dark:bg-brand-900 dark:text-brand-300' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800'}`} onClick={() => setMenuOpen(false)}>Portfolio Templates</NavLink>
                 <NavLink to="/pricing" className={({isActive}) => `font-semibold transition block py-2 px-4 rounded ${isActive ? 'bg-brand-100 text-brand-700 dark:bg-brand-900 dark:text-brand-300' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800'}`} onClick={() => setMenuOpen(false)}>Pricing & Plans</NavLink>
                 <NavLink to="/login" className={({isActive}) => `font-semibold transition block py-2 px-4 rounded ${isActive ? 'bg-brand-100 text-brand-700 dark:bg-brand-900 dark:text-brand-300' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800'}`} onClick={() => setMenuOpen(false)}>Login</NavLink>
-                <NavLink to="/signup" className={({isActive}) => `font-semibold transition block py-2 px-4 rounded ${isActive ? 'bg-brand-100 text-brand-700 dark:bg-brand-900 dark:text-brand-300' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800'}`} onClick={() => setMenuOpen(false)}>Sign up</NavLink>
+                {/* Sign up link intentionally removed from the global nav; available only on the login page */}
               </>
             )}
             <button

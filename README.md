@@ -1,143 +1,77 @@
-# Edwin J. Wood – Resume / Projects Site
+# Faset — Resume & Portfolio SaaS
 
-A lightweight, modern personal resume + projects site built with React, Vite, and Tailwind CSS, deployed to GitHub Pages (user site). Uses a HashRouter to avoid refresh 404s.
+[![License: MIT](https://img.shields.io/badge/license-MIT-yellow.svg)](./LICENSE)
 
----
+Faset helps people and organizations create, publish, and manage professional resumés and digital portfolios. This repository contains the full-stack application: a React + Vite frontend, a Node.js + Postgres backend, Stripe billing, and maintenance scripts.
 
-## 🔧 Install & First Run
+## Overview
+
+Root docs are intentionally concise; subsystem details are in their respective READMEs:
+
+- [backend/README.md](backend/README.md) — server, scripts, tests, and how to run the backend.
+- [frontend/README.md](frontend/README.md) — Vite/React app, build, and local dev instructions.
+
+## Technologies
+
+- Frontend: React, Vite, Tailwind CSS
+- Backend: Node.js, Express, PostgreSQL (pg)
+- Payments: Stripe (server SDK and Checkout)
+- Testing: Jest, Supertest
+- Infra/hosting: Railway (deployment), optional static hosts for frontend
+
+Purpose: provide a small SaaS for building and publishing resumés and portfolios with subscription billing and simple templates.
+
+
+## Quick start (developer)
+
+> This project is private. Request access from the project owner before running locally.
+
+1. Install repository-level dependencies and subsystem dependencies:
 
 ```powershell
-git clone https://github.com/YOUR_USERNAME/YOUR_USERNAME.github.io.git
-cd YOUR_USERNAME.github.io
 npm install
-git checkout -b dev   # create dev branch if needed
+cd backend && npm install
+cd ../frontend && npm install
+```
+
+2. Configure backend environment variables in `backend/.env` (examples):
+
+```text
+DATABASE_URL=postgres://user:pass@localhost:5432/dbname
+STRIPE_SECRET_KEY=sk_test_xxx
+```
+
+3. For subsystem-specific run/build/test commands see the respective README files listed above.
+
+### Local dev & Stripe
+
+- From the repository root start both frontend and backend in development mode:
+
+```powershell
 npm run dev
 ```
 
-Visit the printed local URL (default <http://localhost:5173>).
-
----
-
-## 🧪 Development Workflow
-
-1. Stay on dev while editing.
-1. Update resume (`src/Resume.jsx`), projects (`src/Projects.jsx`), and the home business card (`src/App.jsx`).
-1. Add routes in `src/App.jsx` (HashRouter in use).
-1. Commit changes normally.
-1. Deploy using the script (see Deploy section below).
-
----
-
-## 🚀 Deploy
-
-Production is served from the main branch. Run the script from dev.
-
-Deploy:
+- To fully test payments and webhooks locally, run the Stripe CLI and forward events to the backend webhook endpoint (the backend typically listens on port 5001):
 
 ```powershell
-./deploy.ps1
+# login first: stripe login
+stripe listen --forward-to http://localhost:5001/webhooks/stripe
 ```
 
-Skip pulling remotes first:
+- Ensure your local backend env contains your Stripe secret key (`STRIPE_SECRET_KEY`) and, after running `stripe listen`, update `STRIPE_WEBHOOK_SECRET` with the webhook signing secret the CLI prints so webhook signature verification works locally.
 
-```powershell
-./deploy.ps1 -SkipPull
-```
+## Repository layout
 
-Auto-stage/commit when prompted (optional):
+- [backend/](backend/) — Express app, DB client, scripts, tests. See [backend/README.md](backend/README.md).
+- [frontend/](frontend/) — Vite + React app and static assets. See [frontend/README.md](frontend/README.md).
+- `migrations/` and `server/scripts/` — SQL migrations and maintenance scripts.
+- `wiki/` — Project documentation and decision log.
 
-```powershell
-./deploy.ps1 -AutoCommit
-```
+## Contributing & license
 
-URLs:
+See [CONTRIBUTING.md](CONTRIBUTING.md) and [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) for contribution guidelines. The project is licensed under MIT — see [LICENSE](LICENSE).
 
-- User page: <https://YOUR_USERNAME.github.io/#/>
-- Resume page: <https://YOUR_USERNAME.github.io/#/resume>
-- Projects page: <https://YOUR_USERNAME.github.io/#/projects>
-- Filtered view: <https://YOUR_USERNAME.github.io/#/projects?cat=Automation>
+## Contact
 
----
+For access or operational questions contact the project owner.
 
-## 📦 Manual Production Build
-
-```powershell
-npm run build
-```
-
-Outputs go to dist/ (ignored by git). The deploy script selectively copies required files.
-
-Preview the production build locally (no deploy):
-
-```powershell
-npm run build
-npm run preview
-```
-
-Then open the printed URL (default <http://localhost:4173/#/projects>) to validate before pushing. You can also check the resume at <http://localhost:4173/#/resume>.
-
----
-
-## 🌐 Routing Strategy
-
-GitHub Pages can’t serve SPA history routes. HashRouter keeps the path client-side (#/...). If migrating to Netlify or Vercel you can switch to BrowserRouter and add rewrite rules.
-
----
-
-## 🧩 Customization Guide
-
-| Area | Where | Notes |
-|------|-------|-------|
-| Resume content | `src/Resume.jsx` | Replace sections / bullet points |
-| Home business card | `src/components/App.jsx` | Edit HomeCard (name, subtitle, layout) |
-| Projects list | `src/components/Projects.jsx` | Edit the projects array or update `src/data/projects.json` |
-| Home card data | `src/data/homecard.json` | Update the JSON file for home card details |
-| Styles / Theme | tailwind.config.js, index.css | Extend colors, fonts, etc. |
-| Favicon | vite.svg | Replace file + link tag |
-| SEO Meta | index.html | Update title + description |
-| Navigation | `src/components/App.jsx` | Add `Link` + `Route` |
-| Deployment msg | deploy.ps1 | Adjust commit message template |
-
-Dark mode: add `darkMode: 'class'` to tailwind config, toggle `classList` on the html element.
-
----
-
-## 🔍 Quality & Accessibility
-
-- Single h1 per view
-- Sufficient color contrast
-- Keyboard check (Tab through nav)
-- Descriptive link text
-
-Behavior notes
-
-- Export PDF button is shown on the Resume page only (hidden on Home and Projects).
-- The Home card is fully clickable (opens Resume) and includes quick links in the top-right.
-
-
----
-
-## 🔄 Alternative Publication (gh-pages branch)
-
-Prefer not committing build output on main? Publish dist/ to a gh-pages branch via GitHub Action or the gh-pages npm package. (Not used here because a user site root must be built content.)
-
----
-
-## 📜 License
-
-Personal use orientation. Fork and adapt freely for your own resume / portfolio.
-
----
-
-## ✅ Quick Start TL;DR
-
-```powershell
-git clone https://github.com/YOUR_USERNAME/YOUR_USERNAME.github.io.git
-cd YOUR_USERNAME.github.io
-npm install
-git checkout -b dev
-npm run dev
-./deploy.ps1
-```
-
-Cheers.

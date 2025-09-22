@@ -1,0 +1,8 @@
+{
+  "env": { "node": true, "jest": true, "commonjs": true },
+  "rules": {
+    "no-undef": "off",
+    "no-empty": "off",
+    "no-unused-vars": ["warn", { "argsIgnorePattern": "^_" }]
+  }
+}

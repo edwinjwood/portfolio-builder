@@ -18,12 +18,13 @@ function Login() {
     setError('');
     setLoading(true);
     try {
-      const user = await login({ email, password });
-      // Find tenant for user
-      const userObj = users.find(u => u.email.toLowerCase() === email.toLowerCase());
-      const tenantObj = tenants.find(t => t.id === userObj.tenantId);
-      setTenant(tenantObj || null);
-      setUser(userObj || null);
+  const user = await login({ email, password });
+  // Find tenant for user (defensive: users list may not contain the user yet)
+  const userObj = users.find(u => u.email.toLowerCase() === email.toLowerCase());
+  const tenantObj = tenants.find(t => t.id === userObj?.tenantId);
+  setTenant(tenantObj || null);
+  // Prefer the freshly returned user object from login if users cache doesn't contain it yet
+  setUser(userObj || user || null);
       if (userObj && userObj.role === 'superadmin') {
         navigate('/tenant-admin');
       } else if (userObj && userObj.role === 'admin') {

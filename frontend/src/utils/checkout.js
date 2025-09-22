@@ -4,7 +4,7 @@ export async function createCheckoutSession({ priceId, mode = 'subscription', su
 
   const apiBase = typeof import.meta !== 'undefined' && import.meta.env && import.meta.env.VITE_API_URL
     ? import.meta.env.VITE_API_URL.replace(/\/$/, '')
-    : 'http://localhost:5001';
+    : (typeof process !== 'undefined' && process.env && process.env.API_URL) || 'http://localhost:5001';
 
   const token = localStorage.getItem('token');
   const res = await fetch(`${apiBase}/api/checkout/create-session`, {

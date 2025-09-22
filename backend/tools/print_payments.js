@@ -9,7 +9,7 @@ if (!conn) {
   console.error('No DATABASE_URL in backend/.env');
   process.exit(1);
 }
-const pool = new Pool({ connectionString: conn, ssl: { rejectUnauthorized: false } });
+const pool = new Pool({ connectionString: process.env.DATABASE_URL, ssl: { rejectUnauthorized: false } });
 (async () => {
   try {
     console.log('Connecting to', conn.split('@')[1].split('/')[0]);

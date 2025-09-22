@@ -17,10 +17,10 @@ function Home() {
   return (
     <main className="w-full h-full grid place-items-center font-sans text-gray-900 dark:text-gray-100 px-4 sm:px-8">
       <div className="text-center">
-  <h1 className="text-5xl font-extrabold mb-4 tracking-tight text-brand-700 dark:text-brand-400">Faset</h1>
-  <p className="text-xl text-gray-700 dark:text-gray-200 mb-4 font-semibold">Build your resume, portfolio, or team showcase—powered by Faset.</p>
+  <h1 className="text-5xl font-extrabold mb-4 tracking-tight text-brand-700 dark:text-brand-400 facet-wordmark">facet</h1>
+  <p className="text-xl text-gray-700 dark:text-gray-200 mb-4 font-semibold">There's more to you than just a resume.</p>
         <p className="text-base text-gray-500 dark:text-gray-400 mb-8 max-w-xl mx-auto">
-          Faset is a flexible platform for individuals, teams, bootcamps, and enterprises. Create a professional resume, launch a portfolio, or manage your organization’s talent—all in one place.
+          Showcase your many facets with a digital portfolio. Highlight projects, skills, and stories — all in one place.
         </p>
         <div className="flex flex-col gap-6 items-center">
           <a

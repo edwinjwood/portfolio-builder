@@ -32,18 +32,13 @@ const candidates = [
 
 for (const c of candidates) tryLoad(c);
 
-const Stripe = require('stripe');
-const stripeKey = process.env.STRIPE_SECRET_KEY;
-if (!stripeKey) {
-  console.error('STRIPE_SECRET_KEY not set in backend/.env or process.env. Tried these paths:');
+const stripeClient = require('../server/services/stripeClient');
+const stripe = stripeClient.getStripe();
+if (!stripe) {
+  console.error('Stripe client not configured or STRIPE_SECRET_KEY missing. Tried these paths:');
   tried.forEach(p => console.error('  -', p));
-  console.error('\nOptions:');
-  console.error('  1) Add STRIPE_SECRET_KEY to backend/.env and re-run the script.');
-  console.error("  2) Or run the script with the env inline:\n     STRIPE_SECRET_KEY=sk_test_... node backend/scripts/sync_price_map.js");
-  console.error('  3) Or export STRIPE_SECRET_KEY in your shell before running.');
   process.exit(1);
 }
-const stripe = Stripe(stripeKey);
 
 const pool = new Pool({ connectionString: process.env.DATABASE_URL });
 

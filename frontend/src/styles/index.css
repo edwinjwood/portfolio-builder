@@ -100,3 +100,12 @@ html, body { background-color: #f9fafb; color: #111827; }
 .resume-container--preview p, .resume-container--preview li, .resume-container--preview span, .resume-container--preview div { font-size: 11px !important; }
 .template-preview-frame .resume-container--preview { transform-origin: top center; }
 
+/* Wordmark styling for 'facet' - lightweight serif/curly appearance */
+.facet-wordmark {
+  /* Use Playfair Display for an elegant, attention-grabbing serif wordmark */
+  font-family: 'Playfair Display', Georgia, 'Times New Roman', Times, serif;
+  font-weight: 700;
+  font-style: normal;
+  letter-spacing: -0.02em;
+}
+
