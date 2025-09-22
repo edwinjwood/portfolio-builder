@@ -78,8 +78,10 @@ function Signup() {
     const f = (firstName || '').trim();
     const l = (lastName || '').trim();
     if (!f || !l) return '';
-    let p = `${f}.${l}`;
-    p = p.toLowerCase().replace(/[^a-z0-9._-]/g, '').slice(0, 30);
+    // concatenate first and last name without a separator (no dot)
+    let p = `${f}${l}`;
+    // disallow periods in generated usernames; only allow a-z, 0-9, underscore and hyphen
+    p = p.toLowerCase().replace(/[^a-z0-9_-]/g, '').slice(0, 30);
     return p;
   };
 
@@ -100,6 +102,10 @@ function Signup() {
         const data = await res.json();
         setUsernameAvailable(!!data.available);
         setUsernameSuggestions(data.suggestions || []);
+            // If the preview is available, auto-select it so the user doesn't need to click "Use"
+            if (data && data.available) {
+              setSelectedUsername(p);
+            }
       } catch (e) {
         setUsernameAvailable(null);
       }

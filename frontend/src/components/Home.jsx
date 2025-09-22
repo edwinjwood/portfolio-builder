@@ -23,12 +23,6 @@ function Home() {
           Showcase your many facets with a digital portfolio. Highlight projects, skills, and stories — all in one place.
         </p>
         <div className="flex flex-col gap-6 items-center">
-          <a
-            href="#/portfolio-preview"
-            className="px-6 py-3 bg-brand-600 text-white rounded-md hover:bg-brand-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 text-lg font-medium"
-          >
-            View Templates
-          </a>
           <button
             onClick={handleStartBuilding}
             className="px-6 py-3 border border-brand-600 text-brand-700 dark:text-brand-300 rounded-md hover:bg-brand-50/60 dark:hover:bg-gray-800 text-lg font-medium"
