@@ -52,7 +52,7 @@ export function AuthProvider({ children }) {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
-	const signup = async ({ email, password, name, plan }) => {
+	const signup = async ({ email, password, name, plan, username } ) => {
 		const exists = users.some(u => u.email.toLowerCase() === email.toLowerCase());
 		// Attempt server-side signup first
 		try {
@@ -60,7 +60,7 @@ export function AuthProvider({ children }) {
 			const res = await fetch(`${apiBase}/api/users`, {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({ name, email, password, plan }),
+				body: JSON.stringify({ name, email, password, plan, username }),
 			});
 			if (!res.ok) {
 				const err = await res.json().catch(() => ({}));
