@@ -25,13 +25,7 @@ function ExitWith($code, $msg) {
 
 Write-Host "Starting deploy helper..." -ForegroundColor Cyan
 
-# Detect platform early
-if ($PSVersionTable.PSVersion.Major -ge 6) {
-	$IsWindows = $IsWindowsPlatform = $env:OS -eq 'Windows_NT'
-} else {
-	# Older PowerShell (5.1) may not set $IsWindows; derive from environment
-	$IsWindows = $env:OS -eq 'Windows_NT'
-}
+# Platform detection removed; use inline `$env:OS -eq 'Windows_NT'` checks where needed
 
 # Ensure we're inside a git repo
 $inRepo = (git rev-parse --is-inside-work-tree 2>$null) -eq 'true'
@@ -190,7 +184,7 @@ if ($status) {
 
 Write-Host "Building production bundle..." -ForegroundColor Cyan
 # Use npm.cmd on Windows to avoid PowerShell npm wrapper issues ($MyInvocation properties missing on older PS versions)
-if ($IsWindows) {
+if ($env:OS -eq 'Windows_NT') {
 	& npm.cmd run build
 } else {
 	npm run build
