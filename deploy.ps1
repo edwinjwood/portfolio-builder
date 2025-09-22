@@ -1,3 +1,9 @@
+param(
+	[switch] $SkipPull,
+	[switch] $AutoCommit  # still supported but now optional; default interactive prompt will handle commits
+)
+
+Set-StrictMode -Version Latest
 <#
 deploy.ps1
 
@@ -15,15 +21,7 @@ This script will NOT push, merge, or modify branches. It's purely a local helper
 
 Set-StrictMode -Version Latest
 
-# Ensure boolean switches referenced earlier are defined when this script is run
-# (the param() block appears later in the file; under StrictMode an unset variable
-# raises an error — define safe defaults here so the early checks work).
-if (-not (Get-Variable -Name SkipPull -Scope Script -ErrorAction SilentlyContinue)) {
-	Set-Variable -Name SkipPull -Value $false -Scope Script
-}
-if (-not (Get-Variable -Name AutoCommit -Scope Script -ErrorAction SilentlyContinue)) {
-	Set-Variable -Name AutoCommit -Value $false -Scope Script
-}
+# Ensure we're inside a git repo
 
 function ExitWith($code, $msg) {
     if ($msg) { Write-Error $msg }
@@ -161,14 +159,18 @@ function Assert-Success($Message) {
 '@ | Out-File -FilePath './index.dev.html' -Encoding UTF8 -NoNewline
  }
 
- # Copy dev template into working index.html if the current index.html appears to be a built artifact (heuristic: contains '/assets/index')
- if (Test-Path './index.dev.html') {
- 	$needsDev = (Select-String -Path './index.html' -Pattern '/assets/index' -SimpleMatch -Quiet) 2>$null
- 	if ($needsDev) {
- 		Write-Host 'Switching working index.html to dev template for build context...' -ForegroundColor DarkGray
- 		Copy-Item -Path ./index.dev.html -Destination ./index.html -Force
- 	}
- }
+# Copy dev template into working index.html if the current index.html appears to be a built artifact
+# (heuristic: contains '/assets/index'). Guard Select-String when index.html is missing.
+if (Test-Path './index.dev.html') {
+	$needsDev = $false
+	if (Test-Path './index.html') {
+		$needsDev = (Select-String -Path './index.html' -Pattern '/assets/index' -SimpleMatch -Quiet) 2>$null
+	}
+	if ($needsDev) {
+		Write-Host 'Switching working index.html to dev template for build context...' -ForegroundColor DarkGray
+		Copy-Item -Path ./index.dev.html -Destination ./index.html -Force
+	}
+}
 
 
 
@@ -189,7 +191,12 @@ if ($status) {
 
 
 Write-Host "Building production bundle..." -ForegroundColor Cyan
-npm run build
+# Use npm.cmd on Windows to avoid PowerShell npm wrapper issues ($MyInvocation properties missing on older PS versions)
+if ($IsWindows) {
+	& npm.cmd run build
+} else {
+	npm run build
+}
 Assert-Success "Build failed. Aborting deployment."
 
 if (-not (Test-Path 'dist/index.html')) {
