@@ -182,33 +182,33 @@ if ($status) {
  }
 
 
-Write-Host "Building production bundle..." -ForegroundColor Cyan
-# Use npm.cmd on Windows to avoid PowerShell npm wrapper issues ($MyInvocation properties missing on older PS versions)
+Write-Host "Building production bundle in ./frontend..." -ForegroundColor Cyan
+# Run frontend build in the frontend directory to ensure Vite resolves frontend/src/main.jsx
 if ($env:OS -eq 'Windows_NT') {
-	& npm.cmd run build
+	& npm.cmd --prefix frontend run build
 } else {
-	npm run build
+	npm --prefix frontend run build
 }
 Assert-Success "Build failed. Aborting deployment."
 
-if (-not (Test-Path 'dist/index.html')) {
-	Write-Error "dist/index.html not found after build. Aborting."
+if (-not (Test-Path 'frontend/dist/index.html')) {
+	Write-Error "frontend/dist/index.html not found after build. Aborting."
 	exit 1
 }
 
-# Copy latest build output to project root
-Write-Host "Copying dist/index.html to ./index.html..." -ForegroundColor Cyan
-Copy-Item -Path 'dist/index.html' -Destination './index.html' -Force
-Write-Host "Copying dist/assets/* to ./assets/..." -ForegroundColor Cyan
+# Copy latest build output from frontend/dist to project root
+Write-Host "Copying frontend/dist/index.html to ./index.html..." -ForegroundColor Cyan
+Copy-Item -Path 'frontend/dist/index.html' -Destination './index.html' -Force
+Write-Host "Copying frontend/dist/assets/* to ./assets/..." -ForegroundColor Cyan
 if (Test-Path './assets') {
 	Remove-Item './assets/*' -Recurse -Force
 } else {
 	New-Item -ItemType Directory -Path './assets' | Out-Null
 }
-Copy-Item -Path 'dist/assets/*' -Destination './assets/' -Recurse -Force
-if (Test-Path 'dist/vite.svg') {
-	Write-Host "Copying dist/vite.svg to ./vite.svg..." -ForegroundColor Cyan
-	Copy-Item -Path 'dist/vite.svg' -Destination './vite.svg' -Force
+Copy-Item -Path 'frontend/dist/assets/*' -Destination './assets/' -Recurse -Force
+if (Test-Path 'frontend/dist/vite.svg') {
+	Write-Host "Copying frontend/dist/vite.svg to ./vite.svg..." -ForegroundColor Cyan
+	Copy-Item -Path 'frontend/dist/vite.svg' -Destination './vite.svg' -Force
 }
 
 # Switch to main and integrate dev changes if needed
