@@ -14,11 +14,6 @@ What it does (interactive):
 - Lists unstaged changes and offers to stage them.
 - Prompts for a commit message and commits staged changes (optional).
 - Optionally creates a new migration skeleton using backend/scripts/new_migration.js.
-- Runs the migration runner: node backend/scripts/apply_migrations.js (applies unapplied migrations).
-
-This script will NOT push, merge, or modify branches. It's purely a local helper.
-#>
-
 Set-StrictMode -Version Latest
 
 # Ensure we're inside a git repo
@@ -29,6 +24,14 @@ function ExitWith($code, $msg) {
 }
 
 Write-Host "Starting deploy helper..." -ForegroundColor Cyan
+
+# Detect platform early
+if ($PSVersionTable.PSVersion.Major -ge 6) {
+	$IsWindows = $IsWindowsPlatform = $env:OS -eq 'Windows_NT'
+} else {
+	# Older PowerShell (5.1) may not set $IsWindows; derive from environment
+	$IsWindows = $env:OS -eq 'Windows_NT'
+}
 
 # Ensure we're inside a git repo
 $inRepo = (git rev-parse --is-inside-work-tree 2>$null) -eq 'true'
