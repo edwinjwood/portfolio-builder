@@ -164,7 +164,8 @@ exports.checkUsernameAvailable = async (req, res) => {
     if (!q) return res.status(400).json({ error: 'username query required' });
     // validate shape
     if (q.length < 3 || q.length > 30) return res.status(400).json({ error: 'username must be 3-30 characters' });
-    if (!/^[a-z0-9._-]+$/.test(q)) return res.status(400).json({ error: 'username contains invalid characters' });
+  // disallow periods in usernames (only allow a-z, 0-9, underscore and hyphen)
+  if (!/^[a-z0-9_-]+$/.test(q)) return res.status(400).json({ error: 'username contains invalid characters' });
 
     const r = await pool.query('SELECT id FROM users WHERE username = $1', [q]);
     const available = !r.rows[0];
