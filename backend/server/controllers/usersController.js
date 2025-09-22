@@ -27,9 +27,25 @@ exports.listUsers = async (req, res) => {
   }
 };
 
+function validatePassword(password) {
+  const errors = [];
+  if (!password || typeof password !== 'string') {
+    errors.push('Password required.');
+    return errors;
+  }
+  if (password.length < 8) errors.push('Password must be at least 8 characters long.');
+  if (!/[a-z]/.test(password)) errors.push('Password must include a lowercase letter.');
+  if (!/[A-Z]/.test(password)) errors.push('Password must include an uppercase letter.');
+  if (!/[0-9]/.test(password)) errors.push('Password must include a number.');
+  if (!/[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/.test(password)) errors.push('Password must include a special character.');
+  return errors;
+}
+
 exports.createUser = async (req, res) => {
   const { name, email, password, plan } = req.body;
   if (!email || !password) return res.status(400).json({ error: 'Email and password required.' });
+  const pwErrors = validatePassword(password);
+  if (pwErrors.length) return res.status(400).json({ error: 'Password does not meet requirements.', details: pwErrors });
   try {
     const exists = await pool.query('SELECT id FROM users WHERE email = $1', [email]);
     if (exists.rows[0]) return res.status(409).json({ error: 'Email already registered.' });
@@ -180,3 +196,6 @@ exports.validate = async (req, res) => {
     res.status(401).json({ error: 'Invalid or expired token.' });
   }
 };
+
+// Expose validator for unit tests (test-only)
+exports.__test_only_validatePassword = validatePassword;

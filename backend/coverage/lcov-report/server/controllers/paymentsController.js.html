@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">30% </span>
+                <span class="strong">8.57% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>21/70</span>
+                <span class='fraction'>6/70</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">20.51% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>8/39</span>
+                <span class='fraction'>0/39</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">20% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>1/5</span>
+                <span class='fraction'>0/5</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">37.03% </span>
+                <span class="strong">11.11% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>20/54</span>
+                <span class='fraction'>6/54</span>
             </div>
         
             
@@ -147,39 +147,18 @@
 <a name='L82'></a><a href='#L82'>82</a>
 <a name='L83'></a><a href='#L83'>83</a>
 <a name='L84'></a><a href='#L84'>84</a>
-<a name='L85'></a><a href='#L85'>85</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
+<a name='L85'></a><a href='#L85'>85</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -187,7 +166,28 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -236,30 +236,30 @@ const pool = require('../db');
 const config = require('../config');
 const stripeClient = require('../services/stripeClient');
 &nbsp;
-exports.createPaymentIntent = async (req, res) =&gt; {
+exports.createPaymentIntent = <span class="fstat-no" title="function not covered" >as</span>ync (req, res) =&gt; {
   // Auth first: tests expect 401 when no token even if Stripe isn't configured
-  const authHeader = req.headers['authorization'];
-  const token = authHeader &amp;&amp; authHeader.split(' ')[1];
-  if (!token) return res.status(401).json({ error: 'No token provided.' });
+  const authHeader = <span class="cstat-no" title="statement not covered" >req.headers['authorization'];</span>
+  const token = <span class="cstat-no" title="statement not covered" >authHeader &amp;&amp; authHeader.split(' ')[1];</span>
+<span class="cstat-no" title="statement not covered" >  if (!token) <span class="cstat-no" title="statement not covered" >return res.status(401).json({ error: 'No token provided.' });</span></span>
   let userId;
-  try {
-    const decoded = jwt.verify(token, config.JWT_SECRET);
-    userId = decoded.id;
+<span class="cstat-no" title="statement not covered" >  try {</span>
+    const decoded = <span class="cstat-no" title="statement not covered" >jwt.verify(token, config.JWT_SECRET);</span>
+<span class="cstat-no" title="statement not covered" >    userId = decoded.id;</span>
   } catch (err) {
-    return res.status(401).json({ error: 'Invalid or expired token.' });
+<span class="cstat-no" title="statement not covered" >    return res.status(401).json({ error: 'Invalid or expired token.' });</span>
   }
 &nbsp;
   // Use central stripe client provider (easier to mock in tests)
-  const stripe = stripeClient.getStripe();
-  <span class="missing-if-branch" title="if path not taken" >I</span>if (!stripe) <span class="cstat-no" title="statement not covered" >return res.status(503).json({ error: 'Payments not configured.' });</span>
+  const stripe = <span class="cstat-no" title="statement not covered" >stripeClient.getStripe();</span>
+<span class="cstat-no" title="statement not covered" >  if (!stripe) <span class="cstat-no" title="statement not covered" >return res.status(503).json({ error: 'Payments not configured.' });</span></span>
 &nbsp;
-  const { amount, currency = <span class="branch-0 cbranch-no" title="branch not covered" >'usd' </span>} = req.body;
-  <span class="missing-if-branch" title="if path not taken" >I</span>if (!amount || typeof amount !== 'number') {
+  const { amount, currency = <span class="branch-0 cbranch-no" title="branch not covered" >'usd' </span>} = <span class="cstat-no" title="statement not covered" >req.body;</span>
+<span class="cstat-no" title="statement not covered" >  if (!amount || typeof amount !== 'number') {</span>
 <span class="cstat-no" title="statement not covered" >    return res.status(400).json({ error: 'Amount (in cents) required as a number.' });</span>
   }
-  try {
-    const paymentIntent = await stripe.paymentIntents.create({ amount, currency, metadata: { userId: String(userId) } });
-    res.json({ clientSecret: paymentIntent.client_secret, id: paymentIntent.id });
+<span class="cstat-no" title="statement not covered" >  try {</span>
+    const paymentIntent = <span class="cstat-no" title="statement not covered" >await stripe.paymentIntents.create({ amount, currency, metadata: { userId: String(userId) } });</span>
+<span class="cstat-no" title="statement not covered" >    res.json({ clientSecret: paymentIntent.client_secret, id: paymentIntent.id });</span>
   } catch (err) {
 <span class="cstat-no" title="statement not covered" >    console.error('Error creating PaymentIntent:', err);</span>
     // During unit tests, the Stripe lib may attempt real network calls with a placeholder key.
@@ -322,7 +322,7 @@ exports.groupedPayments = <span class="fstat-no" title="function not covered" >a
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-08-28T21:49:45.201Z
+                at 2025-09-22T14:15:59.776Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

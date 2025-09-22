@@ -2,16 +2,11 @@
 
 ## Individual User (Jordan)
 
-1. As Jordan, I want to automatically pull my GitHub repositories into a portfolio so that I can share a professional-looking website without spending time designing. 
-
+1. As Jordan, I want to automatically pull my GitHub repositories into a portfolio so that I can share a professional-looking website without spending time designing.
 2. As Jordan, I want to leverage AI tools to transform and elevate my resume, showcasing my experience more effectively.
-
 3. As Jordan, I want to be able to have a secure login and account profile where I can work on my portfolio.
-
 4. As Jordan, on my first login, I want a guided experience that helps me build my first portfolio.
-
-5. As Jordan, I want a home page with a digital business card that I can upload my headshot and have links to my resume
-
+5. As Jordan, I want a home page with a digital business card that I can upload my headshot and have links to my resume.
 6. As Jordan, I want my portfolio to have a responsive design regardless of the device.
 
 ## Tenant Admin (Taylor)
