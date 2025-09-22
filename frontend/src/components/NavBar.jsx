@@ -62,16 +62,13 @@ const NavBar = () => {
               </NavLink>
             )
           ))}
+          {/* Portfolio Templates and Pricing links removed per request */}
           {!currentUser && (
-            <NavLink to="/portfolio-preview" className={({isActive}) => `font-semibold transition ${isActive ? 'text-brand-600 dark:text-brand-500 underline' : 'text-gray-700 dark:text-gray-300 hover:text-brand-600'}`}>Portfolio Templates</NavLink>
+            <>
+              <NavLink to="/login" className={({isActive}) => `font-semibold transition ${isActive ? 'text-brand-600 dark:text-brand-500' : 'text-gray-700 dark:text-gray-300 hover:text-brand-600'}`} aria-current={({isActive}) => isActive ? 'page' : undefined}>Login</NavLink>
+              <NavLink to="/signup" className={({isActive}) => `font-semibold transition ${isActive ? 'text-brand-600 dark:text-brand-500' : 'text-gray-700 dark:text-gray-300 hover:text-brand-600'}`}>Sign up</NavLink>
+            </>
           )}
-          {!currentUser && (
-            <NavLink to="/pricing" className={({isActive}) => `font-semibold transition ${isActive ? 'text-brand-600 dark:text-brand-500 underline' : 'text-gray-700 dark:text-gray-300 hover:text-brand-600'}`}>Pricing & Plans</NavLink>
-          )}
-          {!currentUser && (
-            <NavLink to="/login" className={({isActive}) => `font-semibold transition ${isActive ? 'text-brand-600 dark:text-brand-500' : 'text-gray-700 dark:text-gray-300 hover:text-brand-600'}`} aria-current={({isActive}) => isActive ? 'page' : undefined}>Login</NavLink>
-          )}
-          {/* Sign up link intentionally removed from the global nav; available only on the login page */}
           {currentUser && (
             <span style={{ color: currentUser && tenant?.theme?.primaryColor ? getContrastText(tenant.theme.primaryColor) : (dark ? '#fff' : '#222') }} className="text-sm">
               Hi, {(
@@ -151,10 +148,9 @@ const NavBar = () => {
               </>
             ) : (
               <>
-                <NavLink to="/portfolio-preview" className={({isActive}) => `font-semibold transition block py-2 px-4 rounded ${isActive ? 'bg-brand-100 text-brand-700 dark:bg-brand-900 dark:text-brand-300' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800'}`} onClick={() => setMenuOpen(false)}>Portfolio Templates</NavLink>
-                <NavLink to="/pricing" className={({isActive}) => `font-semibold transition block py-2 px-4 rounded ${isActive ? 'bg-brand-100 text-brand-700 dark:bg-brand-900 dark:text-brand-300' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800'}`} onClick={() => setMenuOpen(false)}>Pricing & Plans</NavLink>
+                {/* Portfolio Templates and Pricing links removed per request */}
                 <NavLink to="/login" className={({isActive}) => `font-semibold transition block py-2 px-4 rounded ${isActive ? 'bg-brand-100 text-brand-700 dark:bg-brand-900 dark:text-brand-300' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800'}`} onClick={() => setMenuOpen(false)}>Login</NavLink>
-                {/* Sign up link intentionally removed from the global nav; available only on the login page */}
+                <NavLink to="/signup" className={({isActive}) => `font-semibold transition block py-2 px-4 rounded ${isActive ? 'bg-brand-100 text-brand-700 dark:bg-brand-900 dark:text-brand-300' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800'}`} onClick={() => setMenuOpen(false)}>Sign up</NavLink>
               </>
             )}
             <button

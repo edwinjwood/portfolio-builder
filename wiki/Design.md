@@ -6,33 +6,24 @@ This page collects the primary UI screens and design assets for Portfolio Builde
 
 ### Home / Landing
 
-![Home - desktop](./design/screenshots/home-desktop.png)
-![Home - mobile](./design/screenshots/home-mobile.png)
+![Home - desktop](./design/screenshots/home-desktop-anon.png)
+![Home - mobile](./design/screenshots/home-mobile-anon.png)
 
-A welcoming landing page that presents the "facet" wordmark, short value proposition ("There's more to you than a resume"), and CTAs to create a portfolio or explore templates. The left card area highlights featured projects; the right column contains social proof and quick start actions.
+A welcoming landing page that presents the site wordmark, a short value proposition, and primary CTAs (Sign up / Login). This page is captured by the anonymous exporter and represents the public-facing entry point to the app.
 
 ### Login
 
-![Dashboard - desktop](./design/screenshots/dashboard-desktop.png)
-![Dashboard - mobile](./design/screenshots/dashboard-mobile.png)
+![Login - desktop](./design/screenshots/login-desktop-anon.png)
+![Login - mobile](./design/screenshots/login-mobile-anon.png)
 
-The Dashboard gives users quick access to templates, recent activity, billing, and quick actions (create new portfolio, invite team). The left rail contains navigation and template shortcuts; the main area shows recent projects and activity.
+The Login screen provides email/password authentication. The anonymous export captures the public login page; authenticated dashboards require running the authenticated exporter or signing in manually before capture.
 
-> Note: the current `dashboard` screenshots were captured from an unauthenticated session and show the login screen. To capture the real Dashboard you must export with an authenticated session (see `scripts/README-EXPORT.md` for an example of how to add login steps to the Playwright exporter) or manually sign-in in a browser and capture the page.
+### Signup
 
-### Editor
+![Signup - desktop](./design/screenshots/signup-desktop-anon.png)
+![Signup - mobile](./design/screenshots/signup-mobile-anon.png)
 
-![Editor - desktop](./design/screenshots/editor-desktop.png)
-![Editor - mobile](./design/screenshots/editor-mobile.png)
-
-The Editor is a WYSIWYG-like interface for adding and reordering content blocks (text, image gallery, embeds). The left column lists blocks and settings; the right column previews the live public profile.
-
-### Public profile / Portfolio
-
-![Public profile - desktop](./design/screenshots/profile-desktop.png)
-![Public profile - mobile](./design/screenshots/profile-mobile.png)
-
-The public profile displays the user's projects, bio, and contact information. It supports social sharing metadata and a simple purchase/donation button powered by Stripe Checkout when enabled.
+The Signup page collects basic account information and starts the onboarding flow (name, email, password). This page is included in the anonymous screenshot export.
 
 ## Related pages
 
@@ -50,12 +41,14 @@ These colors are used in the mock SVGs under `wiki/design/`.
 
 ## Navigation & flows
 
-- Primary nav locations: top-left wordmark (home), left rail (Dashboard / Templates / Projects), user menu (profile, billing), and page-level CTAs (Create, Publish).
--- Core flow examples:
-	- New user: Home → Create Portfolio → Editor → Publish → Public profile
-	- Returning user: Dashboard → Open Project → Edit → Publish
+- Primary nav locations: top-left wordmark (home) and user menu (login/signup when unauthenticated).
 
-These flows correspond to the screens above and are the most frequently used paths in the app.
+Core flow examples (high level):
+
+- New visitor: Home → Sign up → Dashboard
+- Returning user: Home → Login → Dashboard
+
+Authenticated-only screens (Editor, Dashboard, Profile) are not captured by the anonymous exporter and are omitted from this page.
 
 ## Widget inventory (quick)
 

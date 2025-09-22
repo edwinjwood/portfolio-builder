@@ -9,8 +9,8 @@ const path = require('path');
   // Base URL for your running frontend. Change or set via EXPORT_BASE_URL env var.
   const base = process.env.EXPORT_BASE_URL || 'http://localhost:5173';
 
-  // Pages to capture. Add or remove routes as needed.
-  const routes = ['/', '/dashboard', '/editor', '/profile'];
+  // Pages to capture (anonymous/public pages only). Remove protected routes that require authentication.
+  const routes = ['/', '/login', '/signup'];
 
   const viewports = [
     { name: 'desktop', width: 1440, height: 900 },
@@ -29,7 +29,8 @@ const path = require('path');
       // Optionally wait for an element that indicates page is ready. Update selector if available.
       // await page.waitForSelector('#app-ready', { timeout: 5000 }).catch(()=>{});
       const name = route === '/' ? 'home' : route.replace(/\//g,'_').replace(/^_+/,'');
-      const fileName = `${name}-${vp.name}.png`;
+  // Mark these as anonymous screenshots so it's clear when a protected page showed a login screen
+  const fileName = `${name}-${vp.name}-anon.png`;
       const outPath = path.join(outDir, fileName);
       console.log('Capturing', url, '->', outPath);
       await page.screenshot({ path: outPath, fullPage: true });
