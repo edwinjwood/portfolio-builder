@@ -1,0 +1,32 @@
+Resume Analysis Report
+======================
+
+Mode: clustering
+
+Chosen k (clusters): 5
+
+Cluster sizes:
+{
+  "0": 2,
+  "1": 55,
+  "2": 4,
+  "3": 43,
+  "4": 16
+}
+
+Top terms per cluster:
+- Cluster 0: pharmacy, laboratory, pharmaceutical, college pharmacy, care, method, epic, laboratory equipment, experiments, dna, physicians, analytical
+- Cluster 1: network, systems, support, software, city state, hardware, computer, technical, specialist, security, windows, microsoft
+- Cluster 2: bootstrap, asp, jquery, asp net, mvc, javascript, net, css, framework, developer, scrum, javascript jquery
+- Cluster 3: business, network, systems, city state, company city, project, support, enterprise, manager, server, infrastructure, implemented
+- Cluster 4: customer, excel, customer service, sap, data, service, city state, company city, project, databases, reports, work
+
+Example files per cluster (up to 5):
+- Cluster 0: /home/droski/Desktop/School/Fall25/Capstone/data/INFORMATION-TECHNOLOGY/48037995.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/INFORMATION-TECHNOLOGY/17987433.pdf
+- Cluster 1: /home/droski/Desktop/School/Fall25/Capstone/data/INFORMATION-TECHNOLOGY/15791766.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/INFORMATION-TECHNOLOGY/10247517.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/INFORMATION-TECHNOLOGY/51363762.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/INFORMATION-TECHNOLOGY/28126340.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/INFORMATION-TECHNOLOGY/13477922.pdf
+- Cluster 2: /home/droski/Desktop/School/Fall25/Capstone/data/INFORMATION-TECHNOLOGY/26746496.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/INFORMATION-TECHNOLOGY/12763627.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/INFORMATION-TECHNOLOGY/16186411.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/INFORMATION-TECHNOLOGY/83816738.pdf
+- Cluster 3: /home/droski/Desktop/School/Fall25/Capstone/data/INFORMATION-TECHNOLOGY/81761658.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/INFORMATION-TECHNOLOGY/15297298.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/INFORMATION-TECHNOLOGY/19850482.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/INFORMATION-TECHNOLOGY/22776912.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/INFORMATION-TECHNOLOGY/21283365.pdf
+- Cluster 4: /home/droski/Desktop/School/Fall25/Capstone/data/INFORMATION-TECHNOLOGY/30223363.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/INFORMATION-TECHNOLOGY/19796840.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/INFORMATION-TECHNOLOGY/10265057.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/INFORMATION-TECHNOLOGY/24230851.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/INFORMATION-TECHNOLOGY/52618188.pdf
+
+Saved pipeline → out/tfidf_kmeans_pipeline.joblib
+Saved assignments → out/cluster_assignments.csv

@@ -1,0 +1,35 @@
+Resume Analysis Report
+======================
+
+Mode: clustering
+
+Chosen k (clusters): 6
+
+Cluster sizes:
+{
+  "0": 4,
+  "1": 23,
+  "2": 34,
+  "3": 39,
+  "4": 2,
+  "5": 16
+}
+
+Top terms per cluster:
+- Cluster 0: coding, medical, billing, tutor, billing coding, medical billing, statements, merchandise, customers, august, october, students
+- Cluster 1: food, kitchen, staff, food items, items, control, quality, restaurant, storage, cost, preparation, recipes
+- Cluster 2: food, culinary, executive, executive chef, kitchen, menu, management, arts, cooking, high, cook, sous
+- Cluster 3: business, customer, management, marketing, sales, gpa, team, community, manager, training, client, professional
+- Cluster 4: catering chef, food catered, logistics, producing, producing food, inventory ordering, work flow, conducted daily, catering, 2000, including inventory, events conducted
+- Cluster 5: food, kitchen, expertly, banquets, staffing needs, followed, banquets catered, adjusted hourly, hourly schedules, patterns budget, patterns, demand patterns
+
+Example files per cluster (up to 5):
+- Cluster 0: /home/droski/Desktop/School/Fall25/Capstone/data/CHEF/31547476.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/CHEF/16594812.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/CHEF/23398733.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/CHEF/28176889.pdf
+- Cluster 1: /home/droski/Desktop/School/Fall25/Capstone/data/CHEF/10653119.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/CHEF/29775391.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/CHEF/94047639.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/CHEF/10588874.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/CHEF/13212436.pdf
+- Cluster 2: /home/droski/Desktop/School/Fall25/Capstone/data/CHEF/26189601.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/CHEF/25924968.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/CHEF/29772450.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/CHEF/19285236.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/CHEF/18480859.pdf
+- Cluster 3: /home/droski/Desktop/School/Fall25/Capstone/data/CHEF/53265899.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/CHEF/19951766.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/CHEF/23591247.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/CHEF/33964275.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/CHEF/13411858.pdf
+- Cluster 4: /home/droski/Desktop/School/Fall25/Capstone/data/CHEF/26718039.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/CHEF/19007667.pdf
+- Cluster 5: /home/droski/Desktop/School/Fall25/Capstone/data/CHEF/23568731.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/CHEF/68338341.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/CHEF/28092317.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/CHEF/14663897.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/CHEF/21334981.pdf
+
+Saved pipeline → out/tfidf_kmeans_pipeline.joblib
+Saved assignments → out/cluster_assignments.csv

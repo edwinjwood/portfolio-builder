@@ -1,0 +1,35 @@
+Resume Analysis Report
+======================
+
+Mode: clustering
+
+Chosen k (clusters): 6
+
+Cluster sizes:
+{
+  "0": 26,
+  "1": 24,
+  "2": 25,
+  "3": 12,
+  "4": 15,
+  "5": 5
+}
+
+Top terms per cluster:
+- Cluster 0: interior, design, drawings, project, interior designer, autocad, interior design, construction, space, clients, company city, drafting
+- Cluster 1: graphic, graphic designer, art, marketing, design, graphic design, print, adobe, web, creative, posters, arts
+- Cluster 2: project, design, training, analysis, user, management, instructional, learning, development, new, technical, software
+- Cluster 3: 2014, 2015, 2013, recipient, gpa, high school, company city, graphic, design, guests, school, art
+- Cluster 4: floral, customer, floral designer, service, customer service, merchandise, customers, sales, cash, company city, store, inventory
+- Cluster 5: fit, technical designer, pattern, fittings, garment, garments, technical, sheets, specs, line, production, fabric
+
+Example files per cluster (up to 5):
+- Cluster 0: /home/droski/Desktop/School/Fall25/Capstone/data/DESIGNER/94417768.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/DESIGNER/32532982.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/DESIGNER/10748989.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/DESIGNER/17199951.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/DESIGNER/37263609.pdf
+- Cluster 1: /home/droski/Desktop/School/Fall25/Capstone/data/DESIGNER/39252859.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/DESIGNER/22506245.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/DESIGNER/21916744.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/DESIGNER/25061645.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/DESIGNER/37695494.pdf
+- Cluster 2: /home/droski/Desktop/School/Fall25/Capstone/data/DESIGNER/10751444.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/DESIGNER/18795567.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/DESIGNER/38565119.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/DESIGNER/17555081.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/DESIGNER/90066849.pdf
+- Cluster 3: /home/droski/Desktop/School/Fall25/Capstone/data/DESIGNER/14528265.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/DESIGNER/12674307.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/DESIGNER/39434376.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/DESIGNER/51018476.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/DESIGNER/14014749.pdf
+- Cluster 4: /home/droski/Desktop/School/Fall25/Capstone/data/DESIGNER/20986595.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/DESIGNER/78149576.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/DESIGNER/22496394.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/DESIGNER/29865476.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/DESIGNER/11807040.pdf
+- Cluster 5: /home/droski/Desktop/School/Fall25/Capstone/data/DESIGNER/19164410.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/DESIGNER/24455357.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/DESIGNER/68240723.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/DESIGNER/11722421.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/DESIGNER/26503829.pdf
+
+Saved pipeline → out/tfidf_kmeans_pipeline.joblib
+Saved assignments → out/cluster_assignments.csv

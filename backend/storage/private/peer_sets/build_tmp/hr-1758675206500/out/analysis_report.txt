@@ -1,0 +1,35 @@
+Resume Analysis Report
+======================
+
+Mode: clustering
+
+Chosen k (clusters): 6
+
+Cluster sizes:
+{
+  "0": 11,
+  "1": 46,
+  "2": 19,
+  "3": 12,
+  "4": 2,
+  "5": 20
+}
+
+Top terms per cluster:
+- Cluster 0: key results, hr policies, benefits, key, development, compensation, policies, organizational development, procedures, safety, programs, training employees
+- Cluster 1: resources, human resources, employees, recruitment, benefits, company city, process, recruiting, payroll, performance, hire, development
+- Cluster 2: customer, customer service, service, staff, filing, administrative, telephone, microsoft, assistant, office, support, documentation
+- Cluster 3: consistent, employees, relations, customer, issues, fair consistent, consistent hr, policies, performance, leadership, senior level, create fair
+- Cluster 4: performers, fun, mentor, attrition, high performers, university karnataka, offshore, management philosophy, karnataka, performers organization, karnataka university, mentor program
+- Cluster 5: performance, data, recruitment, business, resource, administrative, development, human resource, benefits, analysis, company city, administration
+
+Example files per cluster (up to 5):
+- Cluster 0: /home/droski/Desktop/School/Fall25/Capstone/data/HR/25824789.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/HR/32947778.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/HR/80162314.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/HR/25676643.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/HR/34554248.pdf
+- Cluster 1: /home/droski/Desktop/School/Fall25/Capstone/data/HR/19179079.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/HR/30646367.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/HR/23408537.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/HR/39081840.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/HR/29564653.pdf
+- Cluster 2: /home/droski/Desktop/School/Fall25/Capstone/data/HR/28419173.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/HR/47470864.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/HR/11698189.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/HR/27496514.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/HR/14256329.pdf
+- Cluster 3: /home/droski/Desktop/School/Fall25/Capstone/data/HR/26780935.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/HR/27165830.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/HR/57667857.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/HR/23914451.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/HR/28828844.pdf
+- Cluster 4: /home/droski/Desktop/School/Fall25/Capstone/data/HR/13879043.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/HR/17412079.pdf
+- Cluster 5: /home/droski/Desktop/School/Fall25/Capstone/data/HR/32308556.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/HR/19717385.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/HR/29091445.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/HR/44476983.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/HR/25150191.pdf
+
+Saved pipeline → out/tfidf_kmeans_pipeline.joblib
+Saved assignments → out/cluster_assignments.csv

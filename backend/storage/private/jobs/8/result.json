@@ -1,0 +1,29 @@
+{
+  "cluster": {
+    "id": null,
+    "label": null,
+    "ok": false,
+    "error": "Traceback (most recent call last):\n  File \"/home/droski/Desktop/School/Fall25/AI/resume_ai/resume_analysis_sklearn.py\", line 253, in <module>\n    main()\n  File \"/home/droski/Desktop/School/Fall25/AI/resume_ai/resume_analysis_sklearn.py\", line 234, in main\n    info = clustering_pipeline(df)\n  File \"/home/droski/Desktop/School/Fall25/AI/resume_ai/resume_analysis_sklearn.py\", line 152, in clustering_pipeline\n    X_tfidf = tfidf.fit_transform(texts)\n  File \"/home/droski/.local/lib/python3.10/site-packages/sklearn/feature_extraction/text.py\", line 2104, in fit_transform\n    X = super().fit_transform(raw_documents)\n  File \"/home/droski/.local/lib/python3.10/site-packages/sklearn/base.py\", line 1365, in wrapper\n    return fit_method(estimator, *args, **kwargs)\n  File \"/home/droski/.local/lib/python3.10/site-packages/sklearn/feature_extraction/text.py\", line 1386, in fit_transform\n    raise ValueError(\"max_df corresponds to < documents than min_df\")\nValueError: max_df corresponds to < documents than min_df\n"
+  },
+  "rank": {
+    "zscore": null,
+    "cosine": null,
+    "percentile": null
+  },
+  "attention": {
+    "score": null,
+    "top_terms": [],
+    "action_verbs": [],
+    "quantified_claims": null
+  },
+  "keywords": {
+    "good_hits": 0,
+    "bad_hits": 0,
+    "good_terms_found": [],
+    "bad_terms_found": []
+  },
+  "generated": {
+    "markdown": "# Pedrof\n\n**Target Role:** Controls / Embedded Systems Engineer — Powersports, Robotics\n\n**Education:** B.S. Computer Engineering — University of South Carolina\n\n## Summary\nSenior CE focused on embedded control systems and practical ML.\nBuilt IoT search-and-rescue prototypes and automated workflows for a fire department.\nI like turning rough ideas into reliable, testable hardware+software.\n\n\n## Strengths\nEmbedded C/C++ (ESP32, STM32), Python (NumPy/Pandas),\nPID control & filtering, CAN bus, PCB prototyping, RF comms,\nAWS IoT + CI/CD (GitHub Actions), teamwork & mentoring\n"
+  },
+  "downloads": {}
+}

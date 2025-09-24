@@ -1,0 +1,32 @@
+Resume Analysis Report
+======================
+
+Mode: clustering
+
+Chosen k (clusters): 5
+
+Cluster sizes:
+{
+  "0": 7,
+  "1": 34,
+  "2": 29,
+  "3": 26,
+  "4": 21
+}
+
+Top terms per cluster:
+- Cluster 0: equipment, hand, warehouse, trucks, orders, products, materials, pallets, recording, high school, merchandise, loaded
+- Cluster 1: patient, care, office, patients, company city, service, management, training, research, staff, fitness, maintained
+- Cluster 2: fitness, wellness, exercise, group, health, personal, company city, trainer, physical, weight, nutrition, training
+- Cluster 3: customer, company city, service, customer service, sales, associate, 2014, fitness, 2016, 2015, time, team
+- Cluster 4: sales, manager, business, customer, operations, management, marketing, performance, new, staff, general manager, company city
+
+Example files per cluster (up to 5):
+- Cluster 0: /home/droski/Desktop/School/Fall25/Capstone/data/FITNESS/39805617.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/FITNESS/11130200.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/FITNESS/12092347.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/FITNESS/16038911.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/FITNESS/25507648.pdf
+- Cluster 1: /home/droski/Desktop/School/Fall25/Capstone/data/FITNESS/37087824.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/FITNESS/21178545.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/FITNESS/77266989.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/FITNESS/20457611.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/FITNESS/13675377.pdf
+- Cluster 2: /home/droski/Desktop/School/Fall25/Capstone/data/FITNESS/20279756.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/FITNESS/32517106.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/FITNESS/17166018.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/FITNESS/32636041.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/FITNESS/30990885.pdf
+- Cluster 3: /home/droski/Desktop/School/Fall25/Capstone/data/FITNESS/21238396.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/FITNESS/96761538.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/FITNESS/29573698.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/FITNESS/55746506.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/FITNESS/31556198.pdf
+- Cluster 4: /home/droski/Desktop/School/Fall25/Capstone/data/FITNESS/25482567.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/FITNESS/24767027.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/FITNESS/29165698.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/FITNESS/12923795.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/FITNESS/29306433.pdf
+
+Saved pipeline → out/tfidf_kmeans_pipeline.joblib
+Saved assignments → out/cluster_assignments.csv

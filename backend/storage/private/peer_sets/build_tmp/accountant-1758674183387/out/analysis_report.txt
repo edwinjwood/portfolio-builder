@@ -1,0 +1,35 @@
+Resume Analysis Report
+======================
+
+Mode: clustering
+
+Chosen k (clusters): 6
+
+Cluster sizes:
+{
+  "0": 5,
+  "1": 22,
+  "2": 24,
+  "3": 2,
+  "4": 42,
+  "5": 23
+}
+
+Top terms per cluster:
+- Cluster 0: cash receipts, project, ach, ensuring accuracy, fixed, accounts receivable, project lead, contracts, cash, fixed asset, receivable, years
+- Cluster 1: management, analysis, reporting, company city, cash, financial statements, statements, business, corporate, monthly, preparation, tax
+- Cluster 2: tax, prepare, end, entries, monthly, balance, sheet, statements, balance sheet, reconciliations, journal entries, sales
+- Cluster 3: operating companies, restricted, view, companies sysco, accountant auditor, sysco, prairie, prairie view, view university, rules regulations, procurement, objects
+- Cluster 4: payroll, company city, office, management, business, general, customer, payable, accounts payable, work, software, billing
+- Cluster 5: company city, management, reporting, cash, 01, business, budget, bank, analysis, reconciliation, general ledger, general
+
+Example files per cluster (up to 5):
+- Cluster 0: /home/droski/Desktop/School/Fall25/Capstone/data/ACCOUNTANT/35554162.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/ACCOUNTANT/18569929.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/ACCOUNTANT/20253563.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/ACCOUNTANT/27573855.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/ACCOUNTANT/15592167.pdf
+- Cluster 1: /home/droski/Desktop/School/Fall25/Capstone/data/ACCOUNTANT/21794875.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/ACCOUNTANT/20393721.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/ACCOUNTANT/29050809.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/ACCOUNTANT/25846894.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/ACCOUNTANT/23416654.pdf
+- Cluster 2: /home/droski/Desktop/School/Fall25/Capstone/data/ACCOUNTANT/23438112.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/ACCOUNTANT/11163645.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/ACCOUNTANT/27558837.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/ACCOUNTANT/21853199.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/ACCOUNTANT/10674770.pdf
+- Cluster 3: /home/droski/Desktop/School/Fall25/Capstone/data/ACCOUNTANT/21031285.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/ACCOUNTANT/29456173.pdf
+- Cluster 4: /home/droski/Desktop/School/Fall25/Capstone/data/ACCOUNTANT/13491889.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/ACCOUNTANT/14496667.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/ACCOUNTANT/28359817.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/ACCOUNTANT/25547145.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/ACCOUNTANT/10554236.pdf
+- Cluster 5: /home/droski/Desktop/School/Fall25/Capstone/data/ACCOUNTANT/33527446.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/ACCOUNTANT/18669563.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/ACCOUNTANT/39674178.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/ACCOUNTANT/15289348.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/ACCOUNTANT/26065877.pdf
+
+Saved pipeline → out/tfidf_kmeans_pipeline.joblib
+Saved assignments → out/cluster_assignments.csv

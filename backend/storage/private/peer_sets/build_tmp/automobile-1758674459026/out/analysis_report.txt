@@ -1,0 +1,32 @@
+Resume Analysis Report
+======================
+
+Mode: clustering
+
+Chosen k (clusters): 5
+
+Cluster sizes:
+{
+  "0": 7,
+  "1": 17,
+  "2": 6,
+  "3": 2,
+  "4": 4
+}
+
+Top terms per cluster:
+- Cluster 0: server, requirements, project, engineer, india, applications, technical, windows, support, services, involved, documentation
+- Cluster 1: service, company city, customer, customer service, sales, management, work, center, business, issues, customers, new
+- Cluster 2: claims, claim, liability, insurance, investigation, property, investigations, injury, fraud, liability claims, coverage, investigate
+- Cluster 3: python, simulation, mechanical, matlab, autocad, model, engineering, spss, regression, sql, mechanical engineering, assembly
+- Cluster 4: excel, microsoft office, legal, microsoft, excel spreadsheets, legal studies, monthly, administrative, assistant, spreadsheets, 2015, phi
+
+Example files per cluster (up to 5):
+- Cluster 0: /home/droski/Desktop/School/Fall25/Capstone/data/AUTOMOBILE/99680385.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/AUTOMOBILE/26341645.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/AUTOMOBILE/14455622.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/AUTOMOBILE/28790806.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/AUTOMOBILE/22452756.pdf
+- Cluster 1: /home/droski/Desktop/School/Fall25/Capstone/data/AUTOMOBILE/91515108.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/AUTOMOBILE/15210069.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/AUTOMOBILE/78357954.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/AUTOMOBILE/23009962.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/AUTOMOBILE/15484011.pdf
+- Cluster 2: /home/droski/Desktop/School/Fall25/Capstone/data/AUTOMOBILE/24592627.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/AUTOMOBILE/11257723.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/AUTOMOBILE/32109048.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/AUTOMOBILE/47487091.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/AUTOMOBILE/15100547.pdf
+- Cluster 3: /home/droski/Desktop/School/Fall25/Capstone/data/AUTOMOBILE/18448085.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/AUTOMOBILE/22946204.pdf
+- Cluster 4: /home/droski/Desktop/School/Fall25/Capstone/data/AUTOMOBILE/11887930.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/AUTOMOBILE/84295343.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/AUTOMOBILE/25047127.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/AUTOMOBILE/24703983.pdf
+
+Saved pipeline → out/tfidf_kmeans_pipeline.joblib
+Saved assignments → out/cluster_assignments.csv

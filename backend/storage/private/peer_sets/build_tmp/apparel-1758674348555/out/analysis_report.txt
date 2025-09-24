@@ -1,0 +1,23 @@
+Resume Analysis Report
+======================
+
+Mode: clustering
+
+Chosen k (clusters): 2
+
+Cluster sizes:
+{
+  "0": 31,
+  "1": 66
+}
+
+Top terms per cluster:
+- Cluster 0: marketing, design, development, product, brand, sales, market, production, designer, developed, business, fashion
+- Cluster 1: customer, sales, service, customers, store, customer service, work, inventory, management, manager, team, training
+
+Example files per cluster (up to 5):
+- Cluster 0: /home/droski/Desktop/School/Fall25/Capstone/data/APPAREL/78273826.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/APPAREL/33665485.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/APPAREL/19714635.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/APPAREL/13386301.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/APPAREL/83566455.pdf
+- Cluster 1: /home/droski/Desktop/School/Fall25/Capstone/data/APPAREL/10182582.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/APPAREL/21807211.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/APPAREL/20504094.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/APPAREL/43852883.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/APPAREL/22249155.pdf
+
+Saved pipeline → out/tfidf_kmeans_pipeline.joblib
+Saved assignments → out/cluster_assignments.csv

@@ -26,6 +26,11 @@ app.use('/api/checkout', require('./routes/checkout'));
 app.use('/webhooks', require('./routes/webhooks'));
 app.use('/admin', require('./routes/admin'));
 
+// Resume Optimizer routes
+app.use('/api/me', require('./routes/me'));
+app.use('/api/resumes', require('./routes/resumes'));
+app.use('/api/jobs', require('./routes/jobs'));
+
 // Export app and pool for testing
 module.exports = { app, pool };
 

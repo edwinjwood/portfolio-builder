@@ -1,0 +1,32 @@
+Resume Analysis Report
+======================
+
+Mode: clustering
+
+Chosen k (clusters): 5
+
+Cluster sizes:
+{
+  "0": 37,
+  "1": 32,
+  "2": 2,
+  "3": 13,
+  "4": 35
+}
+
+Top terms per cluster:
+- Cluster 0: customer, client, manager, service, marketing, clients, customer service, customers, 2015, information, staff, professional
+- Cluster 1: account, accounts, customer, year, manager, revenue, territory, marketing, relationships, growth, team, profit
+- Cluster 2: engine, shuttle, space shuttle, xerox, pilot, radar, sigma, classified, private pilot, space, gold, jet
+- Cluster 3: january, 2017, marketing, key, develop, client, team, account, executives, 2012, new business, 2011
+- Cluster 4: marketing, product, market, strategy, strategic, developed, project, operations, budget, customer, director, manager
+
+Example files per cluster (up to 5):
+- Cluster 0: /home/droski/Desktop/School/Fall25/Capstone/data/BUSINESS-DEVELOPMENT/29825044.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/BUSINESS-DEVELOPMENT/24412546.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/BUSINESS-DEVELOPMENT/32385553.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/BUSINESS-DEVELOPMENT/33424600.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/BUSINESS-DEVELOPMENT/31638814.pdf
+- Cluster 1: /home/droski/Desktop/School/Fall25/Capstone/data/BUSINESS-DEVELOPMENT/65708020.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/BUSINESS-DEVELOPMENT/38007664.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/BUSINESS-DEVELOPMENT/24647386.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/BUSINESS-DEVELOPMENT/10704573.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/BUSINESS-DEVELOPMENT/36805025.pdf
+- Cluster 2: /home/droski/Desktop/School/Fall25/Capstone/data/BUSINESS-DEVELOPMENT/31813535.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/BUSINESS-DEVELOPMENT/27213082.pdf
+- Cluster 3: /home/droski/Desktop/School/Fall25/Capstone/data/BUSINESS-DEVELOPMENT/28337049.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/BUSINESS-DEVELOPMENT/20317319.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/BUSINESS-DEVELOPMENT/20633855.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/BUSINESS-DEVELOPMENT/27796199.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/BUSINESS-DEVELOPMENT/14070138.pdf
+- Cluster 4: /home/droski/Desktop/School/Fall25/Capstone/data/BUSINESS-DEVELOPMENT/30938994.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/BUSINESS-DEVELOPMENT/16519708.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/BUSINESS-DEVELOPMENT/61677751.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/BUSINESS-DEVELOPMENT/20427934.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/BUSINESS-DEVELOPMENT/81310245.pdf
+
+Saved pipeline → out/tfidf_kmeans_pipeline.joblib
+Saved assignments → out/cluster_assignments.csv

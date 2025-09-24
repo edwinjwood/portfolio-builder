@@ -1,0 +1,35 @@
+Resume Analysis Report
+======================
+
+Mode: clustering
+
+Chosen k (clusters): 6
+
+Cluster sizes:
+{
+  "0": 39,
+  "1": 43,
+  "2": 7,
+  "3": 2,
+  "4": 11,
+  "5": 9
+}
+
+Top terms per cluster:
+- Cluster 0: office, management, company city, customer, service, microsoft, administrative, marketing, media, customer service, staff, team
+- Cluster 1: media, marketing, company city, management, press, sales, business, communications, 01, clients, development, social
+- Cluster 2: students, alumni, student, gpa, campus, 09, kappa, spring, present, volunteer, 2012, 2014
+- Cluster 3: relations social, children place, pr agency, seasonal, media strategies, fashion, svp, drive sales, aligned, external pr, charitable, brand awareness
+- Cluster 4: media, events, special, press, marketing, negotiated, strategies, managed, event, community, implemented tracked, communications
+- Cluster 5: marketing, events, coordinator, objectives, company city, post event, 06, communications, media, event, strategy, special
+
+Example files per cluster (up to 5):
+- Cluster 0: /home/droski/Desktop/School/Fall25/Capstone/data/PUBLIC-RELATIONS/14667659.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/PUBLIC-RELATIONS/13727873.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/PUBLIC-RELATIONS/20966771.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/PUBLIC-RELATIONS/24559558.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/PUBLIC-RELATIONS/21321598.pdf
+- Cluster 1: /home/droski/Desktop/School/Fall25/Capstone/data/PUBLIC-RELATIONS/11635137.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/PUBLIC-RELATIONS/14536764.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/PUBLIC-RELATIONS/23143731.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/PUBLIC-RELATIONS/19558834.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/PUBLIC-RELATIONS/24677466.pdf
+- Cluster 2: /home/droski/Desktop/School/Fall25/Capstone/data/PUBLIC-RELATIONS/11624880.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/PUBLIC-RELATIONS/28862054.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/PUBLIC-RELATIONS/23048999.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/PUBLIC-RELATIONS/19503224.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/PUBLIC-RELATIONS/24977396.pdf
+- Cluster 3: /home/droski/Desktop/School/Fall25/Capstone/data/PUBLIC-RELATIONS/11850315.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/PUBLIC-RELATIONS/75329822.pdf
+- Cluster 4: /home/droski/Desktop/School/Fall25/Capstone/data/PUBLIC-RELATIONS/12567516.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/PUBLIC-RELATIONS/10070224.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/PUBLIC-RELATIONS/19929506.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/PUBLIC-RELATIONS/37375999.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/PUBLIC-RELATIONS/21297828.pdf
+- Cluster 5: /home/droski/Desktop/School/Fall25/Capstone/data/PUBLIC-RELATIONS/45900271.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/PUBLIC-RELATIONS/25001005.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/PUBLIC-RELATIONS/31220062.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/PUBLIC-RELATIONS/85973397.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/PUBLIC-RELATIONS/14611516.pdf
+
+Saved pipeline → out/tfidf_kmeans_pipeline.joblib
+Saved assignments → out/cluster_assignments.csv

@@ -1,0 +1,23 @@
+Resume Analysis Report
+======================
+
+Mode: clustering
+
+Chosen k (clusters): 2
+
+Cluster sizes:
+{
+  "0": 31,
+  "1": 65
+}
+
+Top terms per cluster:
+- Cluster 0: media, social media, social, company city, marketing, content, public, events, relations, video, communications, 01
+- Cluster 1: marketing, digital, company city, management, media, business, sales, client, clients, development, project, team
+
+Example files per cluster (up to 5):
+- Cluster 0: /home/droski/Desktop/School/Fall25/Capstone/data/DIGITAL-MEDIA/33542483.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/DIGITAL-MEDIA/37739183.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/DIGITAL-MEDIA/40311088.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/DIGITAL-MEDIA/15484097.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/DIGITAL-MEDIA/18525641.pdf
+- Cluster 1: /home/droski/Desktop/School/Fall25/Capstone/data/DIGITAL-MEDIA/15226699.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/DIGITAL-MEDIA/28609364.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/DIGITAL-MEDIA/42156237.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/DIGITAL-MEDIA/30999638.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/DIGITAL-MEDIA/18354623.pdf
+
+Saved pipeline → out/tfidf_kmeans_pipeline.joblib
+Saved assignments → out/cluster_assignments.csv

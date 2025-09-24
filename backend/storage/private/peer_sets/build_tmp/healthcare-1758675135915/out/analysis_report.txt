@@ -1,0 +1,32 @@
+Resume Analysis Report
+======================
+
+Mode: clustering
+
+Chosen k (clusters): 5
+
+Cluster sizes:
+{
+  "0": 34,
+  "1": 18,
+  "2": 16,
+  "3": 44,
+  "4": 3
+}
+
+Top terms per cluster:
+- Cluster 0: customer, customers, patients, company city, service, care, customer service, assisted, patient, information, health, maintained
+- Cluster 1: project, business, security, development, data, technical, server, planning, systems, network, sql, software
+- Cluster 2: patient, care, nursing, patients, medical, patient care, nurse, staff, quality, treatment, health, policies
+- Cluster 3: business, clinical, new, development, medical, sales, health, marketing, company city, january, care, training
+- Cluster 4: records times, date records, state company, sep, mastery, mastery customer, demonstrated mastery, script specified, script, service script, maintained date, times
+
+Example files per cluster (up to 5):
+- Cluster 0: /home/droski/Desktop/School/Fall25/Capstone/data/HEALTHCARE/10568183.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/HEALTHCARE/17539842.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/HEALTHCARE/18714571.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/HEALTHCARE/34594746.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/HEALTHCARE/36861863.pdf
+- Cluster 1: /home/droski/Desktop/School/Fall25/Capstone/data/HEALTHCARE/12315079.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/HEALTHCARE/21866029.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/HEALTHCARE/12333703.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/HEALTHCARE/98300955.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/HEALTHCARE/11605833.pdf
+- Cluster 2: /home/droski/Desktop/School/Fall25/Capstone/data/HEALTHCARE/34962725.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/HEALTHCARE/16356151.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/HEALTHCARE/25974844.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/HEALTHCARE/13565152.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/HEALTHCARE/16121387.pdf
+- Cluster 3: /home/droski/Desktop/School/Fall25/Capstone/data/HEALTHCARE/27030979.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/HEALTHCARE/23138078.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/HEALTHCARE/51777546.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/HEALTHCARE/22008817.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/HEALTHCARE/26695839.pdf
+- Cluster 4: /home/droski/Desktop/School/Fall25/Capstone/data/HEALTHCARE/75744306.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/HEALTHCARE/87520378.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/HEALTHCARE/58879993.pdf
+
+Saved pipeline → out/tfidf_kmeans_pipeline.joblib
+Saved assignments → out/cluster_assignments.csv

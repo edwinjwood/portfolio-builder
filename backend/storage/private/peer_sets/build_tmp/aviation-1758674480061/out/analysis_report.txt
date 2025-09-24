@@ -1,0 +1,26 @@
+Resume Analysis Report
+======================
+
+Mode: clustering
+
+Chosen k (clusters): 3
+
+Cluster sizes:
+{
+  "0": 2,
+  "1": 56,
+  "2": 59
+}
+
+Top terms per cluster:
+- Cluster 0: peoria, peoplesoft, city peoria, packaging, forklift, forklift operator, counts, storekeeper ii, architectural, poly, procure, truck
+- Cluster 1: aircraft, customer, service, company city, customer service, aviation, management, systems, training, flight, maintenance, high
+- Cluster 2: management, maintenance, aviation, safety, equipment, training, company city, control, operations, personnel, support, program
+
+Example files per cluster (up to 5):
+- Cluster 0: /home/droski/Desktop/School/Fall25/Capstone/data/AVIATION/16850314.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/AVIATION/37473139.pdf
+- Cluster 1: /home/droski/Desktop/School/Fall25/Capstone/data/AVIATION/11752500.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/AVIATION/42546558.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/AVIATION/24589765.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/AVIATION/30148777.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/AVIATION/24544244.pdf
+- Cluster 2: /home/droski/Desktop/School/Fall25/Capstone/data/AVIATION/11614114.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/AVIATION/26819872.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/AVIATION/43408471.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/AVIATION/18268860.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/AVIATION/24668861.pdf
+
+Saved pipeline → out/tfidf_kmeans_pipeline.joblib
+Saved assignments → out/cluster_assignments.csv

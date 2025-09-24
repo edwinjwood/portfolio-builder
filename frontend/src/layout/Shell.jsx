@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { useLocation, Routes, Route } from 'react-router-dom';
+import { useLocation, Routes, Route, Navigate } from 'react-router-dom';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import Home from '../components/Home';
 import TenantAdminDashboard from '../components/TenantAdminDashboard';
@@ -21,6 +21,10 @@ import AdminDashboard from '../components/AdminDashboard';
 import Checkout from '../components/Checkout';
 import CheckoutSuccess from '../components/CheckoutSuccess';
 import { ProtectedRoute } from '../features/user/components';
+import OptimizerProfile from '../optimizer/OptimizerProfile';
+import OptimizerUpload from '../optimizer/OptimizerUpload';
+import OptimizerAnalyze from '../optimizer/OptimizerAnalyze';
+import OptimizerResults from '../optimizer/OptimizerResults';
 
 function Shell() {
   const location = useLocation();
@@ -53,7 +57,14 @@ function Shell() {
             <Route path="/signup" element={<Signup />} />
             <Route path="/pricing" element={<Pricing />} />
             <Route path="/checkout" element={<Checkout />} />
-            <Route path="/checkout-success" element={<CheckoutSuccess />} />
+<Route path="/checkout-success" element={<CheckoutSuccess />} />
+            {/* Resume Optimizer */}
+<Route path="/optimizer" element={<ProtectedRoute roles={['user','admin','superadmin']}><Navigate to="/optimizer/profile" replace /></ProtectedRoute>} />
+            <Route path="/optimizer/" element={<ProtectedRoute roles={['user','admin','superadmin']}><Navigate to="/optimizer/profile" replace /></ProtectedRoute>} />
+            <Route path="/optimizer/profile" element={<ProtectedRoute roles={['user','admin','superadmin']}><OptimizerProfile /></ProtectedRoute>} />
+            <Route path="/optimizer/upload" element={<ProtectedRoute roles={['user','admin','superadmin']}><OptimizerUpload /></ProtectedRoute>} />
+            <Route path="/optimizer/analyze/:resumeId" element={<ProtectedRoute roles={['user','admin','superadmin']}><OptimizerAnalyze /></ProtectedRoute>} />
+            <Route path="/optimizer/results/:resumeId" element={<ProtectedRoute roles={['user','admin','superadmin']}><OptimizerResults /></ProtectedRoute>} />
             {/* Standalone template preview route (unbranded) */}
             <Route path="/preview/:id" element={<TemplatePreview />} />
             {/* Full demo experience routes (unbranded, new-tab friendly) */}

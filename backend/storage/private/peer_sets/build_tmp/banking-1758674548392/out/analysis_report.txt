@@ -1,0 +1,23 @@
+Resume Analysis Report
+======================
+
+Mode: clustering
+
+Chosen k (clusters): 2
+
+Cluster sizes:
+{
+  "0": 26,
+  "1": 89
+}
+
+Top terms per cluster:
+- Cluster 0: finance, financial, analysis, economics, investment, business, research, accounting, university, corporate, equity, market
+- Cluster 1: customer, business, sales, service, company city, team, new, banking, customer service, manager, client, financial
+
+Example files per cluster (up to 5):
+- Cluster 0: /home/droski/Desktop/School/Fall25/Capstone/data/BANKING/34953092.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/BANKING/18278509.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/BANKING/25080805.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/BANKING/14626780.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/BANKING/18824120.pdf
+- Cluster 1: /home/droski/Desktop/School/Fall25/Capstone/data/BANKING/23323001.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/BANKING/72876163.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/BANKING/17818707.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/BANKING/27884470.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/BANKING/13173522.pdf
+
+Saved pipeline → out/tfidf_kmeans_pipeline.joblib
+Saved assignments → out/cluster_assignments.csv

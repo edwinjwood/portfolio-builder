@@ -1,0 +1,35 @@
+Resume Analysis Report
+======================
+
+Mode: clustering
+
+Chosen k (clusters): 6
+
+Cluster sizes:
+{
+  "0": 30,
+  "1": 17,
+  "2": 5,
+  "3": 13,
+  "4": 39,
+  "5": 14
+}
+
+Top terms per cluster:
+- Cluster 0: equipment, work, company city, technician, maintenance, test, customer, service, electrical, repair, engineering technician, systems
+- Cluster 1: electrical, plc, control, maintenance, programming, equipment, design, systems, mechanical, project, troubleshooting, power
+- Cluster 2: editing, media, video, nexio, json, api, video editing, mfc, threads, projects include, dll, dash
+- Cluster 3: network, windows, linux, software, routers, networking, access, os, test, administration, technician, outlook
+- Cluster 4: project, management, manager, development, team, manufacturing, company city, process, planning, quality, improvement, systems
+- Cluster 5: intern, engineering intern, mechanical engineering, mechanical, design, 2013, heat, analysis, process, statistical, autocad, 2016
+
+Example files per cluster (up to 5):
+- Cluster 0: /home/droski/Desktop/School/Fall25/Capstone/data/ENGINEERING/16803215.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/ENGINEERING/55595908.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/ENGINEERING/19612167.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/ENGINEERING/21629057.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/ENGINEERING/21038022.pdf
+- Cluster 1: /home/droski/Desktop/School/Fall25/Capstone/data/ENGINEERING/55953734.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/ENGINEERING/38314236.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/ENGINEERING/64755882.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/ENGINEERING/27756469.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/ENGINEERING/23234047.pdf
+- Cluster 2: /home/droski/Desktop/School/Fall25/Capstone/data/ENGINEERING/11981094.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/ENGINEERING/28078163.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/ENGINEERING/64468610.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/ENGINEERING/31677347.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/ENGINEERING/28762662.pdf
+- Cluster 3: /home/droski/Desktop/School/Fall25/Capstone/data/ENGINEERING/12472574.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/ENGINEERING/54227873.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/ENGINEERING/17043822.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/ENGINEERING/38535335.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/ENGINEERING/14206561.pdf
+- Cluster 4: /home/droski/Desktop/School/Fall25/Capstone/data/ENGINEERING/32985311.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/ENGINEERING/13264796.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/ENGINEERING/19124258.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/ENGINEERING/21807224.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/ENGINEERING/23497307.pdf
+- Cluster 5: /home/droski/Desktop/School/Fall25/Capstone/data/ENGINEERING/28923650.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/ENGINEERING/20981299.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/ENGINEERING/35172961.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/ENGINEERING/17488801.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/ENGINEERING/43752620.pdf
+
+Saved pipeline → out/tfidf_kmeans_pipeline.joblib
+Saved assignments → out/cluster_assignments.csv

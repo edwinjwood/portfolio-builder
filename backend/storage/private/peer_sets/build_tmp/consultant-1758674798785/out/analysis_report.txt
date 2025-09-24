@@ -1,0 +1,32 @@
+Resume Analysis Report
+======================
+
+Mode: clustering
+
+Chosen k (clusters): 5
+
+Cluster sizes:
+{
+  "0": 2,
+  "1": 43,
+  "2": 30,
+  "3": 20,
+  "4": 20
+}
+
+Top terms per cluster:
+- Cluster 0: oracle, enterprise manager, weblogic, upgrade, oms, patches, em, cloudem, dba, 12c, oem, administration oracle
+- Cluster 1: business, management, data, client, analysis, design, company city, project, process, financial, development, testing
+- Cluster 2: marketing, sales, media, business, management, company city, strategic, relations, development, content, developed, executive
+- Cluster 3: health, patients, medical, patient, care, company city, customer service, customer, service, community, clients, assistant
+- Cluster 4: network, windows, hardware, server, support, systems, microsoft, software, servers, directory, computer, user
+
+Example files per cluster (up to 5):
+- Cluster 0: /home/droski/Desktop/School/Fall25/Capstone/data/CONSULTANT/21366189.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/CONSULTANT/93349646.pdf
+- Cluster 1: /home/droski/Desktop/School/Fall25/Capstone/data/CONSULTANT/29297393.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/CONSULTANT/22351830.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/CONSULTANT/12526702.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/CONSULTANT/15083600.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/CONSULTANT/31217840.pdf
+- Cluster 2: /home/droski/Desktop/School/Fall25/Capstone/data/CONSULTANT/37818861.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/CONSULTANT/29770086.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/CONSULTANT/13313917.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/CONSULTANT/15119529.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/CONSULTANT/38399177.pdf
+- Cluster 3: /home/droski/Desktop/School/Fall25/Capstone/data/CONSULTANT/25213006.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/CONSULTANT/14346702.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/CONSULTANT/11835339.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/CONSULTANT/24828381.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/CONSULTANT/28951817.pdf
+- Cluster 4: /home/droski/Desktop/School/Fall25/Capstone/data/CONSULTANT/15602094.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/CONSULTANT/38896303.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/CONSULTANT/26291616.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/CONSULTANT/31395742.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/CONSULTANT/43378989.pdf
+
+Saved pipeline → out/tfidf_kmeans_pipeline.joblib
+Saved assignments → out/cluster_assignments.csv

@@ -1,0 +1,23 @@
+Resume Analysis Report
+======================
+
+Mode: clustering
+
+Chosen k (clusters): 2
+
+Cluster sizes:
+{
+  "0": 17,
+  "1": 5
+}
+
+Top terms per cluster:
+- Cluster 0: city state, state, company city, business, sales, customer, process, client, performance, service, financial, managed
+- Cluster 1: server, cisco, engineer, network, windows, user, configuration, devices, switches, troubleshooting, security, routers
+
+Example files per cluster (up to 5):
+- Cluster 0: /home/droski/Desktop/School/Fall25/Capstone/data/BPO/27710853.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/BPO/15573418.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/BPO/89512321.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/BPO/18589927.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/BPO/11183737.pdf
+- Cluster 1: /home/droski/Desktop/School/Fall25/Capstone/data/BPO/15145575.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/BPO/57706851.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/BPO/41152404.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/BPO/63158213.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/BPO/95625660.pdf
+
+Saved pipeline → out/tfidf_kmeans_pipeline.joblib
+Saved assignments → out/cluster_assignments.csv

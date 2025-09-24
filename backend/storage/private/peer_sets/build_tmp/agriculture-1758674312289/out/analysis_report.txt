@@ -1,0 +1,35 @@
+Resume Analysis Report
+======================
+
+Mode: clustering
+
+Chosen k (clusters): 6
+
+Cluster sizes:
+{
+  "0": 27,
+  "1": 12,
+  "2": 4,
+  "3": 2,
+  "4": 13,
+  "5": 5
+}
+
+Top terms per cluster:
+- Cluster 0: management, team, customer, business, staff, company city, services, service, process, clients, office, manager
+- Cluster 1: water, research, science, use, soil, research assistant, feed, 01, company city, assistant, technology, 06
+- Cluster 2: lesson, students, teacher, classroom, parents, instruction, adult, curriculum, educational, learning, 08, observe
+- Cluster 3: jamaica, biological control, insect, esa, entomological, entomological society, citrus, pest, florida, entomology, citrus greening, greening
+- Cluster 4: program, agriculture, development, marketing, presentations, media, public, meetings, student, strategic, community, school
+- Cluster 5: technician, maintenance, equipment, closing, power, biological science, safety, forest, emergency management, science, 05, planting
+
+Example files per cluster (up to 5):
+- Cluster 0: /home/droski/Desktop/School/Fall25/Capstone/data/AGRICULTURE/23631188.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/AGRICULTURE/16661264.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/AGRICULTURE/20969119.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/AGRICULTURE/16507693.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/AGRICULTURE/28733974.pdf
+- Cluster 1: /home/droski/Desktop/School/Fall25/Capstone/data/AGRICULTURE/15546686.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/AGRICULTURE/14140903.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/AGRICULTURE/27888251.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/AGRICULTURE/55712978.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/AGRICULTURE/16849128.pdf
+- Cluster 2: /home/droski/Desktop/School/Fall25/Capstone/data/AGRICULTURE/29510501.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/AGRICULTURE/28165687.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/AGRICULTURE/37201447.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/AGRICULTURE/29897742.pdf
+- Cluster 3: /home/droski/Desktop/School/Fall25/Capstone/data/AGRICULTURE/18242317.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/AGRICULTURE/15603319.pdf
+- Cluster 4: /home/droski/Desktop/School/Fall25/Capstone/data/AGRICULTURE/30437583.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/AGRICULTURE/69336473.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/AGRICULTURE/16172429.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/AGRICULTURE/18264694.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/AGRICULTURE/54246169.pdf
+- Cluster 5: /home/droski/Desktop/School/Fall25/Capstone/data/AGRICULTURE/19851252.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/AGRICULTURE/11197262.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/AGRICULTURE/38216888.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/AGRICULTURE/17312146.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/AGRICULTURE/55500538.pdf
+
+Saved pipeline → out/tfidf_kmeans_pipeline.joblib
+Saved assignments → out/cluster_assignments.csv

@@ -1,0 +1,23 @@
+Resume Analysis Report
+======================
+
+Mode: clustering
+
+Chosen k (clusters): 2
+
+Cluster sizes:
+{
+  "0": 34,
+  "1": 78
+}
+
+Top terms per cluster:
+- Cluster 0: customer, worker, customers, construction worker, equipment, customer service, service, cleaned, inventory, high school, school, high
+- Cluster 1: project, management, manager, projects, design, safety, site, cost, engineering, managed, new, office
+
+Example files per cluster (up to 5):
+- Cluster 0: /home/droski/Desktop/School/Fall25/Capstone/data/CONSTRUCTION/18882984.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/CONSTRUCTION/22894544.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/CONSTRUCTION/22965804.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/CONSTRUCTION/16378091.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/CONSTRUCTION/31850269.pdf
+- Cluster 1: /home/droski/Desktop/School/Fall25/Capstone/data/CONSTRUCTION/23818675.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/CONSTRUCTION/28815362.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/CONSTRUCTION/25187733.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/CONSTRUCTION/21363048.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/CONSTRUCTION/88859947.pdf
+
+Saved pipeline → out/tfidf_kmeans_pipeline.joblib
+Saved assignments → out/cluster_assignments.csv

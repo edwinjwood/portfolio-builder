@@ -1,0 +1,23 @@
+Resume Analysis Report
+======================
+
+Mode: clustering
+
+Chosen k (clusters): 2
+
+Cluster sizes:
+{
+  "0": 67,
+  "1": 49
+}
+
+Top terms per cluster:
+- Cluster 0: business, management, service, marketing, new, manager, office, training, customers, clients, accounts, customer service
+- Cluster 1: customers, sales associate, associate, service, store, cash, merchandise, customer service, items, high school, high, school
+
+Example files per cluster (up to 5):
+- Cluster 0: /home/droski/Desktop/School/Fall25/Capstone/data/SALES/70528646.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/SALES/28198029.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/SALES/20819838.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/SALES/26425074.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/SALES/59422148.pdf
+- Cluster 1: /home/droski/Desktop/School/Fall25/Capstone/data/SALES/33236701.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/SALES/29399491.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/SALES/12820557.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/SALES/14358578.pdf, /home/droski/Desktop/School/Fall25/Capstone/data/SALES/23032182.pdf
+
+Saved pipeline → out/tfidf_kmeans_pipeline.joblib
+Saved assignments → out/cluster_assignments.csv
