@@ -1,6 +1,5 @@
 const path = require('path');
 const fs = require('fs');
-const config = require('../config');
 
 const APP_STORAGE_ROOT = process.env.APP_STORAGE_ROOT || path.resolve(__dirname, '..', '..', 'storage', 'private');
 

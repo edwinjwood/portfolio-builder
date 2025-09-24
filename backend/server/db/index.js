@@ -13,11 +13,11 @@ try {
 				// loaded one .env file successfully
 				break;
 			}
-		} catch (e) {
+		} catch {
 			// ignore and try next
 		}
 	}
-} catch (e) {
+} catch {
 	// ignore
 }
 

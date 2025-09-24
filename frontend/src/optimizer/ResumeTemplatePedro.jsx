@@ -13,7 +13,7 @@ function parseSections(text) {
     if (key.startsWith('technical skills')) idx.skills = i;
     if (key === 'languages') idx.langs = i;
   });
-  function slice(fromKey, toKey) {
+  function slice(fromKey, _toKey) {
     const a = idx[fromKey];
     if (a == null) return [];
     const next = Object.values(idx)
@@ -61,9 +61,11 @@ export default function ResumeTemplatePedro({ user, profile, result, overrides }
   const sections = useMemo(() => parseSections(result?.extracted_text || ''), [result]);
 
   // Build Skills categories: use recommendations + applied extras
-  const recSkills = result?.recommendations?.skills_to_add || [];
-  const extra = overrides?.extraSkills || [];
-  const cats = useMemo(() => categorize(recSkills, extra), [recSkills, extra]);
+  const cats = useMemo(() => {
+    const recSkills = result?.recommendations?.skills_to_add || [];
+    const extra = overrides?.extraSkills || [];
+    return categorize(recSkills, extra);
+  }, [result?.recommendations?.skills_to_add, overrides?.extraSkills]);
 
   // Build bullets (Highlights) from suggestions + applied extras
   const bullets = Array.from(new Set([...(result?.recommendations?.bullet_suggestions || []), ...(overrides?.extraBullets || [])])).slice(0, 8);

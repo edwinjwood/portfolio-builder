@@ -3,7 +3,6 @@ const request = require('supertest');
 // We'll mock the pg Pool and bcrypt/jwt behavior where needed
 jest.mock('pg', () => ({ Pool: jest.fn() }));
 const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
 
 describe('Auth routes', () => {
   let app;

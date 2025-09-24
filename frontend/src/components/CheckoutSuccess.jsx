@@ -12,7 +12,7 @@ export default function CheckoutSuccess() {
     try {
       const q = new URLSearchParams(location.search || '');
       sessionId = q.get('session_id');
-    } catch (e) {
+    } catch {
       sessionId = null;
     }
     if (!sessionId) {
@@ -24,7 +24,7 @@ export default function CheckoutSuccess() {
         try {
           const q2 = new URLSearchParams(qs);
           sessionId = q2.get('session_id');
-        } catch (e) {
+        } catch {
           sessionId = null;
         }
       }

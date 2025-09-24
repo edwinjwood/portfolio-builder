@@ -15,7 +15,7 @@ const client = new Client({ connectionString: conn, ssl: conn && !conn.includes(
     process.exit(0);
   } catch (err) {
     console.error('DB connect error:', err && (err.stack || err.message || err));
-    try { await client.end(); } catch (e) {}
+    try { await client.end(); } catch {}
     process.exit(1);
   }
 })();

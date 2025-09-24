@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
-const crypto = require('crypto');
+const nodeCrypto = require('crypto');
 const pool = require('../db');
 const config = require('../config');
 const mailer = require('../mailer');
@@ -49,7 +49,7 @@ exports.createUser = async (req, res) => {
     try {
       const key = plan ? plan.toString().toLowerCase() : 'individual';
       let priceId = null;
-      try { const pm = await pool.query('SELECT price_id FROM plan_price_map WHERE plan_key = $1 AND active = true', [key]); if (pm.rows[0]) priceId = pm.rows[0].price_id; } catch(e) {}
+      try { const pm = await pool.query('SELECT price_id FROM plan_price_map WHERE plan_key = $1 AND active = true', [key]); if (pm.rows[0]) priceId = pm.rows[0].price_id; } catch {}
       await pool.query(`INSERT INTO subscriptions (user_id, plan_key, price_id, status, created_at, updated_at) VALUES ($1,$2,$3,$4, now(), now())`, [user.id, key, priceId, 'pending']);
     } catch (subErr) { console.warn('Failed to create subscription row at signup:', subErr.message); }
 
@@ -62,10 +62,10 @@ exports.createUser = async (req, res) => {
         const key = plan ? plan.toString().toLowerCase() : null;
         if (key) {
           let priceId = null;
-          try { const pm = await pool.query('SELECT price_id FROM plan_price_map WHERE plan_key = $1 AND active = true', [key]); if (pm.rows[0]) priceId = pm.rows[0].price_id; } catch (e) {}
+          try { const pm = await pool.query('SELECT price_id FROM plan_price_map WHERE plan_key = $1 AND active = true', [key]); if (pm.rows[0]) priceId = pm.rows[0].price_id; } catch {}
           if (priceId) {
             let mode = 'payment';
-            try { const priceObj = await stripe.prices.retrieve(priceId, { expand: ['product'] }); if (priceObj && priceObj.recurring) mode = 'subscription'; } catch (e) {}
+            try { const priceObj = await stripe.prices.retrieve(priceId, { expand: ['product'] }); if (priceObj && priceObj.recurring) mode = 'subscription'; } catch {}
             try {
               const successBase = process.env.CHECKOUT_BASE_URL || process.env.FRONTEND_URL || 'http://localhost:5173';
               const hashPrefix = process.env.FRONTEND_USE_HASH === 'false' ? '' : '/#';
@@ -110,8 +110,8 @@ exports.requestPasswordReset = async (req, res) => {
       }
     }
 
-    const token = crypto.randomBytes(24).toString('hex');
-    const tokenHash = crypto.createHash('sha256').update(token).digest('hex');
+    const token = nodeCrypto.randomBytes(24).toString('hex');
+    const tokenHash = nodeCrypto.createHash('sha256').update(token).digest('hex');
     const expiresAt = new Date(Date.now() + 1000 * 60 * 60);
     await pool.query('INSERT INTO password_resets (user_id, token, expires_at) VALUES ($1,$2,$3)', [user.id, tokenHash, expiresAt]);
     const resetUrl = `${process.env.FRONTEND_URL || process.env.CHECKOUT_BASE_URL || 'http://localhost:5173'}/reset-password?token=${token}`;
@@ -120,7 +120,7 @@ exports.requestPasswordReset = async (req, res) => {
     try {
       await mailer.sendMail({ from: process.env.SMTP_FROM || 'no-reply@example.com', to: user.email, subject, text });
       return res.json({ success: true });
-    } catch (e) {
+    } catch {
       // mailer may be a noop or fail; log and return success to avoid exposing existence
       console.log('Password reset token (no SMTP):', token, 'for user', user.email);
       return res.json({ success: true });
@@ -135,7 +135,7 @@ exports.confirmPasswordReset = async (req, res) => {
   const { token, password } = req.body;
   if (!token || !password) return res.status(400).json({ error: 'Token and new password required.' });
   try {
-    const tokenHash = crypto.createHash('sha256').update(token).digest('hex');
+    const tokenHash = nodeCrypto.createHash('sha256').update(token).digest('hex');
     const r = await pool.query('SELECT id, user_id, expires_at FROM password_resets WHERE token = $1', [tokenHash]);
     const row = r.rows[0];
     if (!row) return res.status(400).json({ error: 'Invalid or expired token.' });
@@ -161,7 +161,7 @@ exports.login = async (req, res) => {
     if (!match) return res.status(401).json({ error: 'Invalid credentials.' });
     const token = jwt.sign({ id: user.id, email: user.email, role: user.role }, JWT_SECRET, { expiresIn: '1h' });
     res.json({ token, user: { id: user.id, email: user.email, username: user.username, role: user.role, first_name: user.first_name, last_name: user.last_name } });
-  } catch (err) {
+  } catch {
     res.status(500).json({ error: 'Server error.' });
   }
 };
@@ -176,7 +176,7 @@ exports.validate = async (req, res) => {
     const user = result.rows[0];
     if (!user) return res.status(404).json({ error: 'User not found.' });
     res.json({ user: { id: user.id, email: user.email, username: user.username, role: user.role, first_name: user.first_name, last_name: user.last_name } });
-  } catch (err) {
+  } catch {
     res.status(401).json({ error: 'Invalid or expired token.' });
   }
 };

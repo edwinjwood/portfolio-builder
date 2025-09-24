@@ -5,7 +5,7 @@ exports.listPortfolios = async (req, res) => {
   try {
     const result = await pool.query('SELECT * FROM portfolios WHERE user_id = $1', [userId]);
     res.json(result.rows);
-  } catch (err) {
+  } catch {
     res.status(500).json({ error: 'Server error.' });
   }
 };
@@ -20,7 +20,7 @@ exports.getPortfolio = async (req, res) => {
     );
     if (result.rows.length === 0) return res.status(404).json({ error: 'Portfolio not found.' });
     res.json(result.rows[0]);
-  } catch (err) {
+  } catch {
     res.status(500).json({ error: 'Server error.' });
   }
 };
@@ -35,7 +35,7 @@ exports.createPortfolio = async (req, res) => {
       [userId, name]
     );
     res.status(201).json(result.rows[0]);
-  } catch (err) {
+  } catch {
     res.status(500).json({ error: 'Server error.' });
   }
 };
@@ -50,7 +50,7 @@ exports.deletePortfolio = async (req, res) => {
     );
     if (result.rows.length === 0) return res.status(404).json({ error: 'Portfolio not found or not owned by user.' });
     res.json({ success: true });
-  } catch (err) {
+  } catch {
     res.status(500).json({ error: 'Server error.' });
   }
 };

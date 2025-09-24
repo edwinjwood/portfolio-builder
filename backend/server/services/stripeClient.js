@@ -5,15 +5,15 @@ module.exports = {
       const stripeLib = require('stripe');
       let stripe = null;
       if (typeof stripeLib === 'function') {
-        try { stripe = stripeLib(process.env.STRIPE_SECRET_KEY || ''); } catch (e) { /* ignore */ }
+        try { stripe = stripeLib(process.env.STRIPE_SECRET_KEY || ''); } catch { /* ignore */ }
         if (!stripe) {
-          try { stripe = stripeLib(); } catch (e) { /* ignore */ }
+          try { stripe = stripeLib(); } catch { /* ignore */ }
         }
       } else if (stripeLib && stripeLib.checkout) {
         stripe = stripeLib;
       }
       return stripe || null;
-    } catch (e) {
+    } catch {
       return null;
     }
   }

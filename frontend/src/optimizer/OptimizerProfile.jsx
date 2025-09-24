@@ -30,7 +30,7 @@ export default function OptimizerProfile() {
     };
     if (currentUser) load();
     return () => { ignore = true; };
-  }, [currentUser?.id]);
+  }, [currentUser?.id, currentUser, api, getToken]);
 
   const onSubmit = async (e) => {
     e.preventDefault(); setSaving(true);

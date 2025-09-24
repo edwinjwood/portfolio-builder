@@ -4,7 +4,7 @@ if (typeof fetch !== 'undefined') {
 } else {
   try {
     fetchImpl = require('node-fetch');
-  } catch (e) {
+  } catch {
     fetchImpl = null;
   }
 }

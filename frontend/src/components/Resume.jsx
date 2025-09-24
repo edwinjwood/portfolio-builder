@@ -1,8 +1,7 @@
 import React from 'react';
 import defaultResume from '../templates/classic/resume.json';
-import { useAuth } from '../features/user/context/AuthContext';
 
-export default function Resume({ data, hideActions, preview }) {
+export default function Resume({ data, _hideActions, preview }) {
   // Ensure nested fields exist when a partial `data` object is supplied.
   const r = data
     ? {
@@ -17,7 +16,6 @@ export default function Resume({ data, hideActions, preview }) {
     : defaultResume;
 
   const { header, summary, competencies, experience, education } = r;
-  const { currentUser } = useAuth();
 
   return (
     <main

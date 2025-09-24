@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../features/user/context/AuthContext';
-import BuyButton from './BuyButton';
 
 const plans = [
 	{
@@ -50,43 +48,7 @@ const plans = [
 
 function Pricing() {
 	const navigate = useNavigate();
-	const { currentUser } = useAuth();
 	const [modal, setModal] = useState(null);
-	const [prices, setPrices] = useState([]);
-	const [priceMap, setPriceMap] = useState({});
-
-	React.useEffect(() => {
-		let mounted = true;
-		const apiBase = typeof import.meta !== 'undefined' && import.meta.env && import.meta.env.VITE_API_URL
-			? import.meta.env.VITE_API_URL.replace(/\/$/, '')
-			: (typeof process !== 'undefined' && process.env.API_URL) || 'http://localhost:5001';
-
-		// Fetch full price list (for display) and a canonical price map for plan keys
-		Promise.all([
-			fetch(`${apiBase}/api/stripe/prices`).then(r => r.json()).catch(() => []),
-			fetch(`${apiBase}/api/stripe/price-map`).then(r => r.json()).catch(() => ({})),
-		])
-			.then(([pricesData, mapData]) => {
-				if (!mounted) return;
-				setPrices(pricesData || []);
-				setPriceMap(mapData || {});
-			})
-			.catch(() => {});
-
-		return () => { mounted = false; };
-	}, []);
-
-	const handleChoose = (plan) => {
-		if (!currentUser) {
-			navigate('/login');
-			return;
-		}
-		if (plan.name === 'Individual') {
-			navigate('/resume');
-			return;
-		}
-		setModal(plan.name);
-	};
 
 	return (
 		<main className="w-full min-h-[70vh] grid place-items-center font-sans text-gray-900 dark:text-gray-100">

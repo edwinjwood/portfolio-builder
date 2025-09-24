@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import React, { createContext, useContext, useEffect, useMemo, useState } from 'react';
 
 const AuthContext = createContext(null);
@@ -15,11 +16,6 @@ const storage = {
 	}
 };
 
-async function sha256(text) {
-	const enc = new TextEncoder();
-	const buf = await crypto.subtle.digest('SHA-256', enc.encode(text));
-	return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
-}
 
 const USERS_KEY = 'pb:users';
 const CURRENT_KEY = 'pb:currentUser';
@@ -98,23 +94,19 @@ export function AuthProvider({ children }) {
 	};
 
 	const login = async ({ email, password }) => {
-		try {
-			const apiUrl = import.meta.env.VITE_API_URL || '';
-			// Backend routes mount user auth at /api/users, so call /api/users/login
-			const res = await fetch(`${apiUrl}/api/users/login`, {
-				method: 'POST',
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({ email, password })
-			});
-			const data = await res.json();
-			if (!res.ok) throw new Error(data.error || 'Login failed');
-			// Store JWT in localStorage
-			storage.set('pb:token', data.token);
-			setCurrentUser({ ...data.user, token: data.token });
-			return { ...data.user, token: data.token };
-		} catch (err) {
-			throw err;
-		}
+		const apiUrl = import.meta.env.VITE_API_URL || '';
+		// Backend routes mount user auth at /api/users, so call /api/users/login
+		const res = await fetch(`${apiUrl}/api/users/login`, {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({ email, password })
+		});
+		const data = await res.json();
+		if (!res.ok) throw new Error(data.error || 'Login failed');
+		// Store JWT in localStorage
+		storage.set('pb:token', data.token);
+		setCurrentUser({ ...data.user, token: data.token });
+		return { ...data.user, token: data.token };
 	};
 
 	const logout = () => {
@@ -151,12 +143,12 @@ async function validateToken() {
 	const resetDemo = async () => {
 		storage.remove(USERS_KEY);
 		storage.remove(CURRENT_KEY);
-		const list = await seedFromJson();
-		setUsers(list);
+		setUsers([]);
 		setCurrentUser(null);
 	};
 
-	const value = useMemo(() => ({ currentUser, users, signup, login, logout, resetDemo, getToken, validateToken }), [currentUser, users]);
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	const value = useMemo(() => ({ currentUser, users, signup, login, logout, resetDemo, getToken, validateToken }), [currentUser, users, signup, login, logout, resetDemo, getToken, validateToken]);
 
 	return (
 		<AuthContext.Provider value={value}>{children}</AuthContext.Provider>

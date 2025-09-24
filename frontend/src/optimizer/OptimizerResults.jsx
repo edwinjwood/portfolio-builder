@@ -21,32 +21,38 @@ export default function OptimizerResults() {
 
   useEffect(() => {
     let ignore = false;
-    const load = async () => {
+
+    const poll = async () => {
+      if (ignore) return;
       try {
-        const [r1, r2] = await Promise.all([
-          fetch(`${api}/api/resumes/${resumeId}/result`, { headers: { 'Authorization': `Bearer ${getToken()}` } }),
-          fetch(`${api}/api/me/profile`, { headers: { 'Authorization': `Bearer ${getToken()}` } }),
-        ]);
-        const data1 = await r1.json();
-        const data2 = await r2.json();
-        if (!ignore && r1.ok) {
+        const r1 = await fetch(`${api}/api/resumes/${resumeId}/result`, { headers: { 'Authorization': `Bearer ${getToken()}` } });
+        if (r1.ok) {
+          const data1 = await r1.json();
+          if (ignore) return;
           setResult(data1);
           setDomain(data1?.domain || null);
+        } else {
+          setTimeout(poll, 1500);
         }
+      } catch {
+        setTimeout(poll, 2000);
+      }
+    };
+
+    const loadProfile = async () => {
+      try {
+        const r2 = await fetch(`${api}/api/me/profile`, { headers: { 'Authorization': `Bearer ${getToken()}` } });
+        const data2 = await r2.json().catch(()=>null);
         if (!ignore && r2.ok) {
           setProfile(data2);
-          // Auto-select template by domain/degree/title
-          if (autoStyle) {
-            const t = `${data2?.degree || ''} ${data2?.target_title || ''}`.toLowerCase();
-            if (/computer\s*(science|engineering)|\bcs\b/.test(t) || (data1?.domain==='csce')) setStyle('csce');
-            else if (data1?.domain) setStyle('domain');
-          }
         }
       } catch {}
     };
-    load();
+
+    loadProfile();
+    poll();
     return () => { ignore = true; };
-  }, [resumeId]);
+  }, [resumeId, api, getToken]);
 
   // Hooks that depend on result must still be declared unconditionally
   const md = applied.md ?? (result?.generated?.markdown ?? '');
@@ -130,7 +136,7 @@ export default function OptimizerResults() {
               a.download = `resume_${resumeId}.pdf`;
               a.click();
               URL.revokeObjectURL(url);
-            } catch (e) {
+            } catch {
               alert('Failed to download PDF');
             }
           }}>Download PDF (LaTeX)</button>

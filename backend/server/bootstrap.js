@@ -9,23 +9,23 @@ try {
     try {
       const r = dotenv.config({ path: p });
       if (!r.error) break;
-    } catch (e) {
+    } catch {
       // ignore and try next
     }
   }
-} catch (e) {
+} catch {
   // ignore
 }
 
 // Centralized process lifecycle logging for easier debugging during development.
 process.on('exit', (code) => {
-  try { console.error('Process exiting with code:', code); } catch (e) {}
+  try { console.error('Process exiting with code:', code); } catch {}
 });
 process.on('uncaughtException', (err) => {
-  try { console.error('Uncaught exception:', err && (err.stack || err)); } catch (e) {}
+  try { console.error('Uncaught exception:', err && (err.stack || err)); } catch {}
 });
 process.on('unhandledRejection', (reason) => {
-  try { console.error('Unhandled rejection:', reason && (reason.stack || reason)); } catch (e) {}
+  try { console.error('Unhandled rejection:', reason && (reason.stack || reason)); } catch {}
 });
 
 // No exports; requiring this module performs early setup.

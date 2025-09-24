@@ -63,12 +63,12 @@ export default function ResumeTemplateCSCE({ user, profile, result, overrides })
     return generated.skillGroups.flatMap(group => Array.isArray(group.items) ? group.items : []).map(String);
   }, [generated]);
 
-  const recSkills = result?.recommendations?.skills_to_add || [];
-  const extra = overrides?.extraSkills || [];
   const cats = useMemo(() => {
+    const recSkills = result?.recommendations?.skills_to_add || [];
+    const extra = overrides?.extraSkills || [];
     const base = generatedSkillTerms.length ? generatedSkillTerms : recSkills;
     return categorize(base, extra);
-  }, [generatedSkillTerms, recSkills, extra]);
+  }, [generatedSkillTerms, result?.recommendations?.skills_to_add, overrides?.extraSkills]);
 
   const baseHighlights = generated?.highlights?.length ? generated.highlights : (result?.recommendations?.bullet_suggestions || []);
   const bullets = Array.from(new Set([...(baseHighlights || []), ...(overrides?.extraBullets || [])])).slice(0, 8);

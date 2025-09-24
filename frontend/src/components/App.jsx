@@ -1,7 +1,6 @@
 import '../styles/App.css';
-import { BrowserRouter as Router, Routes, Route, NavLink, Link, useLocation } from 'react-router-dom';
-import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
-import React, { useState, useEffect, useRef } from 'react';
+import { BrowserRouter as Router } from 'react-router-dom';
+import React from 'react';
 
 import Shell from '../layout/Shell';
 import { AuthProvider } from '../features/user/context/AuthContext';

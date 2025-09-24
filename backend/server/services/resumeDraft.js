@@ -1,4 +1,4 @@
-const CLEAN_BULLET = /^[\u2022\-\*\u2013\u2014]+\s*/;
+const CLEAN_BULLET = /^[\u2022\-*\u2013\u2014]+\s*/;
 const HEADERS = [
   { key: 'summary', regex: /(professional\s+summary|summary|profile|objective)/i },
   { key: 'skills', regex: /(skills?|technologies|technical\s+skills|competencies)/i },
@@ -8,18 +8,18 @@ const HEADERS = [
   { key: 'certifications', regex: /(certifications?|licenses?)/i },
   { key: 'achievements', regex: /(achievements?|leadership|awards)/i },
 ];
-const CONTACT_REGEX = /(linkedin\.com|github\.com|@|\b\d{3}[\)\-\s]|portfolio|www\.|http:\/\/|https:\/\/|\b[0-9]{5}\b|,\s*[A-Z]{2}\b)/i;
+const CONTACT_REGEX = /(linkedin\.com|github\.com|@|\b\d{3}[)\-\s]|portfolio|www\.|http:\/\/|https:\/\/|\b[0-9]{5}\b|,\s*[A-Z]{2}\b)/i;
 const EMAIL_REGEX = /[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/i;
 const PHONE_REGEX = /(\+?\d[\d\s().-]{7,}\d)/;
-const LINKEDIN_REGEX = /(https?:\/\/)?(www\.)?linkedin\.com\/[A-Za-z0-9_\/-]+/i;
-const GITHUB_REGEX = /(https?:\/\/)?(www\.)?github\.com\/[A-Za-z0-9_\/-]+/i;
+const LINKEDIN_REGEX = /(https?:\/\/)?(www\.)?linkedin\.com\/[A-Za-z0-9_/-]+/i;
+const GITHUB_REGEX = /(https?:\/\/)?(www\.)?github\.com\/[A-Za-z0-9_/-]+/i;
 const URL_REGEX = /(https?:\/\/[^\s|]+)/i;
 const LOCATION_REGEX = /([A-Z][a-z]+(?: [A-Z][a-z]+)*,\s*[A-Z]{2})(?:\s*\d{5})?/;
 const VERB_PREFIXES = ['Led', 'Owned', 'Delivered', 'Implemented', 'Optimized', 'Built', 'Automated', 'Integrated', 'Improved', 'Designed', 'Developed'];
 
 function toTitleCase(str) {
   if (!str) return '';
-  const clean = String(str).trim().replace(/[\u2022\-\*]/g, '');
+  const clean = String(str).trim().replace(/[\u2022\-*]/g, '');
   if (!clean) return '';
   return clean
     .split(/\s+/)
@@ -166,7 +166,7 @@ function extractBullets(lines, { max = 8, allowSentences = true } = {}) {
 }
 
 function cleanSentence(text) {
-  const t = String(text || '').replace(/[\u2022\-\*]/g, '').replace(/\s+/g, ' ').trim();
+  const t = String(text || '').replace(/[\u2022\-*]/g, '').replace(/\s+/g, ' ').trim();
   if (!t) return '';
   const normalized = t.charAt(0).toUpperCase() + t.slice(1);
   return normalized.replace(/\.$/, '') + '.';
@@ -215,7 +215,7 @@ function formatSkill(skill) {
   if (!clean) return '';
   if (clean === clean.toUpperCase() && clean.length <= 5) return clean;
   return clean
-    .split(/[\s\/]+/)
+    .split(/[\s/]+/)
     .map(part => (part ? part.charAt(0).toUpperCase() + part.slice(1) : part))
     .join(' ')
     .replace(/\s{2,}/g, ' ')
@@ -227,7 +227,7 @@ function buildEducationEntries(profile, lines) {
   if (profile && profile.degree) entries.push(String(profile.degree).trim());
   for (const line of lines || []) {
     if (!line) continue;
-    const clean = line.replace(/[\u2022\-\*]/g, '').trim();
+    const clean = line.replace(/[\u2022\-*]/g, '').trim();
     if (clean) entries.push(clean);
   }
   return unique(entries).slice(0, 6);

@@ -2,17 +2,7 @@ import React, { useState, useEffect } from "react";
 import projectsData from '../data/projects.json';
 
 export default function Projects() {
-	const CATEGORY_ORDER = [
-		"Operating Model",
-		"M&A Integration",
-		"Product",
-		"Automation",
-		"Integration",
-		"Migration & Modernization",
-		"Analytics",
-		"Leadership",
-		"Strategy",
-	];
+	// Note: keep order local to memoized computation to avoid triggering deps changes
 	const [activeCategory, setActiveCategory] = useState("All");
 	const projects = projectsData.items;
 	const summary = projectsData.summary;
@@ -26,7 +16,20 @@ export default function Projects() {
 	}, [projects]);
 
 	const categories = React.useMemo(
-		() => ["All", ...CATEGORY_ORDER.filter((c) => counts[c])],
+		() => {
+			const ORDER = [
+				"Operating Model",
+				"M&A Integration",
+				"Product",
+				"Automation",
+				"Integration",
+				"Migration & Modernization",
+				"Analytics",
+				"Leadership",
+				"Strategy",
+			];
+			return ["All", ...ORDER.filter((c) => counts[c])];
+		},
 		[counts]
 	);
 
@@ -68,12 +71,12 @@ export default function Projects() {
 				window.location.hash = catFrag; // legacy fallback
 			}
 		}
-	}, [activeCategory]);
+	}, [activeCategory, projects]);
 
 	const filtered = React.useMemo(() => {
 		const base = activeCategory === "All" ? projects : projects.filter((p) => p.categories.includes(activeCategory));
 		return [...base].sort((a, b) => b.weight - a.weight);
-	}, [activeCategory]);
+	}, [activeCategory, projects]);
 
 	return (
 		<main className="bg-gray-50 dark:bg-gray-900 min-h-screen font-sans text-gray-900 dark:text-gray-100 transition-colors">

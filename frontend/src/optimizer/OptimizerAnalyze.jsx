@@ -15,19 +15,24 @@ export default function OptimizerAnalyze() {
     const start = async () => {
       setStarting(true);
       try {
-        const res = await fetch(`${api}/api/resumes/${resumeId}/analyze`, { method: 'POST', headers: { 'Authorization': `Bearer ${getToken()}` } });
-        const data = await res.json();
+        const res = await fetch(`${api}/api/resumes/${resumeId}/analyze`, { method: 'POST', headers: { 'Authorization': `Bearer ${getToken()}` }, keepalive: true });
+        const data = await res.json().catch(()=>({}));
         if (!ignore) {
-          setStatus(data.status || 'queued');
-          if (data.status === 'done') {
-            setTimeout(()=> navigate(`/optimizer/results/${resumeId}`), 600);
-          }
+          setStatus(data.status || (res.ok ? 'queued' : 'error'));
+          // Navigate to results right away; that page will poll until ready
+          setTimeout(()=> navigate(`/optimizer/results/${resumeId}`), 250);
+        }
+      } catch {
+        if (!ignore) {
+          setStatus('error');
+          // Still navigate; results page will show waiting or allow retry
+          setTimeout(()=> navigate(`/optimizer/results/${resumeId}`), 250);
         }
       } finally { setStarting(false); }
     };
     start();
     return () => { ignore = true; };
-  }, [resumeId]);
+  }, [resumeId, api, getToken, navigate]);
 
   return (
     <div className="w-full max-w-xl mx-auto p-6 bg-white dark:bg-gray-800 rounded shadow">

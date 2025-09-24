@@ -19,7 +19,7 @@ exports.listTemplates = async (req, res) => {
     });
     const result = templates.rows.map(t => ({ ...t, components: componentsByTemplate[t.id] || [] }));
     res.json(result);
-  } catch (err) {
+  } catch {
     res.status(500).json({ error: 'Failed to fetch templates' });
   }
 };

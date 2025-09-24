@@ -11,8 +11,8 @@ export default function PortfolioHome() {
   const [error, setError] = useState('');
   const [showModal, setShowModal] = useState(false);
   // Carousel state (must be top-level for hooks)
-  const [carouselIndex, setCarouselIndex] = useState(0);
-  const [selected, setSelected] = useState({ virtualbc: false, resume: false, projects: false });
+  const [carouselIndex, _setCarouselIndex] = useState(0);
+  const [_selected, _setSelected] = useState({ virtualbc: false, resume: false, projects: false });
 
   useEffect(() => {
     async function fetchPortfolio() {
@@ -30,7 +30,7 @@ export default function PortfolioHome() {
         } else {
           setPortfolio(await res.json());
         }
-      } catch (e) {
+      } catch {
         setError('Network error');
       }
       setLoading(false);

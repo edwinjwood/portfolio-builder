@@ -16,16 +16,13 @@ module.exports.handleStripe = async (req, res) => {
     return res.status(400).send(`Webhook Error: ${err.message}`);
   }
   try {
-    try { if (event && event.type) console.log('Stripe webhook received:', event.type, event.id || '(no id)'); } catch (e) {}
+    try { if (event && event.type) console.log('Stripe webhook received:', event.type, event.id || '(no id)'); } catch {}
     switch (event.type) {
       case 'payment_intent.succeeded': {
         const pi = event.data.object;
         console.log('PaymentIntent succeeded:', pi.id, 'amount:', pi.amount);
         try {
           const metadata = pi.metadata || null;
-          const paymentMethod = pi.payment_method || (pi.charges && pi.charges.data && pi.charges.data[0] && (pi.charges.data[0].payment_method || (pi.charges.data[0].payment_method_details && pi.charges.data[0].payment_method_details.type))) || null;
-          const receiptEmail = pi.receipt_email || (pi.charges && pi.charges.data && pi.charges.data[0] && pi.charges.data[0].receipt_email) || null;
-          const description = pi.description || null;
           const ids = extractStripeIds(pi);
           const canonicalId = ids.canonicalId || (pi && pi.id);
           const chargeId = ids.chargeId || (pi && pi.charges && pi.charges.data && pi.charges.data[0] && pi.charges.data[0].id) || null;
@@ -34,7 +31,7 @@ module.exports.handleStripe = async (req, res) => {
           const status = (pi && pi.status) || 'succeeded';
           const userForPayment = metadata.userId || (pi && pi.metadata && pi.metadata.userId) || null;
           await upsertPayment({ canonicalId, stripeId: (pi && pi.id), stripePaymentIntentId: ids.paymentIntentId || (pi && pi.id) || null, stripeChargeId: chargeId, stripeInvoiceId: ids.invoiceId || null, userId: userForPayment, amount, currency, status, paymentMethod: (pi && pi.payment_method) || null, receiptEmail: (pi && pi.receipt_email) || null, description: (pi && pi.description) || null, metadata: metadata || (pi && pi.metadata) || null, raw: JSON.stringify(pi) });
-        } catch (e) { console.warn('Failed to upsert payment from payment_intent.succeeded:', e && (e.stack || e.message || e)); }
+        } catch (_e) { console.warn('Failed to upsert payment from payment_intent.succeeded:', _e && (_e.stack || _e.message || _e)); }
         break;
       }
       case 'invoice.payment_succeeded':
@@ -57,7 +54,7 @@ module.exports.handleStripe = async (req, res) => {
           } else if (subId) {
             await pool.query(`UPDATE subscriptions SET status = $1, updated_at = now() WHERE stripe_subscription_id = $2`, ['active', subId]);
           }
-        } catch (e) { console.warn('Failed to persist invoice event:', e.message || e); }
+        } catch (_e) { console.warn('Failed to persist invoice event:', _e.message || _e); }
         break;
       }
       case 'charge.succeeded': {
@@ -85,10 +82,10 @@ module.exports.handleStripe = async (req, res) => {
                 const cust = await stripe.customers.retrieve(charge.customer);
                 userIdForCharge = cust && cust.metadata && cust.metadata.userId ? cust.metadata.userId : userIdForCharge;
               }
-            } catch (e) { /* ignore lookup failures */ }
+            } catch { /* ignore lookup failures */ }
           }
           await upsertPayment({ canonicalId, stripeId: charge.id, stripePaymentIntentId: ids.paymentIntentId, stripeChargeId: ids.chargeId, stripeInvoiceId: ids.invoiceId, userId: userIdForCharge, amount: charge.amount, currency: charge.currency, status: charge.status || 'succeeded', paymentMethod, receiptEmail, description: charge.description || null, metadata, raw });
-        } catch (e) { console.warn('Failed to persist charge.succeeded:', e.message || e); }
+        } catch (_e) { console.warn('Failed to persist charge.succeeded:', _e.message || _e); }
         break;
       }
       case 'charge.refunded': {
@@ -99,7 +96,7 @@ module.exports.handleStripe = async (req, res) => {
           const ids = extractStripeIds(charge);
           const canonicalId = ids.canonicalId || charge.id;
           await upsertPayment({ canonicalId, stripeId: charge.id, stripePaymentIntentId: ids.paymentIntentId, stripeChargeId: ids.chargeId, stripeInvoiceId: ids.invoiceId, userId: charge.metadata?.userId || null, amount: charge.amount || 0, currency: charge.currency || 'usd', status: 'refunded', description: charge.description || null, metadata, raw });
-        } catch (e) { console.warn('Failed to persist charge.refunded:', e.message || e); }
+        } catch (_e) { console.warn('Failed to persist charge.refunded:', _e.message || _e); }
         break;
       }
       case 'customer.subscription.created': {
@@ -113,7 +110,7 @@ module.exports.handleStripe = async (req, res) => {
           } else {
             await pool.query(`UPDATE subscriptions SET status = $1, updated_at = now() WHERE stripe_subscription_id = $2`, ['active', sub.id]);
           }
-        } catch (e) { console.warn('Failed to activate subscription from customer.subscription.created:', e.message); }
+        } catch (_e) { console.warn('Failed to activate subscription from customer.subscription.created:', _e.message); }
         break;
       }
       default:

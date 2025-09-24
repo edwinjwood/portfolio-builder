@@ -12,7 +12,7 @@ exports.createPaymentIntent = async (req, res) => {
   try {
     const decoded = jwt.verify(token, config.JWT_SECRET);
     userId = decoded.id;
-  } catch (err) {
+  } catch {
     return res.status(401).json({ error: 'Invalid or expired token.' });
   }
 
@@ -48,7 +48,7 @@ exports.groupedPayments = async (req, res) => {
       try {
         const decoded = jwt.verify(token, config.JWT_SECRET);
         if (!decoded || decoded.role !== 'admin') return res.status(403).json({ error: 'Forbidden' });
-      } catch (e) {
+      } catch {
         return res.status(401).json({ error: 'Invalid token' });
       }
     }

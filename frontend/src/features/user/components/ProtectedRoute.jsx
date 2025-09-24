@@ -13,7 +13,7 @@ function ProtectedRoute({ children, roles }) {
     }
     check();
     return () => { ignore = true; };
-  }, []);
+  }, [validateToken]);
   if (checking) return <div>Loading...</div>;
   if (!currentUser) return <Navigate to="/login" replace />;
   if (roles && !roles.includes(currentUser.role)) {

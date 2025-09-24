@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { saveDraft } from '../utils/draft';
 import { useAuth } from '../features/user/context/AuthContext';
 import { useTenant } from '../contexts/TenantContext';
 import LandingCard from './LandingCard';

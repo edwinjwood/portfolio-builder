@@ -25,6 +25,16 @@ export default function TenantAdminDashboard() {
     // TODO: Persist to backend or tenants.json
   };
 
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    const apiUrl = import.meta.env.VITE_API_URL || '';
+    fetch(`${apiUrl}/api/users`)
+      .then(res => res.json())
+      .then(data => setUsers(data))
+      .catch(() => setUsers([]));
+  }, []);
+
   if (!currentUser || currentUser.role !== 'superadmin') {
     return (
       <main className="min-h-screen flex items-center justify-center text-gray-700 dark:text-gray-200">
@@ -35,16 +45,6 @@ export default function TenantAdminDashboard() {
       </main>
     );
   }
-
-  const [users, setUsers] = useState([]);
-
-  useEffect(() => {
-  const apiUrl = import.meta.env.VITE_API_URL || '';
-  fetch(`${apiUrl}/api/users`)
-      .then(res => res.json())
-      .then(data => setUsers(data))
-      .catch(() => setUsers([]));
-  }, []);
 
   return (
     <main className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 p-8">

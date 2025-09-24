@@ -13,7 +13,7 @@ exports.dbStatus = async (req, res) => {
       try {
         const decoded = jwt.verify(token, config.JWT_SECRET);
         if (!decoded || decoded.role !== 'admin') return res.status(403).json({ error: 'Forbidden' });
-      } catch (e) {
+      } catch {
         return res.status(401).json({ error: 'Invalid token' });
       }
     }
@@ -43,7 +43,7 @@ exports.runMigrations = async (req, res) => {
     try {
       const decoded = jwt.verify(token, config.JWT_SECRET);
       if (!decoded || decoded.role !== 'admin') return res.status(403).json({ error: 'Forbidden' });
-    } catch (e) {
+    } catch {
       return res.status(401).json({ error: 'Invalid token' });
     }
   }

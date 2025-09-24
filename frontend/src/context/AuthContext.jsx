@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import React, { createContext, useContext, useEffect, useMemo, useState } from 'react';
 
 const AuthContext = createContext(null);
@@ -77,12 +78,11 @@ export function AuthProvider({ children }) {
   const resetDemo = async () => {
     storage.remove(USERS_KEY);
     storage.remove(CURRENT_KEY);
-    const list = await seedFromJson();
-    setUsers(list);
+    setUsers([]);
     setCurrentUser(null);
   };
 
-  const value = useMemo(() => ({ currentUser, users, signup, login, logout, resetDemo }), [currentUser, users]);
+  const value = useMemo(() => ({ currentUser, users, signup, login, logout, resetDemo }), [currentUser, users, signup, login, logout, resetDemo]);
 
   return (
     <AuthContext.Provider value={value}>{children}</AuthContext.Provider>

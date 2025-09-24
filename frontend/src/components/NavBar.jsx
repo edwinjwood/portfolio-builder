@@ -7,8 +7,7 @@ import { useTenant } from '../contexts/TenantContext';
 // Minimal nav: Home on the left, Login and theme icon on the right
 const NavBar = () => {
   const { currentUser, logout } = useAuth();
-  const { tenant, user } = useTenant();
-  const navigate = typeof window !== 'undefined' && window.location ? (window.__REACT_ROUTER_NAVIGATE__ || null) : null;
+  const { tenant } = useTenant();
   const { dark, toggle } = useTheme();
   const [menuOpen, setMenuOpen] = useState(false);
   function getContrastText(bgColor) {
@@ -51,7 +50,7 @@ const NavBar = () => {
         </NavLink>
         {/* Desktop menu right aligned */}
         <div className="hidden md:flex items-center gap-8 ml-auto">
-{['/dashboard','/optimizer/profile','/admin'].map((route, idx) => (
+{['/dashboard','/optimizer/profile','/admin'].map((route) => (
             currentUser && (
               <NavLink
                 key={route}

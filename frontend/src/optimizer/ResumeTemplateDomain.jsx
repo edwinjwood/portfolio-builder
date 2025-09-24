@@ -8,7 +8,13 @@ export default function ResumeTemplateDomain({ user, profile, result, overrides 
   const baseHighlights = generated?.highlights?.length ? generated.highlights : (result?.recommendations?.bullet_suggestions || []);
   const bullets = Array.from(new Set([...(baseHighlights || []), ...(overrides?.extraBullets || [])])).slice(0,8);
   const baseSkills = generated?.skillGroups?.length ? generated.skillGroups.flatMap(group => group.items || []) : (result?.recommendations?.skills_to_add || []);
-  const skills = Array.from(new Set([...(baseSkills || []), ...(overrides?.extraSkills || [])]));
+  const clean = (s) => String(s||'').toLowerCase().replace(/[^a-z0-9+.#/ ]/g,' ').replace(/\s+/g,' ').trim();
+  const presentSkills = Array.from(new Set([
+    ...((result?.peer_coverage?.present_terms||[]).map(clean)),
+    ...((result?.capstone_coverage?.present_terms||[]).map(clean)),
+  ].filter(Boolean))).slice(0,30);
+  const recSkills = Array.from(new Set([...(baseSkills||[]).map(clean), ...(overrides?.extraSkills||[]).map(clean)])).filter(Boolean);
+  const skills = presentSkills.length ? presentSkills : recSkills;
   const certChips = Array.isArray(generated?.certifications) && generated.certifications.length ? generated.certifications : (Array.isArray(profile?.certs_json) ? profile.certs_json : []);
   const contact = generated?.contact || {};
   const contactItems = Array.from(new Set([
@@ -19,6 +25,16 @@ export default function ResumeTemplateDomain({ user, profile, result, overrides 
     contact.github,
     contact.website,
   ].filter(Boolean)));
+  const summaryLine = (() => {
+    if (domain !== 'nursing') return null;
+    const emr = skills.find(s=>/epic|emr|ehr/.test(s));
+    const unit = skills.find(s=>/(icu|er|clinic|hospital|unit|ward)/.test(s));
+    const parts = [];
+    if (unit) parts.push(`Rotations: ${unit}`);
+    if (emr) parts.push(`EMR: ${emr.toUpperCase()}`);
+    if (certChips && certChips.length) parts.push(`Certs: ${certChips.join(', ')}`);
+    return parts.length ? parts.join(' • ') : null;
+  })();
 
   const Section = ({label, children}) => (
     <section className="mb-3">
@@ -162,6 +178,7 @@ export default function ResumeTemplateDomain({ user, profile, result, overrides 
             {contactItems.map((item, i) => <span key={i}>{item}</span>)}
           </div>
         ) : null}
+        {summaryLine ? (<div className="text-xs text-gray-600 mt-1">{summaryLine}</div>) : null}
       </header>
 
       {domainSections()}

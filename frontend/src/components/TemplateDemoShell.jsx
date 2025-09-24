@@ -5,7 +5,6 @@ import LandingCard from './LandingCard';
 import Resume from './Resume';
 import ProjectsSimple from './ProjectsSimple';
 import Projects from './Projects';
-import { saveDraft } from '../utils/draft';
 import { useTheme } from '../features/auth/context/ThemeContext';
 
 export default function TemplateDemoShell({ view = 'landing' }) {
@@ -27,11 +26,6 @@ export default function TemplateDemoShell({ view = 'landing' }) {
   }
 
   const { defaults } = tpl;
-
-  const useThisTemplate = () => {
-    const ok = saveDraft({ ...defaults, templateId: tpl.id, templateName: tpl.name });
-    if (ok) navigate('/create');
-  };
 
   const NavLink = ({ to, label, end=false }) => (
     <RouterNavLink

@@ -15,8 +15,8 @@ export default function ResetPasswordWithCaptcha() {
     try {
       if (widgetIdRef.current == null) return reject(new Error('hCaptcha widget not rendered'));
       window.hcaptcha.execute(widgetIdRef.current).then((token) => resolve(token)).catch(reject);
-    } catch (e) {
-      reject(e);
+    } catch (_e) {
+      reject(_e);
     }
   });
 
@@ -37,10 +37,10 @@ export default function ResetPasswordWithCaptcha() {
         try {
           const id = window.hcaptcha.render(hcaptchaContainerRef.current, { sitekey: hcaptchaKey, size: 'invisible' });
           widgetIdRef.current = id;
-        } catch (e) {
+        } catch {
           // ignore render errors
         }
-      } catch (e) {
+      } catch {
         // ignore load/render failures
       }
     };
@@ -78,7 +78,7 @@ export default function ResetPasswordWithCaptcha() {
           try {
             // render=explicit ensures we can programmatically render a widget
             await loadScript('https://hcaptcha.com/1/api.js?render=explicit');
-          } catch (e) {
+          } catch {
             throw new Error('Failed to load hCaptcha script');
           }
         }

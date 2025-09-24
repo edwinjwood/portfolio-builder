@@ -2,17 +2,12 @@ import React, { useState, useEffect } from 'react';
 import Resume from '../components/Resume';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../features/user/context/AuthContext';
-import { useTenant } from '../contexts/TenantContext';
-import previewComponents from '../templates/templateMap';
 import defaultResume from '../templates/classic/resume.json';
 
 
 export default function Dashboard() {
-  const { currentUser, logout } = useAuth();
-  const { tenant, user } = useTenant();
-  const isStarter = user && user.subscription?.plan === 'Starter';
+  const { currentUser } = useAuth();
   const [portfolios, setPortfolios] = useState([]);
-  const [showModal, setShowModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [portfolioToDelete, setPortfolioToDelete] = useState(null);
   const [deleteInput, setDeleteInput] = useState('');
@@ -20,7 +15,6 @@ export default function Dashboard() {
   const [templates, setTemplates] = useState([]);
   const [selectedTemplate, setSelectedTemplate] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [modalStep, setModalStep] = useState(0);
   const [portfolioName, setPortfolioName] = useState('');
   const navigate = useNavigate();
 

@@ -5,7 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import tenants from '../data/tenants.json';
 
 function Login() {
-  const { login, resetDemo, users } = useAuth();
+  const { login, users } = useAuth();
   const { setTenant, setUser } = useTenant();
   const navigate = useNavigate();
   const [email, setEmail] = useState('');

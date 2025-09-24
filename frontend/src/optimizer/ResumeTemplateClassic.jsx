@@ -10,7 +10,6 @@ function parseSections(text) {
   let current = 'summary';
   sections[current] = [];
   for (const line of lines) {
-    const low = line.toLowerCase();
     if (/^education\b/i.test(line)) { current = 'education'; sections[current] = []; continue; }
     if (/^experience\b/i.test(line)) { current = 'experience'; sections[current] = []; continue; }
     if (/^technical projects?/i.test(line)) { current = 'projects'; sections[current] = []; continue; }
@@ -37,7 +36,7 @@ function categorizeSkills(keywords, skillsText) {
   for (const term of Array.from(all)) {
     if (!term) continue;
     let placed = false;
-    for (const [cat, arr] of Object.entries(CATS)) {
+  for (const [cat] of Object.entries(CATS)) {
       if (CATS[cat].some(k => term.includes(k))) { result[cat].push(cap(term)); placed = true; break; }
     }
     if (!placed) result.Other.push(cap(term));
@@ -88,7 +87,7 @@ export default function ResumeTemplateClassic({ user, profile, result, overrides
     });
     for (const k of Object.keys(base)) base[k] = Array.from(new Set(base[k]));
     return base;
-  }, [generatedSkillMap, result, sections, overrides]);
+  }, [generatedSkillMap, result?.keywords?.good_terms_found, sections.skills, overrides?.extraSkills]);
   const baseName = (user?.name || user?.email?.split('@')[0] || 'Candidate').replace(/[._-]/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
   const name = generated?.name || baseName;
   const title = generated?.headline || profile?.target_title || 'Software/Embedded Engineer';
