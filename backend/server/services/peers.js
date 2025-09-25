@@ -23,13 +23,15 @@ function listTopWordCsvs(dir) {
 
 // Expanded domain keywords. Keep tokens simple and inclusive; match against
 // target title + industry + extracted resume text (callers pass a composite string).
+// IMPORTANT: Avoid overly-broad tokens that cause false positives (e.g., "health").
 const DOMAIN_KEYWORDS = [
-  { domain: 'nursing', keys: ['nurse', 'nursing', 'rn', 'lpn', 'bsn', 'msn', 'clinical', 'clinic', 'health', 'healthcare', 'hospital', 'patient', 'icu', 'er', 'emr', 'epic'] },
-  { domain: 'business', keys: ['business', 'business development', 'analyst', 'marketing', 'operations', 'manager', 'sales'] },
+  // Nursing/healthcare intentionally narrowed to avoid generic matches
+  { domain: 'nursing', keys: ['nurse', 'nursing', 'rn', 'lpn', 'bsn', 'msn', 'clinical', 'clinic', 'hospital', 'icu', 'er', 'emr', 'epic', 'hipaa'] },
+  { domain: 'business', keys: ['business development', 'business', 'analyst', 'marketing', 'operations', 'manager', 'sales'] },
   { domain: 'civil', keys: ['civil', 'structural', 'transportation', 'pavement', 'geotech'] },
   { domain: 'mechanical', keys: ['mechanical', 'mechatronics'] },
   { domain: 'electrical', keys: ['electrical', 'power systems', 'substation', 'pcb'] },
-  { domain: 'csce', keys: ['computer engineering', 'computer science', 'software', 'cs', 'embedded', 'it', 'information technology'] },
+  { domain: 'csce', keys: ['computer engineering', 'computer science', 'software', 'cs', 'embedded', 'information technology', 'it'] },
   { domain: 'engineering', keys: ['engineering', 'engineer'] },
   { domain: 'chef', keys: ['chef', 'culinary', 'kitchen', 'cook', 'line cook', 'sous chef', 'pastry'] },
   { domain: 'accounting', keys: ['accountant', 'accounting', 'cpa', 'audit'] },
@@ -41,11 +43,18 @@ const DOMAIN_KEYWORDS = [
 ];
 
 function pickDomain(text = '') {
-  const t = String(text).toLowerCase();
-  for (const d of DOMAIN_KEYWORDS) {
-    if (d.keys.some(k => t.includes(k))) return d.domain;
-  }
-  return null;
+  const t = String(text || '').toLowerCase();
+  if (!t) return null;
+  // Score each domain by number of keyword hits; choose the highest
+  const scores = DOMAIN_KEYWORDS.map(d => ({ domain: d.domain, score: d.keys.reduce((acc, k) => acc + (t.includes(k) ? 1 : 0), 0) }));
+  scores.sort((a, b) => b.score - a.score);
+  const top = scores[0];
+  if (!top || top.score <= 0) return null;
+  // Tie-break: prefer specific technical domains over nursing when scores are equal
+  const ties = scores.filter(s => s.score === top.score).map(s => s.domain);
+  const preference = ['csce', 'electrical', 'mechanical', 'civil', 'engineering', 'business', 'accounting', 'aviation', 'hr', 'banking', 'chef', 'designer', 'construction', 'nursing'];
+  ties.sort((a, b) => preference.indexOf(a) - preference.indexOf(b));
+  return ties[0] || top.domain;
 }
 
 function findPeerCsvForTitle(text) {

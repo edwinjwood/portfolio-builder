@@ -18,6 +18,7 @@ export default function OptimizerResults() {
   const [applied, setApplied] = useState({ extraSkills: [], extraBullets: [], md: null });
   const [autoStyle, setAutoStyle] = useState(true);
   const [domain, setDomain] = useState(null);
+  const [domainOverride, setDomainOverride] = useState('');
 
   useEffect(() => {
     let ignore = false;
@@ -89,6 +90,20 @@ export default function OptimizerResults() {
     await html2pdf().set(opt).from(resumeRef.current).save();
   };
 
+  const domainForView = domainOverride || domain || null;
+  const resultForView = useMemo(() => {
+    if (!domainOverride) return result;
+    // Presentational override: keep original result, but replace domain and embedded structure domain
+    return {
+      ...result,
+      domain: domainOverride,
+      generated: {
+        ...(result?.generated || {}),
+        structure: { ...(result?.generated?.structure || {}), domain: domainOverride }
+      }
+    };
+  }, [result, domainOverride]);
+
   if (!result) return (
     <div className="w-full max-w-2xl mx-auto p-6 bg-white dark:bg-gray-800 rounded shadow">
       <h1 className="text-xl font-bold mb-4">Results</h1>
@@ -99,7 +114,7 @@ export default function OptimizerResults() {
   return (
     <div className="w-full max-w-3xl mx-auto p-6 bg-white dark:bg-gray-800 rounded shadow">
       <h1 className="text-xl font-bold mb-4">Results</h1>
-      <div className="mb-3 text-xs text-gray-500">Domain: {domain || 'n/a'}</div>
+      <div className="mb-3 text-xs text-gray-500">Domain: {domainForView || 'n/a'}</div>
 
       <div className="mb-6">
         <div className="flex items-center justify-between mb-2">
@@ -108,16 +123,34 @@ export default function OptimizerResults() {
             <span>Style:</span>
             <button className={`px-2 py-1 rounded border ${style==='classic'?'bg-gray-200':''}`} onClick={()=>{setStyle('classic'); setAutoStyle(false);}}>Classic</button>
             <button className={`px-2 py-1 rounded border ${style==='csce'?'bg-gray-200':''}`} onClick={()=>{setStyle('csce'); setAutoStyle(false);}}>CS/CE Standard</button>
-            <button className={`px-2 py-1 rounded border ${style==='domain'?'bg-gray-200':''}`} onClick={()=>{setStyle('domain'); setAutoStyle(false);}}>Domain Standard{domain?` (${domain})`:''}</button>
+            <button className={`px-2 py-1 rounded border ${style==='domain'?'bg-gray-200':''}`} onClick={()=>{setStyle('domain'); setAutoStyle(false);}}>Domain Standard{domainForView?` (${domainForView})`:''}</button>
+            <label className="ml-3 text-xs text-gray-600">Override:</label>
+            <select className="text-sm border rounded px-1 py-0.5" value={domainOverride} onChange={(e)=>setDomainOverride(e.target.value)}>
+              <option value="">auto</option>
+              <option value="engineering">engineering</option>
+              <option value="csce">csce</option>
+              <option value="mechanical">mechanical</option>
+              <option value="electrical">electrical</option>
+              <option value="civil">civil</option>
+              <option value="business">business</option>
+              <option value="accounting">accounting</option>
+              <option value="banking">banking</option>
+              <option value="hr">hr</option>
+              <option value="aviation">aviation</option>
+              <option value="designer">designer</option>
+              <option value="construction">construction</option>
+              <option value="chef">chef</option>
+              <option value="nursing">nursing</option>
+            </select>
           </div>
         </div>
         <div ref={resumeRef} className="bg-white text-black p-6 rounded border shadow-sm">
           {style==='classic' ? (
-            <ResumeTemplateClassic user={{ email: (result?.user_email || undefined) }} profile={profile || {}} result={result} overrides={applied} />
+            <ResumeTemplateClassic user={{ email: (resultForView?.user_email || undefined) }} profile={profile || {}} result={resultForView} overrides={applied} />
           ) : style==='csce' ? (
-            <ResumeTemplateCSCE user={{ email: (result?.user_email || undefined) }} profile={profile || {}} result={result} overrides={applied} />
+            <ResumeTemplateCSCE user={{ email: (resultForView?.user_email || undefined) }} profile={profile || {}} result={resultForView} overrides={applied} />
           ) : (
-            <ResumeTemplateDomain user={{ email: (result?.user_email || undefined) }} profile={profile || {}} result={result} overrides={applied} />
+            <ResumeTemplateDomain user={{ email: (resultForView?.user_email || undefined) }} profile={profile || {}} result={resultForView} overrides={applied} />
           )}
         </div>
         <div className="mt-2 flex gap-2">

@@ -112,23 +112,25 @@ exports.analyzeResume = async (req, res) => {
         const absCopied = destPath;
         const pyFile = absCopied.replace(/\\/g, '\\\\').replace(/'/g, "\\'");
 
-        const kwRow = pyJson('python3', ['-c',
+const kwRow = pyJson('python3', ['-c',
           `import pandas as pd, json, os; df=pd.read_csv(r'${path.join(outDir, 'resume_keyword_scores.csv')}');
 try:
     target=os.path.basename(r'${pyFile}')
     m=df[df['filename'].apply(lambda s: os.path.basename(str(s))==target)]
 except Exception:
-    m=df
+    m=pd.DataFrame()
 if m.empty and 'label' in df.columns:
     m=df[df['label'].astype(str).str.lower()=='input']
-if m.empty:
-    m=df
+row={}
 if not m.empty:
     try:
         m=m.sort_values(by=['good_hits'], ascending=False)
     except Exception:
         pass
-row=m.iloc[0].to_dict()
+    try:
+        row=m.iloc[0].to_dict()
+    except Exception:
+        row={}
 print(json.dumps(row))`
         ], { encoding: 'utf-8' });
         console.log('[analyzeResume] parsed keyword row for job', jobId, kwRow ? 'ok' : 'null');
@@ -140,18 +142,21 @@ print(json.dumps(row.iloc[0].to_dict() if not row.empty else {}))`
         ], { encoding: 'utf-8' }) : null;
         if (clusterOk) console.log('[analyzeResume] parsed cluster row for job', jobId, clusterRow ? 'ok' : 'null');
 
-        const textRow = pyJson('python3', ['-c',
+const textRow = pyJson('python3', ['-c',
           `import pandas as pd, json, os; df=pd.read_csv(r'${path.join(outDir, 'resume_texts.csv')}');
 try:
   target=os.path.basename(r'${pyFile}')
   m=df[df['filename'].apply(lambda s: os.path.basename(str(s))==target)]
 except Exception:
-  m=df
+  m=pd.DataFrame()
 if m.empty and 'label' in df.columns:
   m=df[df['label'].astype(str).str.lower()=='input']
-if m.empty:
-  m=df
-row=m.iloc[0].to_dict();
+row={}
+if not m.empty:
+  try:
+    row=m.iloc[0].to_dict()
+  except Exception:
+    row={}
 print(json.dumps(row))`
         ], { encoding: 'utf-8' });
         console.log('[analyzeResume] parsed text row for job', jobId, textRow ? 'ok' : 'null');

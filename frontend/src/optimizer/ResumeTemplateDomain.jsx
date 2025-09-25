@@ -80,6 +80,7 @@ export default function ResumeTemplateDomain({ user, profile, result, overrides 
           </>
         );
       case 'engineering':
+      case 'csce':
         return (
           <>
             <Section label="Technical Focus">
