@@ -2,6 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useAuth } from '../features/user/context/AuthContext';
 import VirtualBC from './VirtualBC';
+import { buildApiUrl } from '../utils/api';
+
+function formatDisplayDate(value) {
+  if (!value) return '—';
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return value;
+  return date.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
+}
 
 export default function PortfolioHome() {
   const { id } = useParams();
@@ -16,22 +24,36 @@ export default function PortfolioHome() {
 
   useEffect(() => {
     async function fetchPortfolio() {
+      const token = currentUser?.token;
+      if (!token) {
+        setError('Session expired. Please sign in again.');
+        setPortfolio(null);
+        return;
+      }
       setLoading(true);
       setError('');
       try {
-        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/portfolios/${id}`, {
+        const res = await fetch(buildApiUrl(`/api/portfolios/${id}`), {
           headers: {
-            'Authorization': `Bearer ${currentUser.token}`,
+            'Authorization': `Bearer ${token}`,
           },
         });
-        if (!res.ok) {
-          const data = await res.json();
-          setError(data.error || 'Error loading portfolio');
-        } else {
-          setPortfolio(await res.json());
+        let data = null;
+        try {
+          data = await res.json();
+        } catch {
+          data = null;
         }
-      } catch {
+        if (!res.ok) {
+          setPortfolio(null);
+          setError((data && data.error) || 'Error loading portfolio');
+        } else {
+          setPortfolio(data);
+        }
+      } catch (err) {
+        console.error('Failed to load portfolio', err);
         setError('Network error');
+        setPortfolio(null);
       }
       setLoading(false);
     }
@@ -47,7 +69,7 @@ export default function PortfolioHome() {
       ) : (
         <div className="w-full max-w-2xl mx-auto mt-8 flex flex-col items-center">
           <h1 className="text-2xl font-bold mb-2 text-center">{portfolio.name}</h1>
-          <div className="mb-8 text-gray-500 dark:text-gray-400">Created: {portfolio.created_at}</div>
+          <div className="mb-8 text-gray-500 dark:text-gray-400">Created: {formatDisplayDate(portfolio.created_at || portfolio.created)}</div>
           {/* Components section */}
           <div className="w-full">
             <h2 className="text-lg font-semibold mb-2">Components</h2>

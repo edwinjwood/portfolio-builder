@@ -1,0 +1,23 @@
+Resume Analysis Report
+======================
+
+Mode: clustering
+
+Chosen k (clusters): 2
+
+Cluster sizes:
+{
+  "0": 1,
+  "1": 2
+}
+
+Top terms per cluster:
+- Cluster 0: 2020 experience, 2023, 2023 certified, 2023 machinery, 2024 automated, 2024 built, 2024 designed, 2024 developed, 2024 engineered, 2025, 2025 relevant, 2027
+- Cluster 1: systems, iot, gallons, operational, enforcement, technical, maritime, ssd1306, design, arduino, operations, 3d
+
+Example files per cluster (up to 5):
+- Cluster 0: /home/droski/Desktop/School/Fall25/Capstone/portfolio-builder/backend/storage/private/jobs/15/input/1758716201295_Sydney_resume_.pdf
+- Cluster 1: /home/droski/Desktop/School/Fall25/Capstone/portfolio-builder/backend/storage/private/jobs/15/input/1758829808075_Pedro_Fischetti_Resume.pdf, /home/droski/Desktop/School/Fall25/Capstone/portfolio-builder/backend/storage/private/jobs/15/input/1758664619974_Pedro_Fischetti_Resume.pdf
+
+Saved pipeline → out/tfidf_kmeans_pipeline.joblib
+Saved assignments → out/cluster_assignments.csv

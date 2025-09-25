@@ -3,6 +3,15 @@ import Resume from '../components/Resume';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../features/user/context/AuthContext';
 import defaultResume from '../templates/classic/resume.json';
+import { buildApiUrl } from '../utils/api';
+
+
+function formatDisplayDate(value) {
+  if (!value) return '—';
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return value;
+  return date.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
+}
 
 
 export default function Dashboard() {
@@ -21,20 +30,32 @@ export default function Dashboard() {
   // Fetch portfolios from backend after login
   useEffect(() => {
     const fetchPortfolios = async () => {
+      const token = currentUser?.token;
+      if (!token) {
+        setPortfolios([]);
+        return;
+      }
       setLoading(true);
       try {
-        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/portfolios`, {
+        const res = await fetch(buildApiUrl('/api/portfolios'), {
           headers: {
-            'Authorization': `Bearer ${currentUser.token}`,
+            'Authorization': `Bearer ${token}`,
           },
         });
         if (res.ok) {
           const data = await res.json();
-          setPortfolios(data);
+          const normalized = Array.isArray(data)
+            ? data.map((item) => ({
+              ...item,
+              components: Array.isArray(item?.components) ? item.components : [],
+            }))
+            : [];
+          setPortfolios(normalized);
         } else {
           setPortfolios([]);
         }
-      } catch {
+      } catch (err) {
+        console.error('Failed to load portfolios', err);
         setPortfolios([]);
       }
       setLoading(false);
@@ -49,7 +70,7 @@ export default function Dashboard() {
   useEffect(() => {
     const fetchTemplates = async () => {
       try {
-        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/templates`);
+        const res = await fetch(buildApiUrl('/api/templates'));
         if (res.ok) {
           const data = await res.json();
           setTemplates(data);
@@ -78,12 +99,17 @@ export default function Dashboard() {
       setDeleteError('Portfolio name does not match.');
       return;
     }
+    const token = currentUser?.token;
+    if (!token) {
+      setDeleteError('Session expired. Please sign in again.');
+      return;
+    }
     setLoading(true);
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/portfolios/${portfolioToDelete.id}`, {
+      const res = await fetch(buildApiUrl(`/api/portfolios/${portfolioToDelete.id}`), {
         method: 'DELETE',
         headers: {
-          'Authorization': `Bearer ${currentUser.token}`,
+          'Authorization': `Bearer ${token}`,
         },
       });
       if (res.ok) {
@@ -180,10 +206,14 @@ export default function Dashboard() {
                       if (!portfolioName || !selectedTemplate) return;
                       setLoading(true);
                       try {
-                        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/portfolios`, {
+                        const token = currentUser?.token;
+                        if (!token) {
+                          return;
+                        }
+                        const res = await fetch(buildApiUrl('/api/portfolios'), {
                           method: 'POST',
                           headers: {
-                            'Authorization': `Bearer ${currentUser.token}`,
+                            'Authorization': `Bearer ${token}`,
                             'Content-Type': 'application/json'
                           },
                           body: JSON.stringify({ name: portfolioName, templateId: selectedTemplate })
@@ -192,7 +222,7 @@ export default function Dashboard() {
                           const data = await res.json();
                           setPortfolioName('');
                           setSelectedTemplate(null);
-                          navigate(`/portfoliohome/${data.id}`);
+                          navigate(`/portfolio/${data.id}`);
                         }
                       } finally {
                         setLoading(false);
@@ -237,7 +267,7 @@ export default function Dashboard() {
                     {portfolios.map((portfolio) => (
                       <tr key={portfolio.id} className="border-t border-gray-200 dark:border-gray-700">
                         <td className="px-2 py-2 font-semibold break-words max-w-[120px]">{portfolio.name}</td>
-                        <td className="px-2 py-2">{portfolio.created}</td>
+                        <td className="px-2 py-2">{formatDisplayDate(portfolio.created_at || portfolio.created)}</td>
                         <td className="px-2 py-2 break-words max-w-[120px]">{portfolio.components?.join(', ')}</td>
                         <td className="px-2 py-2 flex gap-1 sm:gap-2 flex-wrap justify-center">
                           <button
