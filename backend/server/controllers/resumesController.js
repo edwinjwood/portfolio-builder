@@ -5,6 +5,7 @@ const pool = require('../db');
 const { getUserUploadsDir, getJobsDir } = require('../services/storage');
 const { buildTex, compileTex } = require('../services/latex');
 const { buildStructuredResume } = require('../services/resumeDraft');
+const generator = require('../services/generator');
 
 // Multer storage to internal private storage
 const storage = multer.diskStorage({
@@ -316,6 +317,26 @@ print(json.dumps(recommended))
         const uniqLower = (arr) => Array.from(new Set((arr || []).map((x) => String(x || '').toLowerCase())));
         const combinedMissing = uniqLower([...missingPeer, ...missingCap]).filter(Boolean).slice(0, 20);
 
+        // Attempt LLM generation (optional, configured via env). This refines bullets and summary.
+        let llmSummary = null;
+        let llmBullets = [];
+        try {
+          const presentTerms = [
+            ...((peerCoverage && Array.isArray(peerCoverage.present_terms)) ? peerCoverage.present_terms : []),
+            ...((capstoneCoverage && Array.isArray(capstoneCoverage.present_terms)) ? capstoneCoverage.present_terms : []),
+          ];
+          const gen = await generator.generateText({
+            rawText: textRow && textRow.text ? String(textRow.text) : '',
+            domain: resolvedDomain || null,
+            present: presentTerms,
+            missing: combinedMissing,
+            topGood,
+            profile,
+          });
+          if (gen && Array.isArray(gen.bullets)) llmBullets = gen.bullets.filter(Boolean);
+          if (gen && typeof gen.summary === 'string') llmSummary = gen.summary;
+        } catch {/* noop */}
+
         let resolvedDomain = null;
         try {
           const peersSvc = require('../services/peers');
@@ -325,7 +346,7 @@ print(json.dumps(recommended))
 
         let bullet_suggestions = [];
         const resumeTextLower = (textRow && textRow.text ? String(textRow.text).toLowerCase() : '');
-        if (resolvedDomain === 'nursing') {
+        if (!llmBullets.length && resolvedDomain === 'nursing') {
           const has = (kw) => resumeTextLower.includes(String(kw).toLowerCase());
           const emr = has('epic') ? 'Epic' : (has('emr') || has('ehr') ? 'EMR/EHR' : 'EMR');
           bullet_suggestions = [
@@ -336,21 +357,21 @@ print(json.dumps(recommended))
             `Maintained BLS/ACLS certification and adhered to infection control and safety protocols.`,
             `Collaborated with providers and staff to reduce wait times and improve patient satisfaction (add metric).`,
           ];
-        } else {
+        } else if (!llmBullets.length) {
           const verbs = ['Implemented', 'Optimized', 'Built', 'Automated', 'Integrated', 'Deployed', 'Designed', 'Refactored'];
           bullet_suggestions = combinedMissing.slice(0, 8).map((t, i) => {
             const v = verbs[i % verbs.length];
             return `${v} ${t} to improve reliability, performance, or developer experience (add metric).`;
           });
         }
-        const summary_suggestion = (
+        const summary_suggestion = llmSummary || (
           `Targeting ${profile?.target_title || 'Engineering'} roles. Consider adding coverage for: ` +
           combinedMissing.slice(0, 6).join(', ') +
           (topGood.length ? `. Strengths include: ${topGood.slice(0, 6).join(', ')}.` : '')
         );
         const recommendations = {
           skills_to_add: combinedMissing,
-          bullet_suggestions,
+          bullet_suggestions: llmBullets.length ? llmBullets : bullet_suggestions,
           summary_suggestion,
         };
 
