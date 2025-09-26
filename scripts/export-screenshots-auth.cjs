@@ -2,6 +2,33 @@ const { chromium } = require('playwright');
 const fs = require('fs');
 const path = require('path');
 
+// Load frontend/.env.local if present so credentials can be kept in the frontend env file
+function loadFrontendEnv() {
+  try {
+    const envPath = path.resolve(__dirname, '..', 'frontend', '.env.local');
+    if (!fs.existsSync(envPath)) return;
+    const src = fs.readFileSync(envPath, 'utf8');
+    src.split(/\r?\n/).forEach((line) => {
+      const trimmed = line.trim();
+      if (!trimmed || trimmed.startsWith('#')) return;
+      const idx = trimmed.indexOf('=');
+      if (idx === -1) return;
+      const key = trimmed.substring(0, idx).trim();
+      let val = trimmed.substring(idx + 1).trim();
+      if ((val.startsWith('"') && val.endsWith('"')) || (val.startsWith("'") && val.endsWith("'"))) {
+        val = val.substring(1, val.length - 1);
+      }
+      // Do not overwrite existing env vars so CLI overrides still work
+      if (process.env[key] === undefined) process.env[key] = val;
+    });
+    console.log('Loaded frontend/.env.local');
+  } catch (e) {
+    console.warn('Failed to load frontend/.env.local:', e.message || e);
+  }
+}
+
+loadFrontendEnv();
+
 (async () => {
   const outDir = path.resolve(__dirname, '..', 'wiki', 'design', 'screenshots', process.env.EXPORT_OUTPUT_DIR || 'auth');
   fs.mkdirSync(outDir, { recursive: true });
@@ -59,16 +86,16 @@ const path = require('path');
       await page.setViewportSize({ width: vp.width, height: vp.height });
 
       // If we have an authenticated session, set localStorage token + current user before navigation
+      // Use the frontend origin (base) so localStorage is accessible (about:blank is restricted)
       if (auth && auth.token && auth.user) {
-        // Navigate to a blank page to be able to set localStorage on the same origin
-        await page.goto('about:blank');
+        await page.goto(base, { waitUntil: 'domcontentloaded' });
         await page.evaluate(({ token, user }) => {
           localStorage.setItem('pb:token', token);
           localStorage.setItem('pb:currentUser', JSON.stringify(user));
         }, { token: auth.token, user: auth.user });
       } else {
         // Ensure any auth keys are cleared for unauthenticated screenshots
-        await page.goto('about:blank');
+        await page.goto(base, { waitUntil: 'domcontentloaded' });
         await page.evaluate(() => {
           localStorage.removeItem('pb:token');
           localStorage.removeItem('pb:currentUser');

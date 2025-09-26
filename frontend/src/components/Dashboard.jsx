@@ -101,6 +101,33 @@ export default function Dashboard() {
     }
   };
 
+  // Render portfolio.components robustly: it might be an array, string, or an object
+  // (we persist components as an object keyed by component type). This helper
+  // returns a human readable comma-separated string for the table cell.
+  const getComponentsText = (components) => {
+    if (!components) return '';
+    if (Array.isArray(components)) return components.join(', ');
+    if (typeof components === 'string') return components;
+    if (typeof components === 'object') {
+      const keys = Object.keys(components);
+      if (keys.length === 0) return '';
+      return keys.map((k) => {
+        const v = components[k];
+        if (!v) return k;
+        if (typeof v === 'string') return v;
+        if (Array.isArray(v)) return v.join(', ');
+        if (typeof v === 'object') {
+          if (v.name) return v.name;
+          if (v.title) return v.title;
+          if (v.type) return v.type;
+          return k;
+        }
+        return String(v);
+      }).join(', ');
+    }
+    return String(components);
+  };
+
   // Remove modal logic and conditionally render dashboard content
   // Prepare templates to render: show mock variants when backend returns none or only one
   const renderedTemplates = (() => {
@@ -180,29 +207,15 @@ export default function Dashboard() {
                     </div>
                   </div>
 
-                  {selectedTemplate === t.id && (
-                    <form className="w-full flex flex-col items-center justify-center mt-4" onSubmit={async e => {
+                    {selectedTemplate === t.id && (
+                    <form className="w-full flex flex-col items-center justify-center mt-4" onSubmit={e => {
                       e.preventDefault();
                       if (!portfolioName || !selectedTemplate) return;
-                      setLoading(true);
-                      try {
-                        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/portfolios`, {
-                          method: 'POST',
-                          headers: {
-                            'Authorization': `Bearer ${currentUser.token}`,
-                            'Content-Type': 'application/json'
-                          },
-                          body: JSON.stringify({ name: portfolioName, templateId: selectedTemplate })
-                        });
-                        if (res.ok) {
-                          const data = await res.json();
-                          setPortfolioName('');
-                          setSelectedTemplate(null);
-                          navigate(`/portfoliohome/${data.id}`);
-                        }
-                      } finally {
-                        setLoading(false);
-                      }
+                      // Do not create a portfolio here. Navigate straight to the onboarding
+                      // assistant and let the assistant create the portfolio when finished.
+                      setSelectedTemplate(null);
+                      setPortfolioName('');
+                      navigate(`/onboarding?template=${encodeURIComponent(selectedTemplate)}&name=${encodeURIComponent(portfolioName)}`);
                     }}>
                       <label className="block font-semibold mb-2 text-left w-full">Portfolio Name</label>
                       <input
@@ -244,7 +257,7 @@ export default function Dashboard() {
                       <tr key={portfolio.id} className="border-t border-gray-200 dark:border-gray-700">
                         <td className="px-2 py-2 font-semibold break-words max-w-[120px]">{portfolio.name}</td>
                         <td className="px-2 py-2">{portfolio.created}</td>
-                        <td className="px-2 py-2 break-words max-w-[120px]">{portfolio.components?.join(', ')}</td>
+                        <td className="px-2 py-2 break-words max-w-[120px]">{getComponentsText(portfolio.components)}</td>
                         <td className="px-2 py-2 flex gap-1 sm:gap-2 flex-wrap justify-center">
                           <button
                             className="px-2 py-1 rounded bg-blue-600 text-white text-xs sm:text-sm hover:bg-blue-700"
