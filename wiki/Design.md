@@ -121,4 +121,4 @@ A sample portfolio page showing the published public view. This capture is usefu
 
 Figma
 
-- All screenshots in this gallery have been uploaded to the project Figma file for design review and annotations. If you want the direct Figma link added here, paste the file URL and I will add it.
+- All screenshots in this gallery have been uploaded to the project Figma file for design review and annotations.
