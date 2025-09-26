@@ -103,35 +103,13 @@ Authenticated home shows the user's primary actions, recent projects, and quick 
 
 The Dashboard aggregates projects, drafts, and high-level actions (create new, manage templates). This screenshot illustrates the information density and primary callouts for the owner's workflow.
 
-### Editor
-
-![Editor - desktop (auth)](./design/screenshots/auth/editor-desktop-auth.png)
-
-The Editor shows the content blocks and inline controls for editing a portfolio. This capture focuses on the main editing canvas, the block list, and the publish controls.
-
-### Profile
-
-![Profile - desktop (auth)](./design/screenshots/auth/profile-desktop-auth.png)
-
-Owner profile settings and account controls (name, contact, visibility settings). This screen highlights the fields that influence the generated homecard and public profile.
+settings). This screen highlights the fields that influence the generated homecard and public profile.
 
 ### Onboarding (starter flows)
 
 ![Onboarding - desktop (auth)](./design/screenshots/auth/onboarding-desktop-auth.png)
 
 The onboarding start screen where owners configure basics (name, role, quick choices). This flow is optimised to get a minimal portfolio and homecard created quickly.
-
-### Onboarding — finish
-
-![Onboarding finish - desktop (auth)](./design/screenshots/auth/onboarding_finish-desktop-auth.png)
-
-The final step of onboarding summarises the newly-created portfolio and offers actions to edit content, view the public profile, or export/preview the generated homecard and resume.
-
-### Onboarding — no-resume (auto-create)
-
-![Onboarding no-resume - desktop (auth)](./design/screenshots/auth/onboarding_no-resume-desktop-auth.png)
-
-This screen demonstrates the onboarding path where the owner indicates they have "No resume" — the system auto-creates a stub resume and generates a Virtual Business Card (homecard) so users can get started immediately.
 
 ### Portfolio (sample)
 
@@ -141,24 +119,6 @@ A sample portfolio page showing the published public view. This capture is usefu
 
 ---
 
-Reproduce locally
-
-- From the repository root, run the exporter (it will read `frontend/.env.local` for auth credentials and routes):
-
-```powershell
-Set-Location -Path 'C:\VS Projects\Portfolio Builder\portfolio-builder'
-npx playwright install chromium
-node .\scripts\export-screenshots-auth.cjs
-```
-
-- The images will be saved to `wiki/design/screenshots/auth` (authenticated captures) and `wiki/design/screenshots/` (anonymous captures). This page includes desktop images only; the exporter also produces mobile captures next to each desktop file.
-
 Figma
 
 - All screenshots in this gallery have been uploaded to the project Figma file for design review and annotations. If you want the direct Figma link added here, paste the file URL and I will add it.
-
-Next steps (optional)
-
-- Generate thumbnails or an HTML preview index for quick visual review.
-- Commit the screenshots and this markdown to a branch and open a PR for review.
-- Add the Figma link (if you provide it) so reviewers can jump directly to the design file.
