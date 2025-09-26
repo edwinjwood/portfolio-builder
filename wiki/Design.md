@@ -113,7 +113,8 @@ The onboarding start screen where owners configure basics (name, role, quick cho
 
 ### Portfolio (sample)
 
-![Portfolio 1 - desktop (auth)](./design/screenshots/auth/portfolio_1-desktop-auth.png)
+![Portfolio Business Card - desktop (auth)](./design/screenshots/auth/Sample-Portfolio-BC.png)
+![Portfolio Business Card - desktop (auth)](./design/screenshots/auth/Sample-Portfolio-Resume.png)
 
 A sample portfolio page showing the published public view. This capture is useful for validating the public-facing layout after edits made in the Editor.
 
