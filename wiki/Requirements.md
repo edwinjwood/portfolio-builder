@@ -53,8 +53,9 @@ Design references used throughout this document are available in the repository 
 
 - **Required**
   - **R3.1 Onboarding-first portfolio creation** — Guided onboarding seeds a portfolio; “No resume” path auto-generates stub resume + VirtualBC (Design refs 8–10). _Acceptance:_ New accounts finish onboarding with a usable portfolio; generated JSON written to disk for DEV preview.
+  - **R3.2 Template library** — Users choose templates; templates pre-populate components. _Acceptance:_ Selecting a template populates default blocks
 - **Desired**
-  - **D3.1 Template library** — Users choose templates or start blank; templates pre-populate components. _Acceptance:_ Selecting a template populates default blocks.
+  
 - **Aspirational**
   - **A3.1 Marketplace of components/templates** — Share/buy templates and custom blocks. _Acceptance:_ Template gallery with install/apply flow and moderation tooling.
 
@@ -149,6 +150,7 @@ Associated GitHub issue commands are stored in `wiki/PoC-Issues.md`.
 - Keep screenshot references current by re-running the exporter when UI changes.  
 
 > _After the milestone deadline, do not modify this document until grades are issued, per course policy._
+
 
 
 
