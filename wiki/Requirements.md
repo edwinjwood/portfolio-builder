@@ -90,7 +90,6 @@ Design references used throughout this document are available in the repository 
   - **R6.2 Publish / unpublish flow** — Toggle published state; drafts remain private until re-published. _Acceptance:_ Publish captures snapshot, dashboard/editor show status.
 - **Desired**
   - **D6.1 Dashboard overview** — Authenticated dashboard summarises portfolios, statuses, quick actions (Design ref 5).
-  - **D6.2 Snapshot screenshot exporter** — Playwright script generating desktop/mobile screenshots for QA (Design refs 1–11).
 - **Aspirational**
   - **A6.1 Advanced analytics dashboard** — View counts, engagement metrics, funnel insights with privacy controls.
   - **A6.2 Custom domains & hosting** — Map custom domain with automated verification and SSL.
@@ -98,9 +97,9 @@ Design references used throughout this document are available in the repository 
 ### 7. Quality & Support Systems
 
 - **Required**
-  - **R7.1 Onboarding documentation & quickstart scripts** — Maintain README, quickstart guides, and `deploy.ps1` so new contributors can run the stack.
+  - **R7.1 Enhanced support tooling** — In-app help, feedback collection, contextual tips.
 - **Desired**
-  - **D7.1 Enhanced support tooling** — In-app help, feedback collection, contextual tips.
+  
 - **Aspirational**
   - **A7.1 Comprehensive analytics + monitoring** — Centralized logging, alerting, and SLO dashboards (complements A6.1).
 
@@ -150,5 +149,6 @@ Associated GitHub issue commands are stored in `wiki/PoC-Issues.md`.
 - Keep screenshot references current by re-running the exporter when UI changes.  
 
 > _After the milestone deadline, do not modify this document until grades are issued, per course policy._
+
 
 
