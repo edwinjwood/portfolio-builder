@@ -59,29 +59,30 @@ Design references used throughout this document are available in the repository 
 - **Aspirational**
   - **A3.1 Marketplace of components/templates** — Share/buy templates and custom blocks. _Acceptance:_ Template gallery with install/apply flow and moderation tooling.
 
-### 4. Resume Management
+### 4. Resume Optimization
 
 - **Required**
-  - **R5.1 Resume upload, parsing & optimization** — Users upload a resume (PDF/DOCX); system parses structured data, suggests improvements for missing sections, and merges into components. _Acceptance:_ Successful imports for common formats, optimization tips surfaced, manual edits possible.
-  - **R5.2 Resume export (PDF/Markdown)** — Generate downloadable resume output from maintained components. _Acceptance:_ Export produces PDF and Markdown variants with latest data.
+  - **R4.1 Resume upload, parsing & optimization** — Users upload a resume (PDF/DOCX); system parses structured data, suggests improvements for missing sections, and merges into components. _Acceptance:_ Successful imports for common formats, optimization tips surfaced, manual edits possible.
+    
 - **Desired**
-  - **D5.1 Resume version history** — Track and restore previous resume edits/exports.
+  - **D4.1 Resume version history** — Track and restore previous resume edits/exports.
 - **Aspirational**
-  - **A5.1 External integrations (LinkedIn, GitHub, Notion)** — Import projects/experience from third-party services via OAuth.
+  - **A4.1 External integrations (LinkedIn, GitHub, Notion)** — Import projects/experience from third-party services via OAuth.
 
 ### 5. Editing & Component Management
 
 - **Required**
-  - **R4.1 Component persistence & DEV preview** — Components stored individually in DB and mirrored to `backend/generated_components/<portfolioId>/<type>.json`; DEV serves static files. _Acceptance:_ API + file outputs stay in sync; frontend loads on-disk JSON in DEV.
-  - **R4.2 Editor block CRUD** — Add/edit/delete/reorder blocks within the Editor (Design ref 6). _Acceptance:_ Changes persist, reorder interactions succeed, public view reflects updates.
-  - **R4.3 Virtual Business Card inline improvements** — Optimistic edit flow with background reconcile and no save indicator (Design ref 6).
-  - **R4.4 AI-assisted copy suggestions** — Generate suggested blurbs/bullets with user confirmation.
+  - **R5.1 Component persistence & DEV preview** — Components stored individually in DB and mirrored to `backend/generated_components/<portfolioId>/<type>.json`; DEV serves static files. _Acceptance:_ API + file outputs stay in sync; frontend loads on-disk JSON in DEV.
+  - **R5.2 Editor block CRUD** — Add/edit/delete/reorder blocks within the Editor (Design ref 6). _Acceptance:_ Changes persist, reorder interactions succeed, public view reflects updates.
+  - **R5.3 Virtual Business Card inline improvements** — Optimistic edit flow with background reconcile and no save indicator (Design ref 6).
+  - **R5.4 AI-assisted copy suggestions** — Generate suggested blurbs/bullets with user confirmation.
+  - **R5.5 Resume export (PDF/Markdown)** — Generate downloadable resume output from maintained components. _Acceptance:_ Export produces PDF and Markdown variants with latest data.
 - **Desired**
-  - **D4.1 Autosave drafts** — Automatic periodic draft saves with clear status indicator; no conflict with publish flow.
-  - **D4.2 Collaboration invites (basic)** — Invite collaborators via email with edit access; include basic audit logging.
-  - **D4.3 Search/filter portfolios** — Dashboard search/filter by status or tags for quick access.
+  - **D5.1 Autosave drafts** — Automatic periodic draft saves with clear status indicator; no conflict with publish flow.
+  - **D5.2 Collaboration invites (basic)** — Invite collaborators via email with edit access; include basic audit logging.
+  - **D5.3 Search/filter portfolios** — Dashboard search/filter by status or tags for quick access.
 - **Aspirational**
-  - **A4.1 Offline editing mode** — PWA capabilities for offline edits with later sync.
+  - **A5.1 Offline editing mode** — PWA capabilities for offline edits with later sync.
     
 
 
@@ -152,6 +153,7 @@ Associated GitHub issue commands are stored in `wiki/PoC-Issues.md`.
 - Keep screenshot references current by re-running the exporter when UI changes.  
 
 > _After the milestone deadline, do not modify this document until grades are issued, per course policy._
+
 
 
 
