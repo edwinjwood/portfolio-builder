@@ -10,17 +10,17 @@ Design references used throughout this document are available in the repository 
 
 ### Key Design Images
 
-1. **Home (anonymous)** – `![Home anon](./design/screenshots/home-desktop-anon.png)`
-2. **Login (anonymous)** – `![Login anon](./design/screenshots/login-desktop-anon.png)`
-3. **Signup (anonymous)** – `![Signup anon](./design/screenshots/signup-desktop-anon.png)`
-4. **Home (authenticated)** – `![Home auth](./design/screenshots/auth/home-desktop-auth.png)`
-5. **Dashboard** – `![Dashboard](./design/screenshots/auth/dashboard-desktop-auth.png)`
-6. **Editor** – `![Editor](./design/screenshots/auth/editor-desktop-auth.png)`
-7. **Profile** – `![Profile](./design/screenshots/auth/profile-desktop-auth.png)`
-8. **Onboarding start** – `![Onboarding](./design/screenshots/auth/onboarding-desktop-auth.png)`
-9. **Onboarding finish** – `![Onboarding finish](./design/screenshots/auth/onboarding_finish-desktop-auth.png)`
-10. **Onboarding “no resume”** – `![Onboarding no resume](./design/screenshots/auth/onboarding_no-resume-desktop-auth.png)`
-11. **Portfolio sample (public)** – `![Portfolio sample](./design/screenshots/auth/portfolio_1-desktop-auth.png)`
+1. [Home (anonymous)](./design/screenshots/home-desktop-anon.png)
+2. [Login (anonymous)](./design/screenshots/login-desktop-anon.png)
+3. [Signup (anonymous)](./design/screenshots/signup-desktop-anon.png)
+4. [Home (authenticated)](./design/screenshots/auth/home-desktop-auth.png)
+5. [Dashboard](./design/screenshots/auth/dashboard-desktop-auth.png)
+6. [Editor](./design/screenshots/auth/editor-desktop-auth.png)
+7. [Profile](./design/screenshots/auth/profile-desktop-auth.png)
+8. [Onboarding start](./design/screenshots/auth/onboarding-desktop-auth.png)
+9. [Onboarding finish](./design/screenshots/auth/onboarding_finish-desktop-auth.png)
+10. [Onboarding “no resume”](./design/screenshots/auth/onboarding_no-resume-desktop-auth.png)
+11. [Portfolio sample (public)](./design/screenshots/auth/portfolio_1-desktop-auth.png)
 
 ---
 
@@ -33,9 +33,9 @@ Design references used throughout this document are available in the repository 
   - **R1.2 Access control & authorization** — Server validates portfolio ownership for any mutating request; unauthorized edits return 403. _Acceptance:_ Attempts to modify another user’s portfolio are rejected with clear error. _Dependencies:_ Auth middleware, portfolio ownership relationship.
 - **Desired**
   - **D1.1 Profile & account settings** — Owners manage name, contact info, social links (Design ref 7). Changes immediately reflect in public/homecard views. _Dependencies:_ Users API fields.
+  - **D1.2 Internationalization (i18n)** — Multi-language UI with localized formatting. _Acceptance:_ Strings externalized, language toggle, at least one translated locale.
 - **Aspirational**
   - **A1.1 Team workspaces & roles** — Shared workspace with granular permissions and billing integration. _Acceptance:_ Multi-user workspace with role-based access and billing plan enforcement.
-  - **A1.2 Internationalization (i18n)** — Multi-language UI with localized formatting. _Acceptance:_ Strings externalized, language toggle, at least one translated locale.
 
 ### 2. Application Shell & Infrastructure
 
@@ -52,34 +52,35 @@ Design references used throughout this document are available in the repository 
 
 - **Required**
   - **R3.1 Onboarding-first portfolio creation** — Guided onboarding seeds a portfolio; “No resume” path auto-generates stub resume + VirtualBC (Design refs 8–10). _Acceptance:_ New accounts finish onboarding with a usable portfolio; generated JSON written to disk for DEV preview.
+  - **R3.2 Template library** — Users choose templates; templates pre-populate components. _Acceptance:_ Selecting a template populates default blocks
 - **Desired**
-  - **D3.1 Template library** — Users choose templates or start blank; templates pre-populate components. _Acceptance:_ Selecting a template populates default blocks.
+  - TBD
 - **Aspirational**
   - **A3.1 Marketplace of components/templates** — Share/buy templates and custom blocks. _Acceptance:_ Template gallery with install/apply flow and moderation tooling.
 
-### 4. Editing & Component Management
+### 4. Resume Optimization
 
 - **Required**
-  - **R4.1 Component persistence & DEV preview** — Components stored individually in DB and mirrored to `backend/generated_components/<portfolioId>/<type>.json`; DEV serves static files. _Acceptance:_ API + file outputs stay in sync; frontend loads on-disk JSON in DEV.
-  - **R4.2 Editor block CRUD** — Add/edit/delete/reorder blocks within the Editor (Design ref 6). _Acceptance:_ Changes persist, reorder interactions succeed, public view reflects updates.
+  - **R4.1 Resume upload, parsing & optimization** — Users upload a resume (PDF/DOCX); system parses structured data, suggests improvements for missing sections, and merges into components. _Acceptance:_ Successful imports for common formats, optimization tips surfaced, manual edits possible.
 - **Desired**
-  - **D4.1 Virtual Business Card inline improvements** — Optimistic edit flow with background reconcile and no save indicator (Design ref 6).
-  - **D4.2 Autosave drafts** — Automatic periodic draft saves with clear status indicator; no conflict with publish flow.
-  - **D4.3 Collaboration invites (basic)** — Invite collaborators via email with edit access; include basic audit logging.
-  - **D4.4 Search/filter portfolios** — Dashboard search/filter by status or tags for quick access.
+  - **D4.1 Resume version history** — Track and restore previous resume edits/exports.
+  - **D4.2 AI-assisted suggestions** — Generate suggested blurbs/bullets with user confirmation.
 - **Aspirational**
-  - **A4.1 Offline editing mode** — PWA capabilities for offline edits with later sync.
-  - **A4.2 AI-assisted copy suggestions** — Generate suggested blurbs/bullets with user confirmation.
+  - **A4.1 External integrations (LinkedIn, GitHub, Notion)** — Import projects/experience from third-party services via OAuth.
 
-### 5. Resume Management
+### 5. Editing & Component Management
 
 - **Required**
-  - **R5.1 Resume upload, parsing & optimization** — Users upload a resume (PDF/DOCX); system parses structured data, suggests improvements for missing sections, and merges into components. _Acceptance:_ Successful imports for common formats, optimization tips surfaced, manual edits possible.
-  - **R5.2 Resume export (PDF/Markdown)** — Generate downloadable resume output from maintained components. _Acceptance:_ Export produces PDF and Markdown variants with latest data.
+  - **R5.1 Component persistence** — Components stored individually in DB and mirrored to `backend/generated_components/<portfolioId>/<type>.json`; _Acceptance:_ API + file outputs stay in sync;
+  - **R5.2 Editor block CRUD** — Add/edit/delete/reorder blocks within the Editor (Design ref 6). _Acceptance:_ Changes persist, reorder interactions succeed, public view reflects updates.
+  - **R5.3 Component inline editing** — Allow users to change information generated via AI optimization within the components.
+  - **R5.4 Resume export (PDF/Markdown)** — Generate downloadable resume output from maintained components. _Acceptance:_ Export produces PDF and Markdown variants with latest data.
 - **Desired**
-  - **D5.1 Resume version history** — Track and restore previous resume edits/exports.
+  - **D5.1 Autosave drafts** — Automatic periodic draft saves with clear status indicator; no conflict with publish flow.
+  - **D5.2 Collaboration invites (basic)** — Invite collaborators via email with edit access; include basic audit logging.
+  - **D5.3 Search/filter portfolios** — Dashboard search/filter by status or tags for quick access.
 - **Aspirational**
-  - **A5.1 External integrations (LinkedIn, GitHub, Notion)** — Import projects/experience from third-party services via OAuth.
+  - **A5.1 Offline editing mode** — PWA capabilities for offline edits with later sync.
 
 ### 6. Publishing & Audience Reach
 
@@ -88,7 +89,6 @@ Design references used throughout this document are available in the repository 
   - **R6.2 Publish / unpublish flow** — Toggle published state; drafts remain private until re-published. _Acceptance:_ Publish captures snapshot, dashboard/editor show status.
 - **Desired**
   - **D6.1 Dashboard overview** — Authenticated dashboard summarises portfolios, statuses, quick actions (Design ref 5).
-  - **D6.2 Snapshot screenshot exporter** — Playwright script generating desktop/mobile screenshots for QA (Design refs 1–11).
 - **Aspirational**
   - **A6.1 Advanced analytics dashboard** — View counts, engagement metrics, funnel insights with privacy controls.
   - **A6.2 Custom domains & hosting** — Map custom domain with automated verification and SSL.
@@ -96,9 +96,9 @@ Design references used throughout this document are available in the repository 
 ### 7. Quality & Support Systems
 
 - **Required**
-  - **R7.1 Onboarding documentation & quickstart scripts** — Maintain README, quickstart guides, and `deploy.ps1` so new contributors can run the stack.
+  - **R7.1 Enhanced support tooling** — In-app help, feedback collection, contextual tips.
 - **Desired**
-  - **D7.1 Enhanced support tooling** — In-app help, feedback collection, contextual tips.
+  - TBD
 - **Aspirational**
   - **A7.1 Comprehensive analytics + monitoring** — Centralized logging, alerting, and SLO dashboards (complements A6.1).
 
