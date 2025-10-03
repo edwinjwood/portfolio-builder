@@ -33,9 +33,10 @@ Design references used throughout this document are available in the repository 
   - **R1.2 Access control & authorization** — Server validates portfolio ownership for any mutating request; unauthorized edits return 403. _Acceptance:_ Attempts to modify another user’s portfolio are rejected with clear error. _Dependencies:_ Auth middleware, portfolio ownership relationship.
 - **Desired**
   - **D1.1 Profile & account settings** — Owners manage name, contact info, social links (Design ref 7). Changes immediately reflect in public/homecard views. _Dependencies:_ Users API fields.
+  - **D1.2 Internationalization (i18n)** — Multi-language UI with localized formatting. _Acceptance:_ Strings externalized, language toggle, at least one translated locale.
 - **Aspirational**
   - **A1.1 Team workspaces & roles** — Shared workspace with granular permissions and billing integration. _Acceptance:_ Multi-user workspace with role-based access and billing plan enforcement.
-  - **A1.2 Internationalization (i18n)** — Multi-language UI with localized formatting. _Acceptance:_ Strings externalized, language toggle, at least one translated locale.
+    
 
 ### 2. Application Shell & Infrastructure
 
@@ -148,3 +149,4 @@ Associated GitHub issue commands are stored in `wiki/PoC-Issues.md`.
 - Keep screenshot references current by re-running the exporter when UI changes.  
 
 > _After the milestone deadline, do not modify this document until grades are issued, per course policy._
+
