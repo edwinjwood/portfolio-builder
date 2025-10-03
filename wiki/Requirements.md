@@ -10,17 +10,17 @@ Design references used throughout this document are available in the repository 
 
 ### Key Design Images
 
-1. **Home (anonymous)** – `![Home anon](./design/screenshots/home-desktop-anon.png)`
-2. **Login (anonymous)** – `![Login anon](./design/screenshots/login-desktop-anon.png)`
-3. **Signup (anonymous)** – `![Signup anon](./design/screenshots/signup-desktop-anon.png)`
-4. **Home (authenticated)** – `![Home auth](./design/screenshots/auth/home-desktop-auth.png)`
-5. **Dashboard** – `![Dashboard](./design/screenshots/auth/dashboard-desktop-auth.png)`
-6. **Editor** – `![Editor](./design/screenshots/auth/editor-desktop-auth.png)`
-7. **Profile** – `![Profile](./design/screenshots/auth/profile-desktop-auth.png)`
-8. **Onboarding start** – `![Onboarding](./design/screenshots/auth/onboarding-desktop-auth.png)`
-9. **Onboarding finish** – `![Onboarding finish](./design/screenshots/auth/onboarding_finish-desktop-auth.png)`
-10. **Onboarding “no resume”** – `![Onboarding no resume](./design/screenshots/auth/onboarding_no-resume-desktop-auth.png)`
-11. **Portfolio sample (public)** – `![Portfolio sample](./design/screenshots/auth/portfolio_1-desktop-auth.png)`
+1. [Home (anonymous)](./design/screenshots/home-desktop-anon.png)
+2. [Login (anonymous)](./design/screenshots/login-desktop-anon.png)
+3. [Signup (anonymous)](./design/screenshots/signup-desktop-anon.png)
+4. [Home (authenticated)](./design/screenshots/auth/home-desktop-auth.png)
+5. [Dashboard](./design/screenshots/auth/dashboard-desktop-auth.png)
+6. [Editor](./design/screenshots/auth/editor-desktop-auth.png)
+7. [Profile](./design/screenshots/auth/profile-desktop-auth.png)
+8. [Onboarding start](./design/screenshots/auth/onboarding-desktop-auth.png)
+9. [Onboarding finish](./design/screenshots/auth/onboarding_finish-desktop-auth.png)
+10. [Onboarding “no resume”](./design/screenshots/auth/onboarding_no-resume-desktop-auth.png)
+11. [Portfolio sample (public)](./design/screenshots/auth/portfolio_1-desktop-auth.png)
 
 ---
 
@@ -36,7 +36,6 @@ Design references used throughout this document are available in the repository 
   - **D1.2 Internationalization (i18n)** — Multi-language UI with localized formatting. _Acceptance:_ Strings externalized, language toggle, at least one translated locale.
 - **Aspirational**
   - **A1.1 Team workspaces & roles** — Shared workspace with granular permissions and billing integration. _Acceptance:_ Multi-user workspace with role-based access and billing plan enforcement.
-  - **A1.2 Internationalization (i18n)** — Multi-language UI with localized formatting. _Acceptance:_ Strings externalized, language toggle, at least one translated locale.
 
 ### 2. Application Shell & Infrastructure
 
@@ -62,27 +61,26 @@ Design references used throughout this document are available in the repository 
 ### 4. Resume Optimization
 
 - **Required**
-  - **R4.1 Component persistence & DEV preview** — Components stored individually in DB and mirrored to `backend/generated_components/<portfolioId>/<type>.json`; DEV serves static files. _Acceptance:_ API + file outputs stay in sync; frontend loads on-disk JSON in DEV.
-  - **R4.2 Editor block CRUD** — Add/edit/delete/reorder blocks within the Editor (Design ref 6). _Acceptance:_ Changes persist, reorder interactions succeed, public view reflects updates.
+  - **R4.1 Resume upload, parsing & optimization** — Users upload a resume (PDF/DOCX); system parses structured data, suggests improvements for missing sections, and merges into components. _Acceptance:_ Successful imports for common formats, optimization tips surfaced, manual edits possible.
 - **Desired**
-  - **D4.1 Virtual Business Card inline improvements** — Optimistic edit flow with background reconcile and no save indicator (Design ref 6).
-  - **D4.2 Autosave drafts** — Automatic periodic draft saves with clear status indicator; no conflict with publish flow.
-  - **D4.3 Collaboration invites (basic)** — Invite collaborators via email with edit access; include basic audit logging.
-  - **D4.4 Search/filter portfolios** — Dashboard search/filter by status or tags for quick access.
+  - **D4.1 Resume version history** — Track and restore previous resume edits/exports.
+  - **D4.2 AI-assisted suggestions** — Generate suggested blurbs/bullets with user confirmation.
 - **Aspirational**
   - **A4.1 External integrations (LinkedIn, GitHub, Notion)** — Import projects/experience from third-party services via OAuth.
 
 ### 5. Editing & Component Management
 
 - **Required**
-  - **R5.1 Resume upload, parsing & optimization** — Users upload a resume (PDF/DOCX); system parses structured data, suggests improvements for missing sections, and merges into components. _Acceptance:_ Successful imports for common formats, optimization tips surfaced, manual edits possible.
-  - **R5.2 Resume export (PDF/Markdown)** — Generate downloadable resume output from maintained components. _Acceptance:_ Export produces PDF and Markdown variants with latest data.
+  - **R5.1 Component persistence** — Components stored individually in DB and mirrored to `backend/generated_components/<portfolioId>/<type>.json`; _Acceptance:_ API + file outputs stay in sync;
+  - **R5.2 Editor block CRUD** — Add/edit/delete/reorder blocks within the Editor (Design ref 6). _Acceptance:_ Changes persist, reorder interactions succeed, public view reflects updates.
+  - **R5.3 Component inline editing** — Allow users to change information generated via AI optimization within the components.
+  - **R5.4 Resume export (PDF/Markdown)** — Generate downloadable resume output from maintained components. _Acceptance:_ Export produces PDF and Markdown variants with latest data.
 - **Desired**
   - **D5.1 Autosave drafts** — Automatic periodic draft saves with clear status indicator; no conflict with publish flow.
   - **D5.2 Collaboration invites (basic)** — Invite collaborators via email with edit access; include basic audit logging.
   - **D5.3 Search/filter portfolios** — Dashboard search/filter by status or tags for quick access.
 - **Aspirational**
-  - **A5.1 External integrations (LinkedIn, GitHub, Notion)** — Import projects/experience from third-party services via OAuth.
+  - **A5.1 Offline editing mode** — PWA capabilities for offline edits with later sync.
 
 ### 6. Publishing & Audience Reach
 
@@ -150,14 +148,3 @@ Associated GitHub issue commands are stored in `wiki/PoC-Issues.md`.
 - Keep screenshot references current by re-running the exporter when UI changes.  
 
 > _After the milestone deadline, do not modify this document until grades are issued, per course policy._
-
-
-
-
-
-
-
-
-
-
-
