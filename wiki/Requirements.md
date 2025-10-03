@@ -63,14 +63,15 @@ Design references used throughout this document are available in the repository 
 - **Required**
   - **R4.1 Component persistence & DEV preview** — Components stored individually in DB and mirrored to `backend/generated_components/<portfolioId>/<type>.json`; DEV serves static files. _Acceptance:_ API + file outputs stay in sync; frontend loads on-disk JSON in DEV.
   - **R4.2 Editor block CRUD** — Add/edit/delete/reorder blocks within the Editor (Design ref 6). _Acceptance:_ Changes persist, reorder interactions succeed, public view reflects updates.
+  - **R4.3 Virtual Business Card inline improvements** — Optimistic edit flow with background reconcile and no save indicator (Design ref 6).
+  - **R4.4 AI-assisted copy suggestions** — Generate suggested blurbs/bullets with user confirmation.
 - **Desired**
-  - **D4.1 Virtual Business Card inline improvements** — Optimistic edit flow with background reconcile and no save indicator (Design ref 6).
-  - **D4.2 Autosave drafts** — Automatic periodic draft saves with clear status indicator; no conflict with publish flow.
-  - **D4.3 Collaboration invites (basic)** — Invite collaborators via email with edit access; include basic audit logging.
-  - **D4.4 Search/filter portfolios** — Dashboard search/filter by status or tags for quick access.
+  - **D4.1 Autosave drafts** — Automatic periodic draft saves with clear status indicator; no conflict with publish flow.
+  - **D4.2 Collaboration invites (basic)** — Invite collaborators via email with edit access; include basic audit logging.
+  - **D4.3 Search/filter portfolios** — Dashboard search/filter by status or tags for quick access.
 - **Aspirational**
   - **A4.1 Offline editing mode** — PWA capabilities for offline edits with later sync.
-  - **A4.2 AI-assisted copy suggestions** — Generate suggested blurbs/bullets with user confirmation.
+    
 
 ### 5. Resume Management
 
@@ -149,4 +150,5 @@ Associated GitHub issue commands are stored in `wiki/PoC-Issues.md`.
 - Keep screenshot references current by re-running the exporter when UI changes.  
 
 > _After the milestone deadline, do not modify this document until grades are issued, per course policy._
+
 
