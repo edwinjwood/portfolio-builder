@@ -74,7 +74,7 @@ Design references used throughout this document are available in the repository 
 - **Required**
   - **R5.1 Component persistence & DEV preview** — Components stored individually in DB and mirrored to `backend/generated_components/<portfolioId>/<type>.json`; DEV serves static files. _Acceptance:_ API + file outputs stay in sync; frontend loads on-disk JSON in DEV.
   - **R5.2 Editor block CRUD** — Add/edit/delete/reorder blocks within the Editor (Design ref 6). _Acceptance:_ Changes persist, reorder interactions succeed, public view reflects updates.
-  - **R5.3 Virtual Business Card inline improvements** — Optimistic edit flow with background reconcile and no save indicator (Design ref 6).
+  - **R5.3 Component inline editing** — Optimistic edit flow with background reconcile and no save indicator (Design ref 6).
   - **R5.4 AI-assisted copy suggestions** — Generate suggested blurbs/bullets with user confirmation.
   - **R5.5 Resume export (PDF/Markdown)** — Generate downloadable resume output from maintained components. _Acceptance:_ Export produces PDF and Markdown variants with latest data.
 - **Desired**
@@ -153,6 +153,7 @@ Associated GitHub issue commands are stored in `wiki/PoC-Issues.md`.
 - Keep screenshot references current by re-running the exporter when UI changes.  
 
 > _After the milestone deadline, do not modify this document until grades are issued, per course policy._
+
 
 
 
