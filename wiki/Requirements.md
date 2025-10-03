@@ -10,17 +10,18 @@ Design references used throughout this document are available in the repository 
 
 ### Key Design Images
 
-1. **Home (anonymous)** – `![Home anon](./design/screenshots/home-desktop-anon.png)`
-2. **Login (anonymous)** – `![Login anon](./design/screenshots/login-desktop-anon.png)`
-3. **Signup (anonymous)** – `![Signup anon](./design/screenshots/signup-desktop-anon.png)`
-4. **Home (authenticated)** – `![Home auth](./design/screenshots/auth/home-desktop-auth.png)`
-5. **Dashboard** – `![Dashboard](./design/screenshots/auth/dashboard-desktop-auth.png)`
-6. **Editor** – `![Editor](./design/screenshots/auth/editor-desktop-auth.png)`
-7. **Profile** – `![Profile](./design/screenshots/auth/profile-desktop-auth.png)`
-8. **Onboarding start** – `![Onboarding](./design/screenshots/auth/onboarding-desktop-auth.png)`
-9. **Onboarding finish** – `![Onboarding finish](./design/screenshots/auth/onboarding_finish-desktop-auth.png)`
-10. **Onboarding “no resume”** – `![Onboarding no resume](./design/screenshots/auth/onboarding_no-resume-desktop-auth.png)`
-11. **Portfolio sample (public)** – `![Portfolio sample](./design/screenshots/auth/portfolio_1-desktop-auth.png)`
+1. **Home (anonymous)** – [![Home anon](./design/screenshots/home-desktop-anon.png)](./design/screenshots/home-desktop-anon.png)
+2. **Login (anonymous)** – [![Login anon](./design/screenshots/login-desktop-anon.png)](./design/screenshots/login-desktop-anon.png)
+3. **Signup (anonymous)** – [![Signup anon](./design/screenshots/signup-desktop-anon.png)](./design/screenshots/signup-desktop-anon.png)
+4. **Home (authenticated)** – [![Home auth](./design/screenshots/auth/home-desktop-auth.png)](./design/screenshots/auth/home-desktop-auth.png)
+5. **Dashboard** – [![Dashboard](./design/screenshots/auth/dashboard-desktop-auth.png)](./design/screenshots/auth/dashboard-desktop-auth.png)
+6. **Editor** – [![Editor](./design/screenshots/auth/editor-desktop-auth.png)](./design/screenshots/auth/editor-desktop-auth.png)
+7. **Profile** – [![Profile](./design/screenshots/auth/profile-desktop-auth.png)](./design/screenshots/auth/profile-desktop-auth.png)
+8. **Onboarding start** – [![Onboarding](./design/screenshots/auth/onboarding-desktop-auth.png)](./design/screenshots/auth/onboarding-desktop-auth.png)
+9. **Onboarding finish** – [![Onboarding finish](./design/screenshots/auth/onboarding_finish-desktop-auth.png)](./design/screenshots/auth/onboarding_finish-desktop-auth.png)
+10. **Onboarding “no resume”** – [![Onboarding no resume](./design/screenshots/auth/onboarding_no-resume-desktop-auth.png)](./design/screenshots/auth/onboarding_no-resume-desktop-auth.png)
+11. **Portfolio sample (public)** – [![Portfolio sample](./design/screenshots/auth/portfolio_1-desktop-auth.png)](./design/screenshots/auth/portfolio_1-desktop-auth.png)
+
 
 ---
 
@@ -152,6 +153,7 @@ Associated GitHub issue commands are stored in `wiki/PoC-Issues.md`.
 - Keep screenshot references current by re-running the exporter when UI changes.  
 
 > _After the milestone deadline, do not modify this document until grades are issued, per course policy._
+
 
 
 
