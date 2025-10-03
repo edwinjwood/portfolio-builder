@@ -59,7 +59,17 @@ Design references used throughout this document are available in the repository 
 - **Aspirational**
   - **A3.1 Marketplace of components/templates** — Share/buy templates and custom blocks. _Acceptance:_ Template gallery with install/apply flow and moderation tooling.
 
-### 4. Editing & Component Management
+### 4. Resume Management
+
+- **Required**
+  - **R5.1 Resume upload, parsing & optimization** — Users upload a resume (PDF/DOCX); system parses structured data, suggests improvements for missing sections, and merges into components. _Acceptance:_ Successful imports for common formats, optimization tips surfaced, manual edits possible.
+  - **R5.2 Resume export (PDF/Markdown)** — Generate downloadable resume output from maintained components. _Acceptance:_ Export produces PDF and Markdown variants with latest data.
+- **Desired**
+  - **D5.1 Resume version history** — Track and restore previous resume edits/exports.
+- **Aspirational**
+  - **A5.1 External integrations (LinkedIn, GitHub, Notion)** — Import projects/experience from third-party services via OAuth.
+
+### 5. Editing & Component Management
 
 - **Required**
   - **R4.1 Component persistence & DEV preview** — Components stored individually in DB and mirrored to `backend/generated_components/<portfolioId>/<type>.json`; DEV serves static files. _Acceptance:_ API + file outputs stay in sync; frontend loads on-disk JSON in DEV.
@@ -74,15 +84,7 @@ Design references used throughout this document are available in the repository 
   - **A4.1 Offline editing mode** — PWA capabilities for offline edits with later sync.
     
 
-### 5. Resume Management
 
-- **Required**
-  - **R5.1 Resume upload, parsing & optimization** — Users upload a resume (PDF/DOCX); system parses structured data, suggests improvements for missing sections, and merges into components. _Acceptance:_ Successful imports for common formats, optimization tips surfaced, manual edits possible.
-  - **R5.2 Resume export (PDF/Markdown)** — Generate downloadable resume output from maintained components. _Acceptance:_ Export produces PDF and Markdown variants with latest data.
-- **Desired**
-  - **D5.1 Resume version history** — Track and restore previous resume edits/exports.
-- **Aspirational**
-  - **A5.1 External integrations (LinkedIn, GitHub, Notion)** — Import projects/experience from third-party services via OAuth.
 
 ### 6. Publishing & Audience Reach
 
@@ -150,6 +152,7 @@ Associated GitHub issue commands are stored in `wiki/PoC-Issues.md`.
 - Keep screenshot references current by re-running the exporter when UI changes.  
 
 > _After the milestone deadline, do not modify this document until grades are issued, per course policy._
+
 
 
 
