@@ -62,21 +62,20 @@ Design references used throughout this document are available in the repository 
 ### 4. Resume Optimization
 
 - **Required**
-  - **R4.1 Resume upload, parsing & optimization** — Users upload a resume (PDF/DOCX); system parses structured data, suggests improvements for missing sections, and merges into components. _Acceptance:_ Successful imports for common formats, optimization tips surfaced, manual edits possible.
-    
+  - **R4.1 Resume upload, parsing & optimization** — Users upload a resume (PDF/DOCX); system parses structured data, suggests improvements for missing sections, and merges into components. _Acceptance:_ Successful imports for common formats, optimization tips surfaced, manual edits possible.   
 - **Desired**
   - **D4.1 Resume version history** — Track and restore previous resume edits/exports.
+  - **D4.2 AI-assisted suggestions** — Generate suggested blurbs/bullets with user confirmation. 
 - **Aspirational**
   - **A4.1 External integrations (LinkedIn, GitHub, Notion)** — Import projects/experience from third-party services via OAuth.
 
 ### 5. Editing & Component Management
 
 - **Required**
-  - **R5.1 Component persistence** — Components stored individually in DB and mirrored to `backend/generated_components/<portfolioId>/<type>.json`; 
+  - **R5.1 Component persistence** — Components stored individually in DB and mirrored to `backend/generated_components/<portfolioId>/<type>.json`; _Acceptance:_ API + file outputs stay in sync; 
   - **R5.2 Editor block CRUD** — Add/edit/delete/reorder blocks within the Editor (Design ref 6). _Acceptance:_ Changes persist, reorder interactions succeed, public view reflects updates.
-  - **R5.3 Component inline editing** — Optimistic edit flow with background reconcile and no save indicator (Design ref 6).
-  - **R5.4 AI-assisted copy suggestions** — Generate suggested blurbs/bullets with user confirmation.
-  - **R5.5 Resume export (PDF/Markdown)** — Generate downloadable resume output from maintained components. _Acceptance:_ Export produces PDF and Markdown variants with latest data.
+  - **R5.3 Component inline editing** — Allow users to change information generated via AI optimization within the components.
+  - **R5.4 Resume export (PDF/Markdown)** — Generate downloadable resume output from maintained components. _Acceptance:_ Export produces PDF and Markdown variants with latest data.
 - **Desired**
   - **D5.1 Autosave drafts** — Automatic periodic draft saves with clear status indicator; no conflict with publish flow.
   - **D5.2 Collaboration invites (basic)** — Invite collaborators via email with edit access; include basic audit logging.
