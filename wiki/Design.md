@@ -69,19 +69,19 @@ These screens represent the public-facing entry points and flows that any visito
 
 ### Home / Landing
 
-![Home - desktop (anon)](./design/screenshots/home-desktop-anon.png)
+![Home - desktop (anon)](https://raw.githubusercontent.com/SCCapstone/Hotboyz/dev/wiki/design/screenshots/home-desktop-anon.png)
 
 A welcoming landing page that presents the app wordmark, a short value proposition, and primary CTAs (Sign up / Login). The purpose is to quickly communicate value and direct new visitors into the signup flow or returning users to the login page.
 
 ### Login
 
-![Login - desktop (anon)](./design/screenshots/login-desktop-anon.png)
+![Login - desktop (anon)](https://raw.githubusercontent.com/SCCapstone/Hotboyz/dev/wiki/design/screenshots/login-desktop-anon.png)
 
 The public login screen for returning users. It contains email/password fields and a prominent CTA. This screen is captured anonymously to show the unauthenticated state and the initial access point for account owners.
 
 ### Signup
 
-![Signup - desktop (anon)](./design/screenshots/signup-desktop-anon.png)
+![Signup - desktop (anon)](https://raw.githubusercontent.com/SCCapstone/Hotboyz/dev/wiki/design/screenshots/signup-desktop-anon.png)
 
 The signup page collects minimal account information and directs the user into onboarding. The goal is low friction sign-up and a clear path to creating a first portfolio.
 
@@ -93,13 +93,13 @@ These captures were taken after programmatic login and show owner-only UI: the d
 
 ### Home (authenticated)
 
-![Home - desktop (auth)](./design/screenshots/auth/home-desktop-auth.png)
+![Home - desktop (auth)](https://raw.githubusercontent.com/SCCapstone/Hotboyz/dev/wiki/design/screenshots/auth/home-desktop-auth.png)
 
 Authenticated home shows the user's primary actions, recent projects, and quick access to editor and profile links. This view emphasizes the signed-in state and available owner controls.
 
 ### Dashboard
 
-![Dashboard - desktop (auth)](./design/screenshots/auth/dashboard-desktop-auth.png)
+![Dashboard - desktop (auth)](https://raw.githubusercontent.com/SCCapstone/Hotboyz/dev/wiki/design/screenshots/auth/dashboard-desktop-auth.png)
 
 The Dashboard aggregates projects, drafts, and high-level actions (create new, manage templates). This screenshot illustrates the information density and primary callouts for the owner's workflow.
 
@@ -107,14 +107,14 @@ settings). This screen highlights the fields that influence the generated homeca
 
 ### Onboarding (starter flows)
 
-![Onboarding - desktop (auth)](./design/screenshots/auth/onboarding-desktop-auth.png)
+![Onboarding - desktop (auth)](https://raw.githubusercontent.com/SCCapstone/Hotboyz/dev/wiki/design/screenshots/auth/onboarding-desktop-auth.png)
 
 The onboarding start screen where owners configure basics (name, role, quick choices). This flow is optimised to get a minimal portfolio and homecard created quickly.
 
 ### Portfolio (sample)
 
-![Portfolio Business Card - desktop (auth)](./design/screenshots/auth/Sample-Portfolio-BC.png)
-![Portfolio Business Card - desktop (auth)](./design/screenshots/auth/Sample-Portfolio-Resume.png)
+![Portfolio Business Card - desktop (auth)](https://raw.githubusercontent.com/SCCapstone/Hotboyz/dev/wiki/design/screenshots/auth/Sample-Portfolio-BC.png)
+![Portfolio Business Card - desktop (auth)](https://raw.githubusercontent.com/SCCapstone/Hotboyz/dev/wiki/design/screenshots/auth/Sample-Portfolio-Resume.png)
 
 A sample portfolio page showing the published public view. This capture is useful for validating the public-facing layout after edits made in the Editor.
 
