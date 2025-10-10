@@ -65,12 +65,6 @@ Run each command from the repository root. They all apply the `enhancement` labe
    gh issue create --title "Public portfolio page and publish flow" --body "Implement public portfolio view (/portfolio/:id) and a publish/unpublish flow. Published content is served at the public URL; drafts remain private until published." --label enhancement --milestone "Proof Of Concept"
    ```
 
-8. **Snapshot Screenshot Exporter** _(nice-to-have)_
-
-   ```powershell
-   gh issue create --title "Snapshot screenshot exporter (Playwright)" --body "Add a script to programmatically log in and capture screenshots at desktop/mobile viewports for configured routes. Store outputs under wiki/design/screenshots and wiki/design/screenshots/auth." --label enhancement --milestone "Proof Of Concept"
-   ```
-
 ---
 
 After creating the issues, assign them to team members and begin implementation. Update the issue bodies with acceptance criteria or sub-tasks as needed. Progress on these issues will determine the Proof of Concept milestone grade.

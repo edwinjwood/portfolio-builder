@@ -33,7 +33,6 @@ Design references used throughout this document are available in the repository 
   - **R1.2 Access control & authorization** — Server validates portfolio ownership for any mutating request; unauthorized edits return 403. _Acceptance:_ Attempts to modify another user’s portfolio are rejected with clear error. _Dependencies:_ Auth middleware, portfolio ownership relationship.
 - **Desired**
   - **D1.1 Profile & account settings** — Owners manage name, contact info, social links (Design ref 7). Changes immediately reflect in public/homecard views. _Dependencies:_ Users API fields.
-  - **D1.2 Internationalization (i18n)** — Multi-language UI with localized formatting. _Acceptance:_ Strings externalized, language toggle, at least one translated locale.
 - **Aspirational**
   - **A1.1 Team workspaces & roles** — Shared workspace with granular permissions and billing integration. _Acceptance:_ Multi-user workspace with role-based access and billing plan enforcement.
 
@@ -56,15 +55,14 @@ Design references used throughout this document are available in the repository 
 - **Desired**
   - TBD
 - **Aspirational**
-  - **A3.1 Marketplace of components/templates** — Share/buy templates and custom blocks. _Acceptance:_ Template gallery with install/apply flow and moderation tooling.
+  - TBD
 
 ### 4. Resume Optimization
 
 - **Required**
   - **R4.1 Resume upload, parsing & optimization** — Users upload a resume (PDF/DOCX); system parses structured data, suggests improvements for missing sections, and merges into components. _Acceptance:_ Successful imports for common formats, optimization tips surfaced, manual edits possible.
 - **Desired**
-  - **D4.1 Resume version history** — Track and restore previous resume edits/exports.
-  - **D4.2 AI-assisted suggestions** — Generate suggested blurbs/bullets with user confirmation.
+  - **D4.1 AI-assisted suggestions** — Generate suggested blurbs/bullets with user confirmation.
 - **Aspirational**
   - **A4.1 External integrations (LinkedIn, GitHub, Notion)** — Import projects/experience from third-party services via OAuth.
 
@@ -77,18 +75,16 @@ Design references used throughout this document are available in the repository 
   - **R5.4 Resume export (PDF/Markdown)** — Generate downloadable resume output from maintained components. _Acceptance:_ Export produces PDF and Markdown variants with latest data.
 - **Desired**
   - **D5.1 Autosave drafts** — Automatic periodic draft saves with clear status indicator; no conflict with publish flow.
-  - **D5.2 Collaboration invites (basic)** — Invite collaborators via email with edit access; include basic audit logging.
-  - **D5.3 Search/filter portfolios** — Dashboard search/filter by status or tags for quick access.
 - **Aspirational**
-  - **A5.1 Offline editing mode** — PWA capabilities for offline edits with later sync.
+  - TBD
 
 ### 6. Publishing & Audience Reach
 
 - **Required**
-  - **R6.1 Public portfolio rendering** — Public URL `/portfolio/:id` displays last published snapshot (Design ref 11); share/copy link available.
+  - **R6.1 Public portfolio rendering** — Public URL `/portfolio/:id` displays last published snapshot (Design ref 10); share/copy link available.
   - **R6.2 Publish / unpublish flow** — Toggle published state; drafts remain private until re-published. _Acceptance:_ Publish captures snapshot, dashboard/editor show status.
 - **Desired**
-  - **D6.1 Dashboard overview** — Authenticated dashboard summarises portfolios, statuses, quick actions (Design ref 5).
+  - **D6.1 Dashboard overview** — Authenticated dashboard summarizes portfolios, statuses, quick actions (Design ref 5).
 - **Aspirational**
   - **A6.1 Advanced analytics dashboard** — View counts, engagement metrics, funnel insights with privacy controls.
   - **A6.2 Custom domains & hosting** — Map custom domain with automated verification and SSL.
@@ -120,9 +116,8 @@ The PoC milestone demonstrates the core user journey:
 
 1. User signs up and authenticates.  
 2. Onboarding flow creates a portfolio with default components.  
-3. Owner edits Virtual Business Card and blocks; changes persist.  
-4. Portfolio can be published and viewed publicly.  
-5. Snapshot exporter documents the key screens.  
+3. Owner can edit Virtual Business Card and Resume inline; changes persist.  
+4. Portfolio can be published and viewed publicly.
 
 Features targeted for PoC implementation (from sections above):
 
@@ -135,9 +130,6 @@ Features targeted for PoC implementation (from sections above):
 - R5.1 Resume upload, parsing & optimization
 - R6.1 Public portfolio rendering
 - R6.2 Publish / unpublish flow
-- D6.2 Snapshot screenshot exporter (nice-to-have if time permits)
-
-Associated GitHub issue commands are stored in `wiki/PoC-Issues.md`.
 
 ---
 
@@ -145,6 +137,4 @@ Associated GitHub issue commands are stored in `wiki/PoC-Issues.md`.
 
 - Update this document whenever requirements change or new features are added.  
 - Mark implemented features with a checkmark ✅ in future revisions (optional).  
-- Keep screenshot references current by re-running the exporter when UI changes.  
-
-> _After the milestone deadline, do not modify this document until grades are issued, per course policy._
+- Keep screenshot references current by re-running the exporter(playwright) when UI changes.
