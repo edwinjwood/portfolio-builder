@@ -1,5 +1,5 @@
 const http = require('http');
-const { app } = require('./server/index');
+const { app } = require('../server/index');
 
 const server = app.listen(0, async () => {
   const port = server.address().port;

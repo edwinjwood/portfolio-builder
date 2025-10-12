@@ -11,6 +11,7 @@ import LandingCard from '../components/LandingCard';
 import Resume from '../components/Resume';
 import ProjectsSimple from '../components/ProjectsSimple';
 import PortfolioHome from '../components/PortfolioHome';
+import OnboardingChat from '../components/OnboardingChat';
 import TemplatePreview from '../components/TemplatePreview';
 import classic from '../templates/classic';
 import Footer from '../components/Footer';
@@ -65,6 +66,9 @@ function Shell() {
             <Route path="/resume" element={<Resume data={classic.defaults.resume} />} />
             <Route path="/projects" element={<ProjectsSimple data={classic.defaults.projects} />} />
             <Route path="/portfolio/:id" element={<ProtectedRoute roles={['user','admin','superadmin']}><PortfolioHome /></ProtectedRoute>} />
+            <Route path="/portfolio/:id/onboarding" element={<ProtectedRoute roles={['user','admin','superadmin']}><OnboardingChat /></ProtectedRoute>} />
+            {/* Start onboarding without an existing portfolio (assistant will create it when finished) */}
+            <Route path="/onboarding" element={<ProtectedRoute roles={['user','admin','superadmin']}><OnboardingChat /></ProtectedRoute>} />
           </Routes>
         </motion.div>
       </AnimatePresence>
