@@ -22,6 +22,10 @@ import AdminDashboard from '../components/AdminDashboard';
 import Checkout from '../components/Checkout';
 import CheckoutSuccess from '../components/CheckoutSuccess';
 import { ProtectedRoute } from '../features/user/components';
+import OptimizerUpload from '../optimizer/OptimizerUpload';
+import OptimizerAnalyze from '../optimizer/OptimizerAnalyze';
+import OptimizerResults from '../optimizer/OptimizerResults';
+import OptimizerProfile from '../optimizer/OptimizerProfile';
 
 function Shell() {
   const location = useLocation();
@@ -69,6 +73,11 @@ function Shell() {
             <Route path="/portfolio/:id/onboarding" element={<ProtectedRoute roles={['user','admin','superadmin']}><OnboardingChat /></ProtectedRoute>} />
             {/* Start onboarding without an existing portfolio (assistant will create it when finished) */}
             <Route path="/onboarding" element={<ProtectedRoute roles={['user','admin','superadmin']}><OnboardingChat /></ProtectedRoute>} />
+            {/* Resume optimizer routes */}
+            <Route path="/optimizer" element={<ProtectedRoute roles={['user','admin','superadmin']}><OptimizerUpload /></ProtectedRoute>} />
+            <Route path="/optimizer/analyze/:resumeId" element={<ProtectedRoute roles={['user','admin','superadmin']}><OptimizerAnalyze /></ProtectedRoute>} />
+            <Route path="/optimizer/results/:resumeId" element={<ProtectedRoute roles={['user','admin','superadmin']}><OptimizerResults /></ProtectedRoute>} />
+            <Route path="/optimizer/profile" element={<ProtectedRoute roles={['user','admin','superadmin']}><OptimizerProfile /></ProtectedRoute>} />
           </Routes>
         </motion.div>
       </AnimatePresence>

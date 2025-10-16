@@ -20,8 +20,10 @@ app.use(express.json({ verify: (req, res, buf) => { req.rawBody = buf; } }));
 
 // Mount routers
 app.use('/api/users', require('./routes/users'));
+app.use('/api/me', require('./routes/me'));
 app.use('/api/payments', require('./routes/payments'));
 app.use('/api/portfolios', require('./routes/portfolios'));
+app.use('/api/resumes', require('./routes/resumes'));
 app.use('/api/templates', require('./routes/templates'));
 app.use('/api/stripe', require('./routes/stripe'));
 app.use('/api/checkout', require('./routes/checkout'));

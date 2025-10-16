@@ -50,7 +50,7 @@ const NavBar = () => {
         </NavLink>
         {/* Desktop menu right aligned */}
         <div className="hidden md:flex items-center gap-8 ml-auto">
-          {['/dashboard','/admin'].map((route) => (
+          {['/dashboard','/optimizer','/admin'].map((route) => (
             currentUser && (
               <NavLink
                 key={route}
@@ -58,7 +58,7 @@ const NavBar = () => {
                 className={({isActive}) => `font-semibold transition ${isActive ? 'underline' : ''}`}
                 style={{ color: currentUser && tenant?.theme?.primaryColor ? getContrastText(tenant.theme.primaryColor) : (dark ? '#fff' : '#222') }}
               >
-                {route === '/dashboard' ? 'Dashboard' : 'Admin'}
+                {route === '/dashboard' ? 'Dashboard' : route === '/optimizer' ? 'Resume Optimizer' : 'Admin'}
               </NavLink>
             )
           ))}
@@ -131,6 +131,7 @@ const NavBar = () => {
             {currentUser ? (
               <>
                 <NavLink to="/dashboard" className={({isActive}) => `font-semibold transition block py-2 px-4 rounded ${isActive ? 'bg-brand-100 text-brand-700 dark:bg-brand-900 dark:text-brand-300' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800'}`} onClick={() => setMenuOpen(false)}>Dashboard</NavLink>
+                <NavLink to="/optimizer" className={({isActive}) => `font-semibold transition block py-2 px-4 rounded ${isActive ? 'bg-brand-100 text-brand-700 dark:bg-brand-900 dark:text-brand-300' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800'}`} onClick={() => setMenuOpen(false)}>Resume Optimizer</NavLink>
                 {/* Only show Admin link for users with admin role */}
                 {currentUser?.role === 'admin' && (
                   <NavLink to="/admin" className={({isActive}) => `font-semibold transition block py-2 px-4 rounded ${isActive ? 'bg-brand-100 text-brand-700 dark:bg-brand-900 dark:text-brand-300' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800'}`} onClick={() => setMenuOpen(false)}>Admin</NavLink>
