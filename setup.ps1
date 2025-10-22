@@ -79,7 +79,7 @@ Write-Host ""
 # Check if .env exists
 if (-not (Test-Path "backend\.env")) {
     Write-Host "Creating backend/.env..." -ForegroundColor Yellow
-    @"
+    $envContent = @"
 # Database Configuration
 DATABASE_URL=postgres://user:password@localhost:5432/faset_dev
 
@@ -95,7 +95,8 @@ SKIP_STRIPE=true
 
 # Port Configuration
 PORT=5001
-"@ | Out-File -FilePath "backend\.env" -Encoding utf8
+"@
+    $envContent | Out-File -FilePath "backend\.env" -Encoding utf8
     Write-Host "✓ Created backend/.env" -ForegroundColor Green
 } else {
     Write-Host "✓ backend/.env already exists" -ForegroundColor Green
