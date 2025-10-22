@@ -2,76 +2,123 @@
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-yellow.svg)](./LICENSE)
 
-Faset helps people and organizations create, publish, and manage professional resumés and digital portfolios. This repository contains the full-stack application: a React + Vite frontend, a Node.js + Postgres backend, Stripe billing, and maintenance scripts.
+Short description
+-----------------
 
-## Overview
+Facet is a PoC web application for building and publishing lightweight public portfolios and resumes. The frontend is a Vite + React SPA; the backend is a Node/Express API with a PostgreSQL database. The app is hosted for the PoC on Railway (frontend static service, Node backend, managed Postgres).
 
-Root docs are intentionally concise; subsystem details are in their respective READMEs:
-
-- [backend/README.md](backend/README.md) — server, scripts, tests, and how to run the backend.
-- [frontend/README.md](frontend/README.md) — Vite/React app, build, and local dev instructions.
-
-## Technologies
-
-- Frontend: React, Vite, Tailwind CSS
-- Backend: Node.js, Express, PostgreSQL (pg)
-- Payments: Stripe (server SDK and Checkout)
-- Testing: Jest, Supertest
-- Infra/hosting: Railway (deployment), optional static hosts for frontend
-
-Purpose: provide a small SaaS for building and publishing resumés and portfolios with subscription billing and simple templates.
+See the project architecture: ../wiki-publish/Architecture.md
 
 
-## Quick start (developer)
+External Requirements
+---------------------
 
-> This project is private. Request access from the project owner before running locally.
+This README documents the developer-facing steps for Windows (PowerShell) using the versions we used while building the project.
 
-1. Install repository-level dependencies and subsystem dependencies:
+Prerequisites (install these first):
+
+- Node.js (LTS 18+ recommended)
+  - Install from https://nodejs.org
+  - Verify: `node -v` and `npm -v`
+- Git: `git` (use Git for Windows)
+  - Verify: `git --version`
+- PostgreSQL client (psql) for local DB inspection (optional)
+  - Install via https://www.postgresql.org/download/windows/
+
+
+Setup (one-time)
+-----------------
+
+1. Clone the repo:
 
 ```powershell
+git clone <repo-url>
+cd "C:\VS Projects\Portfolio Builder\portfolio-builder"
+```
+
+2. Copy the example env and edit values (`backend/.env`):
+
+```powershell
+cd backend
+copy .env.example .env
+# Edit .env to set DATABASE_URL and any secrets
+notepad .env
+```
+
+- For the PoC we host services on Railway; the project already contains a `backend/.env` that points to the Railway Postgres instance. DO NOT commit production secrets.
+
+3. Install dependencies
+
+```powershell
+cd ..\
 npm install
-cd backend && npm install
-cd ../frontend && npm install
+cd backend
+npm install
 ```
 
-2. Configure backend environment variables in `backend/.env` (examples):
 
-```text
-DATABASE_URL=postgres://user:pass@localhost:5432/dbname
-STRIPE_SECRET_KEY=sk_test_xxx
-```
+Running (development)
+---------------------
 
-3. For subsystem-specific run/build/test commands see the respective README files listed above.
+Open two PowerShell terminals.
 
-### Local dev & Stripe
-
-- From the repository root start both frontend and backend in development mode:
+Terminal A — frontend dev server:
 
 ```powershell
+cd "C:\VS Projects\Portfolio Builder\portfolio-builder\frontend"
 npm run dev
 ```
 
-- To fully test payments and webhooks locally, run the Stripe CLI and forward events to the backend webhook endpoint (the backend typically listens on port 5001):
+Terminal B — backend API server:
 
 ```powershell
-# login first: stripe login
-stripe listen --forward-to http://localhost:5001/webhooks/stripe
+cd "C:\VS Projects\Portfolio Builder\portfolio-builder\backend"
+npm run dev
 ```
 
-- Ensure your local backend env contains your Stripe secret key (`STRIPE_SECRET_KEY`) and, after running `stripe listen`, update `STRIPE_WEBHOOK_SECRET` with the webhook signing secret the CLI prints so webhook signature verification works locally.
+Notes:
+- The backend reads `DATABASE_URL` from `backend/.env`.
+- If you want to run a local Postgres, update `DATABASE_URL` to `postgres://user:pass@localhost:5432/dbname` and run migrations.
 
-## Repository layout
 
-- [backend/](backend/) — Express app, DB client, scripts, tests. See [backend/README.md](backend/README.md).
-- [frontend/](frontend/) — Vite + React app and static assets. See [frontend/README.md](frontend/README.md).
-- `migrations/` and `server/scripts/` — SQL migrations and maintenance scripts.
-- `wiki/` — Project documentation and decision log.
+Deployment
+----------
 
-## Contributing & license
+PoC uses Railway for hosting. High-level steps:
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) and [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) for contribution guidelines. The project is licensed under MIT — see [LICENSE](LICENSE).
+1. Create a Railway project and add the frontend static service and a Node backend service.
+2. Add a Postgres plugin to Railway and copy the `DATABASE_URL` into `backend/.env` (or set Railway environment variables).
+3. Configure build commands:
+   - Frontend: `npm run build` (Vite outputs `dist/`)
+   - Backend: `npm start` or the Dockerfile if using a container.
+4. Add any secrets (JWT_SECRET, STRIPE keys) via Railway env UI.
 
-## Contact
+Do not store secrets in git.
 
-For access or operational questions contact the project owner.
 
+Testing
+-------
+
+Unit tests (backend):
+
+```powershell
+cd backend
+npm test
+```
+
+If you add frontend tests, describe the test runner here (e.g., Vitest/Jest).
+
+
+Helpful scripts
+---------------
+
+- `backend/scripts/apply_migrations.js` — applies SQL files in `backend/migrations` to `DATABASE_URL`.
+- `deploy.ps1` — helper script for simple deploy flows used earlier in the project.
+
+
+Authors
+-------
+
+Team SCCapstone
+
+Contact: team email or GitHub handles
