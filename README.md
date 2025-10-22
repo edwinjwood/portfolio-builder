@@ -119,6 +119,6 @@ Helpful scripts
 Authors
 -------
 
-Team SCCapstone
+- Terdoo Achu <tachu@email.sc.edu>
 
 Contact: team email or GitHub handles
