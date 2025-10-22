@@ -120,5 +120,6 @@ Authors
 -------
 
 - Terdoo Achu <tachu@email.sc.edu>
+- Edwin Wood <woodej@email.sc.edu>
 
 Contact: team email or GitHub handles
