@@ -121,6 +121,7 @@ Authors
 
 - Terdoo Achu <tachu@email.sc.edu>
 - Edwin Wood <woodej@email.sc.edu>
+- Pedro Fischetti <pedrof@email.sc.edu>
 
 
 Contact: team email or GitHub handles
