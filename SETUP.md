@@ -28,9 +28,10 @@ Before running the setup script, make sure you have:
    cd Hotboyz
    ```
 
-2. **Check out the dro branch**:
+2. **Check out the dro branch and pull latest changes**:
    ```bash
    git checkout dro
+   git pull origin dro
    ```
 
 3. **Run the setup script**:
