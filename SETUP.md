@@ -35,9 +35,18 @@ Before running the setup script, make sure you have:
    ```
 
 3. **Run the setup script**:
+   
+   **Linux/Mac**:
    ```bash
    ./setup.sh
    ```
+   
+   **Windows** (in VS Code terminal or PowerShell):
+   ```powershell
+   powershell -ExecutionPolicy Bypass -File setup.ps1
+   ```
+   
+   Or right-click `setup.ps1` and select "Run with PowerShell"
 
    The script will:
    - Check if PostgreSQL is installed and running
