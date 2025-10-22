@@ -119,6 +119,6 @@ Helpful scripts
 Authors
 -------
 
-Team SCCapstone
+- Edwin Wood <woodej@email.sc.edu>
 
 Contact: team email or GitHub handles
