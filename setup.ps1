@@ -9,7 +9,7 @@ Write-Host ""
 # Check if Node.js is installed
 try {
     $nodeVersion = node --version
-    Write-Host "✓ Node.js is installed: $nodeVersion" -ForegroundColor Green
+Write-Host "Node.js is installed: $nodeVersion" -ForegroundColor Green
 } catch {
     Write-Host "❌ Node.js is not installed. Please install it from https://nodejs.org/" -ForegroundColor Red
     exit 1
@@ -23,7 +23,7 @@ if (-not $pgPath) {
     exit 1
 }
 
-Write-Host "✓ PostgreSQL is installed" -ForegroundColor Green
+Write-Host "PostgreSQL is installed" -ForegroundColor Green
 Write-Host ""
 
 # Check if PostgreSQL service is running
@@ -49,7 +49,7 @@ psql -U postgres -c "ALTER USER \`"user\`" CREATEDB;" 2>$null
 psql -U postgres -c "DROP DATABASE IF EXISTS faset_dev;" 2>$null
 psql -U postgres -c "CREATE DATABASE faset_dev OWNER \`"user\`";" 2>$null
 
-Write-Host "✓ Database configured" -ForegroundColor Green
+Write-Host "Database configured" -ForegroundColor Green
 Write-Host ""
 
 # Install backend dependencies
@@ -61,7 +61,7 @@ if ($LASTEXITCODE -ne 0) {
     exit 1
 }
 Set-Location ..
-Write-Host "✓ Backend dependencies installed" -ForegroundColor Green
+Write-Host "Backend dependencies installed" -ForegroundColor Green
 Write-Host ""
 
 # Install frontend dependencies
@@ -73,7 +73,7 @@ if ($LASTEXITCODE -ne 0) {
     exit 1
 }
 Set-Location ..
-Write-Host "✓ Frontend dependencies installed" -ForegroundColor Green
+Write-Host "Frontend dependencies installed" -ForegroundColor Green
 Write-Host ""
 
 # Check if .env exists
@@ -96,10 +96,10 @@ SKIP_STRIPE=true
 # Port Configuration
 PORT=5001
 "@
-    $envContent | Out-File -FilePath "backend\.env" -Encoding utf8
-    Write-Host "✓ Created backend/.env" -ForegroundColor Green
+    $envContent | Out-File -FilePath (Join-Path "backend" ".env") -Encoding utf8
+    Write-Host "Created backend/.env" -ForegroundColor Green
 } else {
-    Write-Host "✓ backend/.env already exists" -ForegroundColor Green
+    Write-Host "backend/.env already exists" -ForegroundColor Green
 }
 Write-Host ""
 
@@ -110,11 +110,11 @@ if ($LASTEXITCODE -ne 0) {
     Write-Host "❌ Failed to run migrations" -ForegroundColor Red
     exit 1
 }
-Write-Host "✓ Database migrations completed" -ForegroundColor Green
+Write-Host "Database migrations completed" -ForegroundColor Green
 Write-Host ""
 
 Write-Host "================================" -ForegroundColor Cyan
-Write-Host "✓ Setup Complete!" -ForegroundColor Green
+Write-Host "Setup Complete!" -ForegroundColor Green
 Write-Host "================================" -ForegroundColor Cyan
 Write-Host ""
 Write-Host "To start the development server, run:" -ForegroundColor Yellow
