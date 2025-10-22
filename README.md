@@ -120,5 +120,6 @@ Authors
 -------
 
 - Edwin Wood <woodej@email.sc.edu>
+- Pedro Fischetti <pedrof@email.sc.edu>
 
 Contact: team email or GitHub handles
