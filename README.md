@@ -106,7 +106,7 @@ cd backend
 npm test
 ```
 
-If you add frontend tests, describe the test runner here (e.g., Vitest/Jest).
+
 
 
 Helpful scripts
