@@ -10,7 +10,6 @@ See the project architecture: ../wiki-publish/Architecture.md
 
 ## External Requirements
 
-
 This README documents the developer-facing steps for Windows (PowerShell) using the versions we used while building the project.
 
 Prerequisites (install these first):
@@ -23,9 +22,7 @@ Prerequisites (install these first):
 - PostgreSQL client (psql) for local DB inspection (optional)
   - Install via https://www.postgresql.org/download/windows/
 
-
 ## Setup (one-time)
-
 
 1. Clone the repo:
 
@@ -54,9 +51,7 @@ cd backend
 npm install
 ```
 
-
 ## Running (development)
-
 
 Open two PowerShell terminals.
 
@@ -78,9 +73,7 @@ Notes:
 - The backend reads `DATABASE_URL` from `backend/.env`.
 - If you want to run a local Postgres, update `DATABASE_URL` to `postgres://user:pass@localhost:5432/dbname` and run migrations.
 
-
 ## Deployment
-
 
 PoC uses Railway for hosting. High-level steps:
 
@@ -93,9 +86,7 @@ PoC uses Railway for hosting. High-level steps:
 
 Do not store secrets in git.
 
-
 ## Testing
-
 
 Unit tests (backend):
 
@@ -104,18 +95,12 @@ cd backend
 npm test
 ```
 
-
-
-
 ## Helpful scripts
-
 
 - `backend/scripts/apply_migrations.js` — applies SQL files in `backend/migrations` to `DATABASE_URL`.
 - `deploy.ps1` — helper script for simple deploy flows used earlier in the project.
 
-
-Authors
--------
+## Authors
 
 - Terdoo Achu <tachu@email.sc.edu>
 - Edwin Wood <woodej@email.sc.edu>
