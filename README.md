@@ -6,9 +6,7 @@
 
 Facet is a PoC web application for building and publishing lightweight public portfolios and resumes. The frontend is a Vite + React SPA; the backend is a Node/Express API with a PostgreSQL database. The app is hosted for the PoC on Railway (frontend static service, Node backend, managed Postgres).
 
-**Note:** The AI-powered resume optimizer feature is currently under development in the `dro` branch and will be merged into `main` once testing is complete.
-
-See the project architecture: ../wiki-publish/Architecture.md
+See the project architecture: [\[Architecture Wiki\] (https://github.com/SCCapstone/Hotboyz/wiki/Architecture)]
 
 ## External Requirements
 
@@ -90,31 +88,11 @@ Do not store secrets in git.
 
 ## Testing
 
-### Testing Technology
-
-Backend tests use **Jest** as the test framework with **Supertest** for API endpoint testing.
-
-### Running Tests
-
 Unit tests (backend):
 
 ```powershell
 cd backend
 npm test
-```
-
-Run tests in watch mode:
-
-```powershell
-cd backend
-npm run test:watch
-```
-
-Generate coverage report:
-
-```powershell
-cd backend
-npm run coverage
 ```
 
 ## Helpful scripts
