@@ -6,7 +6,7 @@
 
 Facet is a PoC web application for building and publishing lightweight public portfolios and resumes. The frontend is a Vite + React SPA; the backend is a Node/Express API with a PostgreSQL database. The app is hosted for the PoC on Railway (frontend static service, Node backend, managed Postgres).
 
-See the project architecture: [\[Architecture Wiki\] (https://github.com/SCCapstone/Hotboyz/wiki/Architecture)]
+See the project architecture: [Architecture Wiki] (<https://github.com/SCCapstone/Hotboyz/wiki/Architecture>)
 
 ## External Requirements
 
