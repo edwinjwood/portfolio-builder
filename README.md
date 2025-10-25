@@ -9,7 +9,7 @@ Facet is a PoC web application for building and publishing lightweight public po
 See the project architecture: ../wiki-publish/Architecture.md
 
 ## External Requirements
----------------------
+
 
 This README documents the developer-facing steps for Windows (PowerShell) using the versions we used while building the project.
 
@@ -25,7 +25,7 @@ Prerequisites (install these first):
 
 
 ## Setup (one-time)
------------------
+
 
 1. Clone the repo:
 
@@ -56,7 +56,7 @@ npm install
 
 
 ## Running (development)
----------------------
+
 
 Open two PowerShell terminals.
 
@@ -80,7 +80,7 @@ Notes:
 
 
 ## Deployment
-----------
+
 
 PoC uses Railway for hosting. High-level steps:
 
@@ -95,7 +95,7 @@ Do not store secrets in git.
 
 
 ## Testing
--------
+
 
 Unit tests (backend):
 
@@ -108,7 +108,7 @@ npm test
 
 
 ## Helpful scripts
----------------
+
 
 - `backend/scripts/apply_migrations.js` — applies SQL files in `backend/migrations` to `DATABASE_URL`.
 - `deploy.ps1` — helper script for simple deploy flows used earlier in the project.
