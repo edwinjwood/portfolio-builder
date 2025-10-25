@@ -8,7 +8,7 @@ Facet is a PoC web application for building and publishing lightweight public po
 
 See the project architecture: ../wiki-publish/Architecture.md
 
-External Requirements
+## External Requirements
 ---------------------
 
 This README documents the developer-facing steps for Windows (PowerShell) using the versions we used while building the project.
@@ -24,7 +24,7 @@ Prerequisites (install these first):
   - Install via https://www.postgresql.org/download/windows/
 
 
-Setup (one-time)
+## Setup (one-time)
 -----------------
 
 1. Clone the repo:
@@ -55,7 +55,7 @@ npm install
 ```
 
 
-Running (development)
+## Running (development)
 ---------------------
 
 Open two PowerShell terminals.
@@ -79,7 +79,7 @@ Notes:
 - If you want to run a local Postgres, update `DATABASE_URL` to `postgres://user:pass@localhost:5432/dbname` and run migrations.
 
 
-Deployment
+## Deployment
 ----------
 
 PoC uses Railway for hosting. High-level steps:
@@ -94,7 +94,7 @@ PoC uses Railway for hosting. High-level steps:
 Do not store secrets in git.
 
 
-Testing
+## Testing
 -------
 
 Unit tests (backend):
@@ -107,7 +107,7 @@ npm test
 
 
 
-Helpful scripts
+## Helpful scripts
 ---------------
 
 - `backend/scripts/apply_migrations.js` — applies SQL files in `backend/migrations` to `DATABASE_URL`.
