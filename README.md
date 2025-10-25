@@ -23,9 +23,7 @@ Prerequisites (install these first):
 - PostgreSQL client (psql) for local DB inspection (optional)
   - Install via https://www.postgresql.org/download/windows/
 
-
-Setup (one-time)
------------------
+## Setup (one-time)
 
 1. Clone the repo:
 
