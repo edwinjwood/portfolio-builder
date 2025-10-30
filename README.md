@@ -2,16 +2,13 @@
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-yellow.svg)](./LICENSE)
 
-Short description
------------------
+## Short description
 
 Facet is a PoC web application for building and publishing lightweight public portfolios and resumes. The frontend is a Vite + React SPA; the backend is a Node/Express API with a PostgreSQL database. The app is hosted for the PoC on Railway (frontend static service, Node backend, managed Postgres).
 
-See the project architecture: ../wiki-publish/Architecture.md
+See the project architecture: [Architecture Wiki](<https://github.com/SCCapstone/Hotboyz/wiki/Architecture>)
 
-
-External Requirements
----------------------
+## External Requirements
 
 This README documents the developer-facing steps for Windows (PowerShell) using the versions we used while building the project.
 
@@ -25,9 +22,7 @@ Prerequisites (install these first):
 - PostgreSQL client (psql) for local DB inspection (optional)
   - Install via https://www.postgresql.org/download/windows/
 
-
-Setup (one-time)
------------------
+## Setup (one-time)
 
 1. Clone the repo:
 
@@ -56,9 +51,7 @@ cd backend
 npm install
 ```
 
-
-Running (development)
----------------------
+## Running (development)
 
 Open two PowerShell terminals.
 
@@ -80,9 +73,7 @@ Notes:
 - The backend reads `DATABASE_URL` from `backend/.env`.
 - If you want to run a local Postgres, update `DATABASE_URL` to `postgres://user:pass@localhost:5432/dbname` and run migrations.
 
-
-Deployment
-----------
+## Deployment
 
 PoC uses Railway for hosting. High-level steps:
 
@@ -95,9 +86,7 @@ PoC uses Railway for hosting. High-level steps:
 
 Do not store secrets in git.
 
-
-Testing
--------
+## Testing
 
 Unit tests (backend):
 
@@ -106,19 +95,16 @@ cd backend
 npm test
 ```
 
-If you add frontend tests, describe the test runner here (e.g., Vitest/Jest).
-
-
-Helpful scripts
----------------
+## Helpful scripts
 
 - `backend/scripts/apply_migrations.js` — applies SQL files in `backend/migrations` to `DATABASE_URL`.
 - `deploy.ps1` — helper script for simple deploy flows used earlier in the project.
 
+## Authors
 
-Authors
--------
-
-Team SCCapstone
+- Terdoo Achu <tachu@email.sc.edu>
+- Edwin Wood <woodej@email.sc.edu>
+- Pedro Fischetti <pedrof@email.sc.edu>
+- Khushal Pandala <kpandala@email.sc.edu>
 
 Contact: team email or GitHub handles
